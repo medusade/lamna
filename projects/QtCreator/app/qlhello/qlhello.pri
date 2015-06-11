@@ -41,18 +41,43 @@ $${LAMNA_SRC}/lamna/console/main_opt.cpp \
 $${LAMNA_SRC}/lamna/console/main_main.cpp \
 
 qlhello_HEADERS += \
+$${LAMNA_SRC}/lamna/graphic/surface/qt/color.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/qt/object.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/qt/image.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/qt/context.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/qt/pixel.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/color.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/object.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/image.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/context.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/pixel.hpp \
 $${LAMNA_SRC}/lamna/graphic/image_object.hpp \
+$${LAMNA_SRC}/lamna/graphic/hollow_midpoint_ellipse.hpp \
+$${LAMNA_SRC}/lamna/graphic/hollow_midpoint_circle.hpp \
 $${LAMNA_SRC}/lamna/graphic/midpoint_ellipse.hpp \
 $${LAMNA_SRC}/lamna/graphic/midpoint_circle.hpp \
+$${LAMNA_SRC}/lamna/graphic/triangle.hpp \
+$${LAMNA_SRC}/lamna/graphic/bresenham_line_context.hpp \
+$${LAMNA_SRC}/lamna/graphic/bresenham_line.hpp \
 $${LAMNA_SRC}/lamna/graphic/image.hpp \
+$${LAMNA_SRC}/lamna/graphic/image_point.hpp \
 $${LAMNA_SRC}/lamna/graphic/image_base.hpp \
 $${LAMNA_SRC}/lamna/graphic/list.hpp \
 
 qlhello_SOURCES += \
-$${LAMNA_SRC}/lamna/graphic/image_object.cpp \
+$${LAMNA_SRC}/lamna/graphic/surface/qt/color.cpp \
+$${LAMNA_SRC}/lamna/graphic/surface/qt/object.cpp \
+$${LAMNA_SRC}/lamna/graphic/surface/qt/image.cpp \
+$${LAMNA_SRC}/lamna/graphic/surface/qt/context.cpp \
+$${LAMNA_SRC}/lamna/graphic/surface/qt/pixel.cpp \
+$${LAMNA_SRC}/lamna/graphic/hollow_midpoint_ellipse.cpp \
+$${LAMNA_SRC}/lamna/graphic/hollow_midpoint_circle.cpp \
 $${LAMNA_SRC}/lamna/graphic/midpoint_ellipse.cpp \
 $${LAMNA_SRC}/lamna/graphic/midpoint_circle.cpp \
-$${LAMNA_SRC}/lamna/graphic/image.cpp \
+$${LAMNA_SRC}/lamna/graphic/triangle.cpp \
+$${LAMNA_SRC}/lamna/graphic/bresenham_line_context.cpp \
+$${LAMNA_SRC}/lamna/graphic/bresenham_line.cpp \
+$${LAMNA_SRC}/lamna/graphic/image_point.cpp \
 $${LAMNA_SRC}/lamna/graphic/image_base.cpp \
 $${LAMNA_SRC}/lamna/graphic/list.cpp \
 
