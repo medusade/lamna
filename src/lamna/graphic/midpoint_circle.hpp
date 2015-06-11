@@ -64,11 +64,11 @@ void MidpointCircleT
  TInt cx, TInt cy, TInt r, eCircleOctant o = e_CIRCLE_OCTANT_ALL) {
     TInt x, y, d;
     if (1 == r) {
-        image.Plot(pixel, cx,cy);
+        image.CirclePlot(pixel, r, cx,cy, o);
     } else if (0 < (y = --r)) {
         d = 1-r;
         for (x = 0; x < y; x++) {
-            image.CirclePlot(pixel, cx,cy, x,y, o);
+            image.CirclePlot(pixel, r, cx,cy, x,y, o);
             if (d<0) {
                 d += 2*x+3;
             } else {
@@ -76,7 +76,7 @@ void MidpointCircleT
                 --y;
             }
         }
-        image.CirclePlot(pixel, cx,cy, x,y, o);
+        image.CirclePlot(pixel, r, cx,cy, x,y, o);
     }
 }
 
@@ -118,7 +118,12 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual void CirclePlot
-    (TPixel &pixel, tInt cx,tInt cy,
+    (TPixel &pixel, tInt r,
+     tInt cx,tInt cy, eCircleOctant o = e_CIRCLE_OCTANT_ALL) {
+        this->Plot(pixel, cx, cy);
+    }
+    virtual void CirclePlot
+    (TPixel &pixel, tInt r, tInt cx,tInt cy,
      tInt x,tInt y, eCircleOctant o = e_CIRCLE_OCTANT_ALL) {
         if (o != e_CIRCLE_OCTANT_ALL) {
             if (o & e_CIRCLE_OCTANT_8) this->Plot(pixel, cx-x, cy-y);
@@ -189,7 +194,12 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual void CirclePlot
-    (TPixel &pixel, tInt cx,tInt cy,
+    (TPixel &pixel, tInt r,
+     tInt cx,tInt cy, eCircleOctant o = e_CIRCLE_OCTANT_ALL) {
+        this->Plot(pixel, cx, cy);
+    }
+    virtual void CirclePlot
+    (TPixel &pixel, tInt r, tInt cx,tInt cy,
      tInt x,tInt y, eCircleOctant o = e_CIRCLE_OCTANT_ALL) {
         if (o != e_CIRCLE_OCTANT_ALL) {
             if ((o & e_CIRCLE_QUADRANT_4) == e_CIRCLE_QUADRANT_4) {
@@ -209,32 +219,24 @@ public:
                 this->Fill(pixel, cx, cy+y, x+1, 1);
             }
         } else {
-            //Plot(pixel, cx-x, cy-y);
-            //Plot(pixel, cx+x, cy-y);
             if (1 > x) {
                 this->Plot(pixel, cx, cy-y);
             } else {
                 this->Fill(pixel, cx-x, cy-y, x+x-1, 1);
             }
 
-            //Plot(pixel, cx-y, cy-x);
-            //Plot(pixel, cx+y, cy-x);
             if (1 > y) {
                 this->Plot(pixel, cx, cy-x);
             } else {
                 this->Fill(pixel, cx-y, cy-x, y+y-1, 1);
             }
 
-            //Plot(pixel, cx-y, cy+x);
-            //Plot(pixel, cx+y, cy+x);
             if (1 > y) {
                 this->Plot(pixel, cx, cy+x);
             } else {
                 this->Fill(pixel, cx-y, cy+x, y+y-1, 1);
             }
 
-            //Plot(pixel, cx-x, cy+y);
-            //Plot(pixel, cx+x, cy+y);
             if (1 > x) {
                 this->Plot(pixel, cx, cy+y);
             } else {

@@ -21,8 +21,12 @@
 #ifndef _LAMNA_GRAPHIC_IMAGE_HPP
 #define _LAMNA_GRAPHIC_IMAGE_HPP
 
+#include "lamna/graphic/hollow_midpoint_ellipse.hpp"
+#include "lamna/graphic/hollow_midpoint_circle.hpp"
 #include "lamna/graphic/midpoint_ellipse.hpp"
 #include "lamna/graphic/midpoint_circle.hpp"
+#include "lamna/graphic/triangle.hpp"
+#include "lamna/graphic/bresenham_line.hpp"
 #include "lamna/graphic/image_base.hpp"
 #include "lamna/io/logger.hpp"
 
@@ -250,6 +254,31 @@ protected:
 };
 typedef base_imaget<> base_image;
 
+typedef bresenham_linet
+<base_image, image_interface> bresenham_line_image_extends;
+///////////////////////////////////////////////////////////////////////
+///  Class: bresenham_line_image
+///////////////////////////////////////////////////////////////////////
+class _EXPORT_CLASS bresenham_line_image: public bresenham_line_image_extends {
+public:
+    typedef bresenham_line_image_extends Extends;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    bresenham_line_image(tImageInterface& image): Extends(image) {
+    }
+    virtual ~bresenham_line_image() {
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual void DrawLine
+    (tImageInterface &image, tInt x1,tInt y1, tInt x2,tInt y2) {
+        BresenhamLineT<Extends, tPixel, tInt>
+        (*this, image, x1,y1, x2,y2);
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+};
+
 typedef midpoint_circlet
 <base_image, image_interface> midpoint_circle_image_extends;
 ///////////////////////////////////////////////////////////////////////
@@ -293,6 +322,30 @@ public:
     }
 };
 
+typedef hollow_midpoint_circlet
+<base_image, image_interface> hollow_midpoint_circle_image_extends;
+///////////////////////////////////////////////////////////////////////
+///  Class: hollow_midpoint_circle_image
+///////////////////////////////////////////////////////////////////////
+class _EXPORT_CLASS hollow_midpoint_circle_image
+: public hollow_midpoint_circle_image_extends {
+public:
+    typedef hollow_midpoint_circle_image_extends Extends;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    hollow_midpoint_circle_image(tImageInterface& image): Extends(image) {
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual void PlotCircle
+    (tImageInterface &image, tInt cx,tInt cy, tInt r,
+     eCircleOctant o = e_CIRCLE_OCTANT_ALL) {
+        CircleStart();
+        MidpointCircleT<Extends, tPixel, tInt>(*this, image, cx,cy,r, o);
+        CircleFinish(image);
+    }
+};
+
 typedef midpoint_ellipset
 <base_image, image_interface> midpoint_ellipse_image_extends;
 ///////////////////////////////////////////////////////////////////////
@@ -316,7 +369,7 @@ public:
 };
 
 typedef filled_midpoint_ellipset
-<base_image, image_interface> filled_midpoint_ellipse_image_extends;
+<midpoint_ellipse_image, image_interface> filled_midpoint_ellipse_image_extends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: filled_midpoint_ellipse_image
 ///////////////////////////////////////////////////////////////////////
@@ -335,6 +388,31 @@ public:
      eEllipseQuadrant q = e_ELLIPSE_QUADRANT_ALL) {
         MidpointEllipseT<Extends, tPixel, tInt>
         (*this, image, cx,cy, a,b, q);
+    }
+};
+
+typedef hollow_midpoint_ellipset
+<midpoint_ellipse_image, image_interface> hollow_midpoint_ellipse_image_extends;
+///////////////////////////////////////////////////////////////////////
+///  Class: hollow_midpoint_ellipse_image
+///////////////////////////////////////////////////////////////////////
+class _EXPORT_CLASS hollow_midpoint_ellipse_image
+: public hollow_midpoint_ellipse_image_extends {
+public:
+    typedef hollow_midpoint_ellipse_image_extends Extends;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    hollow_midpoint_ellipse_image(tImageInterface& image): Extends(image) {
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual void PlotEllipse
+    (tImageInterface& image, tInt cx,tInt cy, tInt a,tInt b,
+     eEllipseQuadrant q = e_ELLIPSE_QUADRANT_ALL) {
+        EllipseStart();
+        MidpointEllipseT<Extends, tPixel, tInt>
+        (*this, image, cx,cy, a,b, q);
+        EllipseFinish(image);
     }
 };
 
@@ -405,6 +483,8 @@ public:
         eError error = e_ERROR_NONE;
         tImageInterface* image;
         if ((image = Image())) {
+            bresenham_line_image line(*image);
+            line.DrawLine(*image, x,y, x2,y2);
         }
         return error;
     }
@@ -434,6 +514,8 @@ public:
         eError error = e_ERROR_NONE;
         tImageInterface* image;
         if ((image = Image())) {
+            hollow_midpoint_circle_image circle(*image);
+            circle.PlotCircle(*image, x,y, r, o);
         }
         return error;
     }
@@ -463,6 +545,8 @@ public:
         eError error = e_ERROR_NONE;
         tImageInterface* image;
         if ((image = Image())) {
+            hollow_midpoint_ellipse_image ellipse(*image);
+            ellipse.PlotEllipse(*image, x,y, w,h, q);
         }
         return error;
     }
@@ -480,6 +564,12 @@ public:
         eError error = e_ERROR_NONE;
         tImageInterface* image;
         if ((image = Image())) {
+            base_image baseImage(*this);
+            FillTriangleT
+            <base_image, image_interface,
+             bresenham_line_context, sorted_image_point_triangle,
+             image_point, tInt, tLength>
+            (baseImage, *image, x1,y1, x2,y2, x3,y3);
         }
         return error;
     }

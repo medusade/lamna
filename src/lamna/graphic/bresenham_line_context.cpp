@@ -13,26 +13,19 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: base.hpp
+///   File: bresenham_line_context.cpp
 ///
 /// Author: $author$
-///   Date: 5/25/2015
+///   Date: 6/4/2015
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_BASE_BASE_HPP
-#define _LAMNA_BASE_BASE_HPP
-
-#include "xos/base/base.hpp"
-#include "xos/base/string.hpp"
+#include "lamna/graphic/bresenham_line_context.hpp"
 
 namespace lamna {
+namespace graphic {
 
-typedef xos::base::implement_base implement_base;
-typedef xos::base::base base;
+///////////////////////////////////////////////////////////////////////
+///  Class: bresenham_line_contextt
+///////////////////////////////////////////////////////////////////////
 
-typedef xos::base::string string;
-typedef xos::base::tstring tstring;
-typedef xos::base::wstring wstring;
-
+} // namespace graphic 
 } // namespace lamna 
-
-#endif // _LAMNA_BASE_BASE_HPP 

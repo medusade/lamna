@@ -22,6 +22,7 @@
 #define _LAMNA_GUI_MAIN_HPP
 
 #include "lamna/console/main.hpp"
+#include "lamna/gui/mouse/event.hpp"
 
 namespace lamna {
 namespace gui {

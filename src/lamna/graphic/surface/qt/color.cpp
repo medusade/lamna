@@ -13,26 +13,23 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: base.hpp
+///   File: color.cpp
 ///
 /// Author: $author$
-///   Date: 5/25/2015
+///   Date: 6/2/2015
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_BASE_BASE_HPP
-#define _LAMNA_BASE_BASE_HPP
-
-#include "xos/base/base.hpp"
-#include "xos/base/string.hpp"
+#include "lamna/graphic/surface/qt/color.hpp"
 
 namespace lamna {
+namespace graphic {
+namespace surface {
+namespace qt {
 
-typedef xos::base::implement_base implement_base;
-typedef xos::base::base base;
+///////////////////////////////////////////////////////////////////////
+///  Class: colortt
+///////////////////////////////////////////////////////////////////////
 
-typedef xos::base::string string;
-typedef xos::base::tstring tstring;
-typedef xos::base::wstring wstring;
-
+} // namespace qt 
+} // namespace surface 
+} // namespace graphic 
 } // namespace lamna 
-
-#endif // _LAMNA_BASE_BASE_HPP 
