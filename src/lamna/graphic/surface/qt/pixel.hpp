@@ -38,6 +38,7 @@ template
  class TSize = size_t,
  class TLength = ssize_t,
  class TOffset = ssize_t,
+ TSize VRGBAxisSize = LAMNA_GRAPHIC_SURFACE_PIXEL_RGB_AXIS_SIZE,
  class TImplements = TPixelInterface>
 
 class _EXPORT_CLASS pixel_interfacet: virtual public TImplements {
@@ -61,12 +62,14 @@ template
  class TSize = size_t,
  class TLength = ssize_t,
  class TOffset = ssize_t,
+ TSize VRGBAxisSize = LAMNA_GRAPHIC_SURFACE_PIXEL_RGB_AXIS_SIZE,
  class TImplements = TQPixelInterface, class TExtends = TPixel>
 
 class _EXPORT_CLASS pixelt: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
     typedef TExtends Extends;
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     pixelt(int r, int g, int b, int a): qColor_(r,g,b,a) {

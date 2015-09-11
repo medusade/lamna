@@ -22,7 +22,17 @@
 #define _LAMNA_BASE_BASE_HPP
 
 #include "xos/base/base.hpp"
+#include "xos/base/array.hpp"
 #include "xos/base/string.hpp"
+#include "xos/base/date.hpp"
+#include "xos/base/types.hpp"
+#include "xos/base/opened.hpp"
+#include "xos/base/opener.hpp"
+#include "xos/base/created.hpp"
+#include "xos/base/creator.hpp"
+#include "xos/base/attached.hpp"
+#include "xos/base/attacher.hpp"
+#include "xos/base/wrapped.hpp"
 
 namespace lamna {
 

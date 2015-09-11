@@ -39,7 +39,7 @@ public:
     (HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
         LRESULT lResult = 0;
         switch(msg) {
-#ifndef _LAMNA_GUI_WINDOWS_MESSAGE_TARGET_HPP
+#endif _LAMNA_GUI_WINDOWS_MESSAGE_TARGET_HPP
 
            case WM_NCCREATE:
                 lResult = on_WM_NCCREATE_message
@@ -337,11 +337,11 @@ public:
                 break;
 
            default:
-                lResult = OnWindowMessageDefault
+                lResult = on_message_default
                 (hWnd, msg, wParam, lParam);
                 break;
 
-#endif // _LAMNA_GUI_WINDOWS_MESSAGE_TARGET_HPP 
+#ifndef _LAMNA_GUI_WINDOWS_MESSAGE_TARGET_HPP 
         }
         return lResult;
     }

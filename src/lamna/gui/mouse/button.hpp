@@ -43,11 +43,13 @@ enum button_which {
     next_button = 1
 };
 
+typedef implement_base button_implements;
+typedef base button_extends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: buttont
 ///////////////////////////////////////////////////////////////////////
 template
-<class TImplements = implement_base, class TExtends = base>
+<class TImplements = button_implements, class TExtends = button_extends>
 
 class _EXPORT_CLASS buttont: virtual public TImplements,public TExtends {
 public:

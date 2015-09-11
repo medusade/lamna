@@ -32,14 +32,16 @@ typedef console::main main_extends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: main
 ///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS main: virtual public main_implements, public main_extends {
+class _EXPORT_CLASS main
+: virtual public main_implements, public main_extends {
 public:
     typedef main_implements Implements;
     typedef main_extends Extends;
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    main() {
+    main()
+    : done_event_loop_(false) {
     }
     virtual ~main() {
     }
@@ -65,6 +67,7 @@ protected:
     ///////////////////////////////////////////////////////////////////////
     virtual int gui_main(int argc, char_t** argv, char_t** env) {
         int err = 0;
+        LAMNA_LOG_MESSAGE_DEBUG("before_event_loop()...");
         if (!(err = before_event_loop(argc, argv, env))) {
             int err2 = 0;
             LAMNA_LOG_MESSAGE_DEBUG("event_loop()...");
@@ -102,6 +105,18 @@ protected:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual bool set_done_event_loop(bool is_true = true) {
+        done_event_loop_ = is_true;
+        return done_event_loop_;
+    }
+    virtual bool done_event_loop() const {
+        return done_event_loop_;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+protected:
+    bool done_event_loop_;
 };
 
 } // namespace gui

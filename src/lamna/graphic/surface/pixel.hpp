@@ -23,6 +23,8 @@
 
 #include "lamna/graphic/image.hpp"
 
+#define LAMNA_GRAPHIC_SURFACE_PIXEL_RGB_AXIS_SIZE 256
+
 namespace lamna {
 namespace graphic {
 namespace surface {
@@ -36,6 +38,7 @@ template
  class TSize = size_t,
  class TLength = ssize_t,
  class TOffset = ssize_t,
+ TSize VRGBAxisSize = LAMNA_GRAPHIC_SURFACE_PIXEL_RGB_AXIS_SIZE,
  class TImplements = TInterfaceBase>
 
 class _EXPORT_CLASS pixel_interfacet: virtual public TImplements {
@@ -50,7 +53,21 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-
+    virtual float rgb_axis_to_byte(tSize x) const {
+        byte_t to = ((byte_t)x);
+        return to;
+    }
+    virtual float rgb_axis_to_float(tSize x) const {
+        float to = ((float)(x % rgb_axis_size()))/((float)(rgb_axis_size()));
+        return to;
+    }
+    virtual double rgb_axis_to_double(tSize x) const {
+        double to = ((double)(x % rgb_axis_size()))/((double)(rgb_axis_size()));
+        return to;
+    }
+    virtual tSize rgb_axis_size() const {
+        return VRGBAxisSize;
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
@@ -66,6 +83,7 @@ template
  class TSize = size_t,
  class TLength = ssize_t,
  class TOffset = ssize_t,
+ TSize VRGBAxisSize = LAMNA_GRAPHIC_SURFACE_PIXEL_RGB_AXIS_SIZE,
  class TImplements = TInterfaceBase, class TExtends = TBase>
 
 class _EXPORT_CLASS pixelt: virtual public TImplements,public TExtends {

@@ -21,6 +21,7 @@
 #ifndef _LAMNA_GUI_WINDOWS_MAIN_HPP
 #define _LAMNA_GUI_WINDOWS_MAIN_HPP
 
+#include "lamna/gui/windows/main_window.hpp"
 #include "lamna/gui/windows/window_class.hpp"
 #include "xos/io/logger.hpp"
 #include "xos/mt/locker.hpp"
@@ -50,7 +51,9 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    maint(): the_main_(get_the_main()) {
+    maint()
+    : the_main_(get_the_main()), 
+      main_window_class_(0), main_window_(0) {
         get_the_main() = this;
     }
     virtual ~maint() {
@@ -115,23 +118,101 @@ protected:
     ///////////////////////////////////////////////////////////////////////
     virtual int WinMain
     (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
-        int err = 0;
+        int err = 1;
+        if ((main_window_class_)) {
+            if ((main_window_)) {
+                if (!(err = before_WinMainLoop
+                    (*main_window_, *main_window_class_, 
+                     hInstance, hPrevInstance, cmdLine, cmdShow))) {
+                    int err2  = 0;
+                    err = WinMainLoop
+                    (*main_window_, *main_window_class_, 
+                     hInstance, hPrevInstance, cmdLine, cmdShow);
+                    if ((err2 = after_WinMainLoop
+                       (*main_window_, *main_window_class_, 
+                        hInstance, hPrevInstance, cmdLine, cmdShow))) {
+                        if (!(err)) err = err2;
+                    }
+                }
+            } else {
+                LAMNA_LOG_ERROR("unexpected 0 == (main_window_");
+            }
+        } else {
+            LAMNA_LOG_ERROR("unexpected 0 == (main_window_class_");
+        }
         return err;
     }
     virtual int before_WinMain
     (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
         int err = 1;
-        if ((window_class_.create(hInstance))) {
-            err = 0;
+        if ((main_window_class_ = create_main_window_class
+             (hInstance, hPrevInstance, cmdLine, cmdShow))) {
+            if ((main_window_ = create_main_window
+                 (*main_window_class_, hInstance, hPrevInstance, cmdLine, cmdShow))) {
+                if ((show_main_window
+                     (*main_window_, *main_window_class_, 
+                      hInstance, hPrevInstance, cmdLine, cmdShow))) {
+                    err = 0;
+                    return err;
+                }
+                destroy_main_window
+                (*main_window_, *main_window_class_, 
+                 hInstance, hPrevInstance, cmdLine, cmdShow);
+            }
+            destroy_main_window_class
+            (*main_window_class_, 
+             hInstance, hPrevInstance, cmdLine, cmdShow);
         }
         return err;
     }
     virtual int after_WinMain
     (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
         int err = 0;
-        if (!(window_class_.destroy())) {
+        if ((main_window_)) {
+            if (!(destroy_main_window
+                 (*main_window_, *main_window_class_, 
+                  hInstance, hPrevInstance, cmdLine, cmdShow))) {
+                if (!(err)) err = 1;
+            }
+        } else {
+            LAMNA_LOG_ERROR("unexpected 0 == main_window_");
             if (!(err)) err = 1;
         }
+        if ((main_window_class_)) {
+            if (!(destroy_main_window_class
+                 (*main_window_class_, hInstance, hPrevInstance, cmdLine, cmdShow))) {
+                if (!(err)) err = 1;
+            }
+        } else {
+            LAMNA_LOG_ERROR("unexpected 0 == main_window_class_");
+            if (!(err)) err = 1;
+        }
+        return err;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual int WinMainLoop
+    (window& main_window, window_class& main_window_class, 
+     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+        int err = 0;
+        MSG msg;
+        while ((GetMessage(&msg, NULL, 0,0))) {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+        return err;
+    }
+    virtual int before_WinMainLoop
+    (window& main_window, window_class& main_window_class, 
+     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_WinMainLoop
+    (window& main_window, window_class& main_window_class, 
+     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+        int err = 0;
         return err;
     }
 
@@ -151,13 +232,91 @@ protected:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual window* create_main_window
+    (window_class& main_window_class, 
+     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+         LPCSTR windowClassName = 0;
+         if ((windowClassName = main_window_class.GetWindowClassName())) {
+             if ((window_.create(hInstance, windowClassName))) {
+                 return &window_;
+             }
+         }
+         return 0;
+    }
+    virtual bool destroy_main_window
+    (window& main_window, window_class& main_window_class, 
+     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+         if (&main_window == (&window_)) {
+             if ((window_.destroy())) {
+                 return true;
+             }
+         }
+         return false;
+    }
+    virtual bool show_main_window
+    (window& main_window, window_class& main_window_class, 
+     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+         if ((main_window.show())) {
+             return true;
+         }
+         return false;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual window_class* create_main_window_class
+    (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+        if ((window_class_.create(hInstance))) {
+            return &window_class_;
+        }
+        return 0;
+    }
+    virtual bool destroy_main_window_class
+    (window_class& main_window_class, 
+     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+         if ((&main_window_class == (&window_class_))) {
+             if ((window_class_.destroy())) {
+                 return true;
+             }
+         }
+         return false;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual BOOL GetMessage
+    (LPMSG lpMsg, HWND hWnd, UINT wMsgFilterMin, UINT wMsgFilterMax) {
+        if ((::GetMessage(lpMsg, hWnd, wMsgFilterMin, wMsgFilterMax))) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+    virtual BOOL TranslateMessage(CONST MSG* lpMsg) {
+        if ((::TranslateMessage(lpMsg))) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+    virtual LRESULT DispatchMessage(CONST MSG* lpMsg) {
+        LRESULT lResult = 0;
+        if ((lResult = ::DispatchMessage(lpMsg))) {
+            return lResult;
+        }
+        return 0;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     static maint*& get_the_main();
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 protected:
     maint* the_main_;
+    window_class* main_window_class_;
     window_class window_class_;
+    window* main_window_;
+    main_window window_;
 };
 typedef maint<> main;
 
@@ -165,7 +324,4 @@ typedef maint<> main;
 } // namespace gui 
 } // namespace lamna 
 
-
 #endif // _LAMNA_GUI_WINDOWS_MAIN_HPP 
-        
-

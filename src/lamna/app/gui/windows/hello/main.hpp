@@ -21,7 +21,15 @@
 #ifndef _LAMNA_APP_GUI_WINDOWS_HELLO_MAIN_HPP
 #define _LAMNA_APP_GUI_WINDOWS_HELLO_MAIN_HPP
 
+#include "lamna/app/gui/hello/main.hpp"
 #include "lamna/gui/windows/main.hpp"
+#include "lamna/graphic/surface/windows/color.hpp"
+#include "lamna/graphic/surface/windows/image.hpp"
+#include "lamna/graphic/surface/windows/context.hpp"
+#include "lamna/graphic/surface/windows/pixel.hpp"
+#include "lamna/graphic/surface/color.hpp"
+#include "lamna/graphic/surface/context.hpp"
+#include "lamna/graphic/surface/image.hpp"
 
 namespace lamna {
 namespace app {
@@ -29,8 +37,94 @@ namespace gui {
 namespace windows {
 namespace hello {
 
+typedef lamna::gui::windows::main_window_implements main_window_implements;
+typedef gui::hello::surfacet
+<lamna::gui::windows::main_window> main_window_extends;
+///////////////////////////////////////////////////////////////////////
+///  Class: main_window
+///////////////////////////////////////////////////////////////////////
+class _EXPORT_CLASS main_window
+: virtual public main_window_implements, public main_window_extends {
+public:
+    typedef main_window_implements Implements;
+    typedef main_window_extends Extends;
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    main_window() {
+    }
+    virtual ~main_window() {
+    }
+
+protected:
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual LRESULT on_WM_PAINT_message
+    (HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+        LRESULT lResult = 0;
+        HDC hDC = 0;
+        PAINTSTRUCT ps;
+        if ((hDC = BeginPaint(hWnd, &ps))) {
+            RECT rect;
+            if ((GetClientRect(hWnd, &rect))) {
+                int x = 0, y = 0;
+                int width = rect.right - rect.left;
+                int height = rect.bottom - rect.top;
+                if ((2 <= (x = width/2)) && (2 <= (y = height/2))) {
+                    graphic::surface::windows::context gc(hDC);
+                    graphic::surface::windows::image im(gc);
+                    graphic::surface::windows::color px
+                    (im, fg_color_red_, fg_color_green_, fg_color_blue_);
+                    im.SelectImage(&px);
+                    paint(im, x,y, x,y);
+                }
+            }
+            EndPaint(hWnd, &ps);
+        } else {
+            lResult = on_message_default(hWnd,msg,wParam,lParam);
+        }
+        return lResult;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual LRESULT on_WM_SIZE_message
+    (HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+        LRESULT lResult = 0;
+        lResult = on_message_default(hWnd,msg,wParam,lParam);
+        InvalidateRect(hWnd, NULL, TRUE);
+        return lResult;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual LRESULT on_WM_LBUTTONUP_message
+    (HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+        LRESULT lResult = 0;
+        lResult = on_message_default(hWnd,msg,wParam,lParam);
+        if ((hWnd)) {
+            size_t x = LOWORD(lParam);
+            size_t y = HIWORD(lParam);
+            lamna::gui::mouse::position p(x, y);
+            lamna::gui::mouse::button b(lamna::gui::mouse::button_left);
+            lamna::gui::mouse::event e(lamna::gui::mouse::event_button_release, b, p);
+            this->on_mouse_release_event(e);
+        }
+        return lResult;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual void invalidate() {
+        Extends::Extends::invalidate();
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+};
+
 typedef lamna::gui::windows::main_implements main_implements;
-typedef lamna::gui::windows::main main_extends;
+typedef gui::hello::maint<lamna::gui::windows::main> main_extends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: main
 ///////////////////////////////////////////////////////////////////////
@@ -49,6 +143,34 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual lamna::gui::windows::window* create_main_window
+    (lamna::gui::windows::window_class& main_window_class, 
+     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+         LPCSTR windowClassName = 0;
+         if ((windowClassName = main_window_class.GetWindowClassName())) {
+             if ((window_.create(hInstance, windowClassName))) {
+                 window_.set_size(width_, height_);
+                 return &window_;
+             }
+         }
+         return 0;
+    }
+    virtual bool destroy_main_window
+    (lamna::gui::windows::window& main_window, 
+     lamna::gui::windows::window_class& main_window_class, 
+     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+         if (&main_window == (&window_)) {
+             if ((window_.destroy())) {
+                 return true;
+             }
+         }
+         return false;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+protected:
+    main_window window_;
 };
 
 } // namespace hello 

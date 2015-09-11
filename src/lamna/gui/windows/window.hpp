@@ -103,9 +103,9 @@ public:
      int x, int y, int width, int height, HWND hParentWnd, HMENU hMenu, 
      HINSTANCE hInstance, LPVOID lParam) const {
         HWND detached = NULL;
-        if (!(detached = CreateWindowExA
+        if (!(NULL != (detached = CreateWindowExA
             (exStyle, className, windowName, style, 
-             x, y, width, height, hParentWnd, hMenu, hInstance, lParam))) {
+             x, y, width, height, hParentWnd, hMenu, hInstance, lParam)))) {
             DWORD dwError = GetLastError();
             LAMNA_LOG_ERROR("failed " << dwError << " on CreateWindowExA()"); 
         }
@@ -153,6 +153,33 @@ public:
         if ((hWnd = this->attached_to())) {
             if ((ValidateRect(hWnd, NULL))) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual bool set_size(int width, int height) {
+        HWND hWnd = 0;
+        if ((hWnd = this->attached_to())) {
+            RECT rect;
+            if ((GetWindowRect(hWnd, &rect))) {
+                HWND hWndParent = 0;
+                if ((hWndParent = GetParent(hWnd))) {
+                    POINT p;
+                    p.x = rect.left;
+                    p.y = rect.top;
+                    if ((ScreenToClient(hWndParent, &p))) {
+                        rect.left = p.y;
+                        rect.top = p.y;
+                    } else {
+                        return false;
+                    }
+                }
+                if ((SetWindowPos(hWnd, NULL, rect.left,rect.top, width,height, 0))) {
+                    return true;
+                }
             }
         }
         return false;
