@@ -13,22 +13,24 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: qt.pri
+#   File: x11.pri
 #
 # Author: $author$
-#   Date: 5/29/2015
+#   Date: 9/8/2015
 ########################################################################
 
 ########################################################################
-# qt
-qt_INCLUDEPATH += \
+# x11
+#
+# pkg-config --cflags --libs 
+#
+x11_DEFINES += \
 
-qt_DEFINES += \
+x11_INCLUDEPATH += \
 
-qt_HEADERS += \
+x11_LIBS += \
+-lX11 \
+-lXpm \
+-lXext \
 
-qt_SOURCES += \
 
-qt_LIBS += \
-
-QT += widgets

@@ -13,22 +13,32 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: qt.pri
+#   File: glhello.pro
 #
 # Author: $author$
-#   Date: 5/29/2015
+#   Date: 6/20/2015
 ########################################################################
+include(../../../../../build/QtCreator/gtk.pri)
+include(../../gtk.pri)
+include(../../../../QtCreator/lamna.pri)
+include(../../lamna.pri)
+include(../../../../QtCreator/app/glhello/glhello.pri)
 
-########################################################################
-# qt
-qt_INCLUDEPATH += \
+TARGET = glhello
 
-qt_DEFINES += \
+INCLUDEPATH += \
+$${glhello_INCLUDEPATH} \
+$${gtk_INCLUDEPATH} \
 
-qt_HEADERS += \
+DEFINES += \
+$${glhello_DEFINES} \
 
-qt_SOURCES += \
+HEADERS += \
+$${glhello_HEADERS} \
 
-qt_LIBS += \
+SOURCES += \
+$${glhello_SOURCES} \
 
-QT += widgets
+LIBS += \
+$${glhello_LIBS} \
+$${gtk_LIBS} \

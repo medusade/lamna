@@ -13,22 +13,35 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: qt.pri
+#   File: xlhello.pro
 #
 # Author: $author$
-#   Date: 5/29/2015
+#   Date: 9/8/2015
 ########################################################################
+#include(../../../../../build/QtCreator/x11.pri)
+include(../../x11.pri)
+include(../../../../QtCreator/lamna.pri)
+include(../../lamna.pri)
+include(../../../../QtCreator/app/xlhello/xlhello.pri)
 
-########################################################################
-# qt
-qt_INCLUDEPATH += \
+TARGET = xlhello
 
-qt_DEFINES += \
+INCLUDEPATH += \
+$${xlhello_INCLUDEPATH} \
+$${x11_INCLUDEPATH} \
 
-qt_HEADERS += \
+DEFINES += \
+$${x11_DEFINES} \
+$${xlhello_DEFINES} \
 
-qt_SOURCES += \
+HEADERS += \
+$${xlhello_HEADERS} \
 
-qt_LIBS += \
+SOURCES += \
+$${xlhello_SOURCES} \
 
-QT += widgets
+LIBS += \
+$${xlhello_LIBS} \
+$${x11_LIBS} \
+
+

@@ -25,6 +25,12 @@ LAMNA_BIN = $${LAMNA_BLD}/bin
 LAMNA_LIB = $${LAMNA_BLD}/lib
 LAMNA_SRC = $${LAMNA_PKG}/src
 
+CONFIG(debug, debug|release) {
+LAMNA_CONFIG = Debug
+} else {
+LAMNA_CONFIG = Release
+}
+
 ########################################################################
 # xos
 XOS_PKG = $${LAMNA_PKG}/../nadir

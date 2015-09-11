@@ -27,6 +27,7 @@ $${lamna_DEFINES} \
 
 qlhello_HEADERS += \
 $${LAMNA_SRC}/lamna/app/gui/qt/hello/main.hpp \
+$${LAMNA_SRC}/lamna/app/gui/hello/main.hpp \
 $${LAMNA_SRC}/lamna/gui/qt/application/window_main.hpp \
 $${LAMNA_SRC}/lamna/gui/qt/application/main.hpp \
 $${LAMNA_SRC}/lamna/gui/qt/main.hpp \

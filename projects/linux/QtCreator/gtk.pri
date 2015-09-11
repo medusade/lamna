@@ -13,22 +13,23 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: qt.pri
+#   File: gtk.pri
 #
 # Author: $author$
-#   Date: 5/29/2015
+#   Date: 6/20/2015
 ########################################################################
 
 ########################################################################
-# qt
-qt_INCLUDEPATH += \
+# gtk
+#
+# pkg-config --cflags --libs gtk+-3.0
+#
+gtk_DEFINES += \
+$${build_gtk_DEFINES} \
 
-qt_DEFINES += \
+gtk_INCLUDEPATH += \
+$${build_gtk_INCLUDEPATH} \
 
-qt_HEADERS += \
+gtk_LIBS += \
+$${build_gtk_LIBS} \
 
-qt_SOURCES += \
-
-qt_LIBS += \
-
-QT += widgets

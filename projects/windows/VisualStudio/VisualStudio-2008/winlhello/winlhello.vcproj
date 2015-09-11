@@ -341,6 +341,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\..\..\src\lamna\gui\windows\brush.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\..\..\src\lamna\gui\windows\handle.cpp"
 				>
 			</File>
@@ -350,6 +354,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\..\..\src\lamna\app\gui\windows\hello\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\src\lamna\gui\windows\main_window.cpp"
 				>
 			</File>
 			<File
@@ -372,6 +380,34 @@
 				RelativePath="..\..\..\..\..\src\lamna\gui\windows\WinMain.cpp"
 				>
 			</File>
+			<Filter
+				Name="graphic"
+				>
+				<Filter
+					Name="surface"
+					>
+					<File
+						RelativePath="..\..\..\..\..\src\lamna\graphic\surface\windows\color.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\..\src\lamna\graphic\surface\windows\context.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\..\src\lamna\graphic\surface\windows\image.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\..\src\lamna\graphic\surface\windows\object.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\..\..\src\lamna\graphic\surface\windows\pixel.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
