@@ -27,6 +27,18 @@
 #include "lamna/gui/x11/event_target.hpp"
 #include "lamna/gui/x11/atom.hpp"
 
+#define LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_X 0
+#define LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_Y \
+    LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_X
+
+#define LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_WIDTH 100
+#define LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_HEIGHT \
+    LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_WIDTH
+
+#define LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_BORDER_WIDTH 0
+#define LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_BORDER_COLOR 0
+#define LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_BACKGROUND_COLOR 0
+
 namespace lamna {
 namespace gui {
 namespace x11 {
@@ -50,13 +62,40 @@ public:
     typedef TExtends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    window_maint() {
+    window_maint()
+    : main_window_x_(LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_X),
+      main_window_y_(LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_Y),
+      main_window_width_(LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_WIDTH),
+      main_window_height_(LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_HEIGHT),
+      main_window_border_width_(LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_BORDER_WIDTH),
+      main_window_border_color_(LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_BORDER_COLOR),
+      main_window_background_color_(LAMNA_GUI_X11_WINDOW_MAIN_DEFAULT_WINDOW_BACKGROUND_COLOR),
+      main_window_(0),
+      wm_protocols_(None),
+      wm_delete_window_(None) {
     }
     virtual ~window_maint() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual bool on_XEvent(const XEvent& event) {
+        event_target* target = 0;
+        if ((target = (main_window_))) {
+            if ((event.xany.window == (main_window_->attached_to()))) {
+                if ((event.type == (ClientMessage))) {
+                    LAMNA_LOG_MESSAGE_DEBUG("ClientMessage...");
+                    if ((event.xclient.message_type) == wm_protocols_) {
+                        LAMNA_LOG_MESSAGE_DEBUG("WM_PROTOCOLS...");
+                        if ((event.xclient.data.l[0]) == wm_delete_window_) {
+                            LAMNA_LOG_MESSAGE_DEBUG("WM_DELETE_WINDOW...");
+                            this->set_done_event_loop();
+                            return true;
+                        }
+                    }
+                }
+                return target->on_XEvent(event);
+            }
+        }
         return EventTargetImplements::on_XEvent(event);
     }
     virtual bool before_on_XEvent(const XEvent& event) {
@@ -114,17 +153,123 @@ public:
                             break;
                         }
                     }
-                } while (this->done_event_loop());
+                } while (!(this->done_event_loop()));
             }
         }
         return err;
     }
     virtual int before_event_loop(int argc, char_t** argv, char_t** env) {
         int err = 1;
+        XDisplay* display = 0;
+        XScreen* screen = 0;
+        XWindow root_window = None;
+        if ((display = this->display()) && ((screen = this->screen()))
+            && (None != (root_window = this->root_window()))) {
+            if (!(err = before_open_main_window
+                  (*display, *screen, root_window, argc, argv, env))) {
+                main_window* window = 0;
+                if ((window = open_main_window
+                     (*display, *screen, root_window, argc, argv, env))) {
+                    main_window_ = window;
+                    if (!(err = after_open_main_window
+                          (*window, *display, *screen, root_window, argc, argv, env))) {
+                        return err;
+                    }
+                    main_window_ = 0;
+                    close_main_window
+                    (window, *display, *screen, root_window, argc, argv, env);
+                } else {
+                    err = 1;
+                }
+                after_close_main_window
+                (*display, *screen, root_window, argc, argv, env);
+            }
+        }
+        return err;
+    }
+    virtual int after_event_loop(int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        main_window* window = 0;
+        XDisplay* display = 0;
+        XScreen* screen = 0;
+        XWindow root_window = None;
+        if ((window = main_window_) && (display = this->display())
+            && ((screen = this->screen()))
+            && (None != (root_window = this->root_window()))) {
+            int err2 = 0;
+            if ((err2 = before_close_main_window
+                 (*window, *display, *screen, root_window, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+            main_window_ = 0;
+            if (!(close_main_window
+                  (window, *display, *screen, root_window, argc, argv, env))) {
+                if (!(err)) err = 1;
+            }
+            if ((err2 = after_close_main_window
+                 (*display, *screen, root_window, argc, argv, env))) {
+                if (!(err)) err = err2;
+            }
+        } else {
+            err = 1;
+        }
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual main_window* open_main_window
+    (XDisplay& display, XScreen& screen,
+     XWindow root_window, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        if (!(err = before_create_main_window
+              (display, screen, root_window, argc, argv, env))) {
+            main_window* window = 0;
+            if ((window = create_main_window
+                 (display, screen, root_window, argc, argv, env))) {
+                if (!(err = after_create_main_window
+                      (*window, display, screen, root_window, argc, argv, env))) {
+                    window->map();
+                    return window;
+                }
+                destroy_main_window
+                (window, display, screen, root_window, argc, argv, env);
+            }
+            after_destroy_main_window
+            (display, screen, root_window, argc, argv, env);
+        }
+        return 0;
+    }
+    virtual bool close_main_window
+    (main_window* window, XDisplay& display, XScreen& screen,
+     XWindow root_window, int argc, char_t** argv, char_t** env) {
+        if ((window)) {
+            bool success = true;
+            int err = 0;
+            if (!(window->unmap())) {
+                success = false;
+            }
+            if ((err = window->on_destroy(argc, argv, env))) {
+                success = false;
+            }
+            if (!(destroy_main_window
+                  (window, display, screen, root_window, argc, argv, env))) {
+                success = false;
+            }
+            return success;
+        }
+        return false;
+    }
+    virtual int before_open_main_window
+    (XDisplay& display, XScreen& screen,
+     XWindow root_window, int argc, char_t** argv, char_t** env) {
+        int err = 1;
         if ((atom_WM_PROTOCOLS_.create
-             (*(this->display()), LAMNA_GUI_X11_ATOM_NAME_WM_PROTOCOLS, true))) {
+             (display, LAMNA_GUI_X11_ATOM_NAME_WM_PROTOCOLS, true))) {
             if ((atom_WM_DELETE_WINDOW_.create
-                 (*(this->display()), LAMNA_GUI_X11_ATOM_NAME_WM_DELETE_WINDOW, true))) {
+                 (display, LAMNA_GUI_X11_ATOM_NAME_WM_DELETE_WINDOW, true))) {
+                wm_protocols_ = atom_WM_PROTOCOLS_.attached_to();
+                wm_delete_window_ = atom_WM_DELETE_WINDOW_.attached_to();
+                err = 0;
             } else {
                 atom_WM_PROTOCOLS_.destroy();
             }
@@ -132,20 +277,104 @@ public:
         }
         return err;
     }
-    virtual int after_event_loop(int argc, char_t** argv, char_t** env) {
+    virtual int after_open_main_window
+    (main_window& window, XDisplay& display, XScreen& screen,
+     XWindow root_window, int argc, char_t** argv, char_t** env) {
         int err = 0;
+        window.set_wm_protocols(&wm_delete_window_, 1);
+        return err;
+    }
+    virtual int before_close_main_window
+    (main_window& window, XDisplay& display, XScreen& screen,
+     XWindow root_window, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_close_main_window
+    (XDisplay& display, XScreen& screen,
+     XWindow root_window, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        wm_delete_window_ = None;
         if (!(atom_WM_DELETE_WINDOW_.destroy())) {
-            err = 1;
+            if (!(err)) err = 1;
         }
+        wm_protocols_ = None;
         if (!(atom_WM_PROTOCOLS_.destroy())) {
-            err = 1;
+            if (!(err)) err = 1;
         }
         return err;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual int before_create_main_window
+    (XDisplay& display, XScreen& screen,
+     XWindow root_window, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        main_window_background_color_ = this->white_pixel();
+        main_window_border_color_ = this->black_pixel();
+        return err;
+    }
+    virtual int after_create_main_window
+    (main_window& window, XDisplay& display, XScreen& screen,
+     XWindow root_window, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int before_destroy_main_window
+    (main_window& window, XDisplay& display, XScreen& screen,
+     XWindow root_window, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    virtual int after_destroy_main_window
+    (XDisplay& display, XScreen& screen,
+     XWindow root_window, int argc, char_t** argv, char_t** env) {
+        int err = 0;
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual main_window* create_main_window
+    (XDisplay& display, XScreen& screen,
+     XWindow root_window, int argc, char_t** argv, char_t** env) {
+        main_window& window_created = main_window_created();
+        if ((window_created.create
+             (display, root_window, main_window_x_, main_window_y_,
+              main_window_width_, main_window_height_,
+              main_window_border_width_, main_window_border_color_,
+              main_window_background_color_))) {
+            window_created.select_input();
+            return &window_created;
+        }
+        return 0;
+    }
+    virtual bool destroy_main_window
+    (main_window* window, XDisplay& display, XScreen& screen,
+     XWindow root_window, int argc, char_t** argv, char_t** env) {
+        main_window& window_created = main_window_created();
+        if (window == (&window_created)) {
+            return true;
+        }
+        return false;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual main_window& main_window_created() const {
+        return ((main_window&)main_window_created_);
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
 protected:
+    int main_window_x_, main_window_y_;
+    unsigned int main_window_width_, main_window_height_;
+    unsigned int main_window_border_width_;
+    XPixel main_window_border_color_;
+    XPixel main_window_background_color_;
+    main_window* main_window_;
+    main_window main_window_created_;
+    XAtom wm_protocols_;
     atom atom_WM_PROTOCOLS_;
+    XAtom wm_delete_window_;
     atom atom_WM_DELETE_WINDOW_;
 };
 typedef window_maint<> window_main;

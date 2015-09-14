@@ -13,57 +13,70 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: main_window.hpp
+///   File: color.hpp
 ///
 /// Author: $author$
-///   Date: 9/10/2015
+///   Date: 9/13/2015
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_GUI_X11_MAIN_WINDOW_HPP
-#define _LAMNA_GUI_X11_MAIN_WINDOW_HPP
+#ifndef _LAMNA_GUI_X11_COLOR_HPP
+#define _LAMNA_GUI_X11_COLOR_HPP
 
-#include "lamna/gui/x11/window.hpp"
+#include "lamna/gui/x11/xcolor.hpp"
+#include "lamna/gui/x11/created.hpp"
 
 namespace lamna {
 namespace gui {
 namespace x11 {
 
-typedef window_implements main_window_implements;
-typedef window main_window_extends;
+typedef xos::base::creatort<implement_base> color_creator;
+typedef attachert<XPixel, int, 0, XDisplay, color_creator> color_attacher;
+typedef attachedt<XPixel, int, 0, XDisplay, color_attacher> color_attached;
+typedef createdt<XPixel, int, 0, XDisplay, color_attacher, color_attached> color_created;
+typedef color_attacher color_implements;
+typedef color_created color_extends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: main_windowt
+///  Class: colort
 ///////////////////////////////////////////////////////////////////////
 template
-<class TImplements = main_window_implements,
- class TExtends = main_window_extends>
+<class TImplements = color_implements, class TExtends = color_extends>
 
-class _EXPORT_CLASS main_windowt
-: virtual public TImplements, public TExtends {
+class _EXPORT_CLASS colort: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
     typedef TExtends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    main_windowt
-    (XDisplay* display = 0, XWindow detached = None, bool is_created = false)
+    colort
+    (XDisplay* display = 0, XPixel detached = None, bool is_created = false)
     : Extends(display, detached, is_created) {
     }
-    virtual ~main_windowt() {
+    virtual ~colort() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual int on_create(int argc, char_t** argv, char_t** env) {
-        return 0;
+    virtual bool attach_black_of_screen(XDisplay& display, XScreen& screen) {
+        if ((this->destroyed())) {
+            XPixel detached = XBlackPixelOfScreen(&screen);
+            this->attach(&display, detached);
+            return true;
+        }
+        return false;
     }
-    virtual int on_destroy(int argc, char_t** argv, char_t** env) {
-        return 0;
+    virtual bool attach_white_of_screen(XDisplay& display, XScreen& screen) {
+        if ((this->destroyed())) {
+            XPixel detached = XWhitePixelOfScreen(&screen);
+            this->attach(&display, detached);
+            return true;
+        }
+        return false;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef main_windowt<> main_window;
+typedef colort<> color;
 
 } // namespace x11 
 } // namespace gui 
 } // namespace lamna 
 
-#endif // _LAMNA_GUI_X11_MAIN_WINDOW_HPP 
+#endif // _LAMNA_GUI_X11_COLOR_HPP 

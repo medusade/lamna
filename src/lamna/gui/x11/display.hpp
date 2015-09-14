@@ -124,6 +124,20 @@ public:
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual XWindow root_window_attached_to() const {
+        XScreen* screen = 0;
+        if ((screen = screen_attached_to())) {
+            XWindow window = None;
+            if (None != (window = XRootWindowOfScreen(screen))) {
+                return window;
+            } else {
+                LAMNA_LOG_ERROR("failed None == XRootWindowOfScreen()");
+            }
+        }
+        return None;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
 protected:
     screen screen_;
 };

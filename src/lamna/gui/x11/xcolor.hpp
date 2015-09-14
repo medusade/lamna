@@ -13,57 +13,69 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: main_window.hpp
+///   File: xcolor.hpp
 ///
 /// Author: $author$
-///   Date: 9/10/2015
+///   Date: 9/14/2015
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_GUI_X11_MAIN_WINDOW_HPP
-#define _LAMNA_GUI_X11_MAIN_WINDOW_HPP
+#ifndef _LAMNA_GUI_X11_XCOLOR_HPP
+#define _LAMNA_GUI_X11_XCOLOR_HPP
 
-#include "lamna/gui/x11/window.hpp"
+#include "lamna/gui/x11/created.hpp"
 
 namespace lamna {
 namespace gui {
 namespace x11 {
 
-typedef window_implements main_window_implements;
-typedef window main_window_extends;
+typedef xos::base::wrapped_implements xcolor_implements;
+typedef xos::base::wrappedt<XColor, int, 0> xcolor_extends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: main_windowt
+///  Class: xcolort
 ///////////////////////////////////////////////////////////////////////
 template
-<class TImplements = main_window_implements,
- class TExtends = main_window_extends>
+<class TImplements = xcolor_implements, class TExtends = xcolor_extends>
 
-class _EXPORT_CLASS main_windowt
-: virtual public TImplements, public TExtends {
+class _EXPORT_CLASS xcolort: virtual public TImplements,public TExtends {
 public:
     typedef TImplements Implements;
     typedef TExtends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    main_windowt
-    (XDisplay* display = 0, XWindow detached = None, bool is_created = false)
-    : Extends(display, detached, is_created) {
+    xcolort(uint8_t r, uint8_t g, uint8_t b) {
+        this->copy_rgb(r, g, b);
     }
-    virtual ~main_windowt() {
+    xcolort(const xcolort& copy): Extends(copy) {
+    }
+    xcolort() {
+    }
+    virtual ~xcolort() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual int on_create(int argc, char_t** argv, char_t** env) {
-        return 0;
+    virtual xcolort& copy_rgb(uint8_t r, uint8_t g, uint8_t b) {
+        XColor& color = this->wrapped();
+        unsigned long iL = (1 << (16))-1;
+        unsigned short iS = (1 << (8))-1;
+        unsigned short rS = (unsigned short)((iL*r)/iS);
+        unsigned short gS = (unsigned short)((iL*g)/iS);
+        unsigned short bS = (unsigned short)((iL*b)/iS);
+        this->clear();
+        color.red = rS;
+        color.green = gS;
+        color.blue = bS;
+        return *this;
     }
-    virtual int on_destroy(int argc, char_t** argv, char_t** env) {
-        return 0;
+    virtual xcolort& clear() {
+        this->set(0);
+        return *this;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-typedef main_windowt<> main_window;
+typedef xcolort<> xcolor;
 
 } // namespace x11 
 } // namespace gui 
 } // namespace lamna 
 
-#endif // _LAMNA_GUI_X11_MAIN_WINDOW_HPP 
+#endif // _LAMNA_GUI_X11_XCOLOR_HPP 

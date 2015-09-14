@@ -37,7 +37,7 @@ public:
     virtual bool on_XEvent(const XEvent& xEvent) {
         bool isHandled = false;
         switch(xEvent.type) {
-#ifndef _LAMNA_GUI_X11_EVENT_TARGET_HPP
+#endif // _LAMNA_GUI_X11_EVENT_TARGET_HPP
 
         case KeyPress:
              isHandled = on_KeyPress_XEvent(xEvent);
@@ -175,7 +175,7 @@ public:
              isHandled = on_XEvent_default(xEvent);
              break;
 
-#endif // _LAMNA_GUI_X11_EVENT_TARGET_HPP
+#ifndef _LAMNA_GUI_X11_EVENT_TARGET_HPP
         }
         return isHandled;
     }

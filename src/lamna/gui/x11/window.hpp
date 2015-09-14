@@ -55,7 +55,9 @@ template
 <class TEventTargetImplements = event_target,
  class TImplements = window_implements, class TExtends = window_extends>
 
-class _EXPORT_CLASS windowt: virtual public TImplements, public TExtends {
+class _EXPORT_CLASS windowt
+: virtual public TEventTargetImplements,
+  virtual public TImplements, public TExtends {
 public:
     typedef TEventTargetImplements EventTargetImplements;
     typedef TImplements Implements;
@@ -68,6 +70,24 @@ public:
     : Extends(display, detached, is_created) {
     }
     virtual ~windowt() {
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual bool set_wm_protocols(XAtom* protocols, int count) {
+        XDisplay* display = 0;
+        XWindow detached = None;
+        if ((display = this->display()) && (None != (detached = this->attached_to()))) {
+            if ((protocols)) {
+                Status status = 0;
+                if ((status = XSetWMProtocols(display, detached, protocols, count))) {
+                    return true;
+                } else {
+                    LAMNA_LOG_ERROR("failed " << status << " on XSetWMProtocols()");
+                }
+            }
+        }
+        return false;
     }
 
     ///////////////////////////////////////////////////////////////////////
