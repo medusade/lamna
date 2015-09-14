@@ -36,6 +36,9 @@ xlhello_HEADERS += \
 $${LAMNA_SRC}/lamna/gui/x11/window_main.hpp \
 $${LAMNA_SRC}/lamna/gui/x11/main_window.hpp \
 $${LAMNA_SRC}/lamna/gui/x11/main.hpp \
+$${LAMNA_SRC}/lamna/gui/x11/colormap.hpp \
+$${LAMNA_SRC}/lamna/gui/x11/color.hpp \
+$${LAMNA_SRC}/lamna/gui/x11/xcolor.hpp \
 $${LAMNA_SRC}/lamna/gui/x11/window.hpp \
 $${LAMNA_SRC}/lamna/gui/x11/atom.hpp \
 $${LAMNA_SRC}/lamna/gui/x11/display.hpp \
@@ -59,6 +62,9 @@ $${LAMNA_SRC}/lamna/gui/x11/application/window.hpp \
 xlhello_SOURCES += \
 $${LAMNA_SRC}/lamna/gui/x11/main_window.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/window.cpp \
+$${LAMNA_SRC}/lamna/gui/x11/colormap.cpp \
+$${LAMNA_SRC}/lamna/gui/x11/color.cpp \
+$${LAMNA_SRC}/lamna/gui/x11/xcolor.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/atom.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/display.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/screen.cpp \
