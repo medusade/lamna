@@ -40,6 +40,9 @@ $${LAMNA_SRC}/lamna/gui/x11/colormap.hpp \
 $${LAMNA_SRC}/lamna/gui/x11/color.hpp \
 $${LAMNA_SRC}/lamna/gui/x11/xcolor.hpp \
 $${LAMNA_SRC}/lamna/gui/x11/window.hpp \
+$${LAMNA_SRC}/lamna/gui/x11/region.hpp \
+$${LAMNA_SRC}/lamna/gui/x11/rectangle.hpp \
+$${LAMNA_SRC}/lamna/gui/x11/gc.hpp \
 $${LAMNA_SRC}/lamna/gui/x11/atom.hpp \
 $${LAMNA_SRC}/lamna/gui/x11/display.hpp \
 $${LAMNA_SRC}/lamna/gui/x11/screen.hpp \
@@ -63,12 +66,13 @@ xlhello_SOURCES += \
 $${LAMNA_SRC}/lamna/gui/x11/main_window.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/window.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/colormap.cpp \
-$${LAMNA_SRC}/lamna/gui/x11/color.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/xcolor.cpp \
+$${LAMNA_SRC}/lamna/gui/x11/region.cpp \
+$${LAMNA_SRC}/lamna/gui/x11/rectangle.cpp \
+$${LAMNA_SRC}/lamna/gui/x11/gc.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/atom.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/display.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/screen.cpp \
-$${LAMNA_SRC}/lamna/gui/x11/context.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/event.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/event_target.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/created.cpp \
@@ -78,22 +82,29 @@ $${LAMNA_SRC}/lamna/gui/x11/x11.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/gl.cpp \
 
 _xlhello_SOURCES += \
+$${LAMNA_SRC}/lamna/gui/x11/color.cpp \
+$${LAMNA_SRC}/lamna/gui/x11/context.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/application/window_main.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/application/window.cpp \
 
 ########################################################################
-_xlhello_HEADERS += \
+xlhello_HEADERS += \
 $${LAMNA_SRC}/lamna/graphic/surface/x11/color.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/x11/object.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/x11/image.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/x11/context.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/x11/pixel.hpp \
 
-_xlhello_SOURCES += \
+_xlhello_HEADERS += \
+
+xlhello_SOURCES += \
 $${LAMNA_SRC}/lamna/graphic/surface/x11/color.cpp \
 $${LAMNA_SRC}/lamna/graphic/surface/x11/object.cpp \
 $${LAMNA_SRC}/lamna/graphic/surface/x11/image.cpp \
+$${LAMNA_SRC}/lamna/graphic/surface/x11/context.cpp \
 $${LAMNA_SRC}/lamna/graphic/surface/x11/pixel.cpp \
+
+_xlhello_SOURCES += \
 
 ########################################################################
 xlhello_HEADERS += \
