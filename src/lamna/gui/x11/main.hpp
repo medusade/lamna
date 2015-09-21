@@ -23,6 +23,7 @@
 
 #include "lamna/gui/x11/display.hpp"
 #include "lamna/gui/x11/context.hpp"
+#include "lamna/gui/x11/colormap.hpp"
 #include "lamna/gui/x11/color.hpp"
 #include "lamna/gui/main.hpp"
 
@@ -51,7 +52,7 @@ public:
     : display_name_(LAMNA_GUI_X11_MAIN_DISPLAY_NAME),
       display_(0), screen_(0),
       root_window_(None), context_(None),
-      black_pixel_(0), white_pixel_(0) {
+      colormap_(None), black_pixel_(0), white_pixel_(0) {
     }
     virtual ~maint() {
     }
@@ -207,11 +208,13 @@ protected:
     (XContext context, XDisplay& display, XScreen& screen,
      XWindow root_window, int argc, char** argv, char** env) {
         int err = 1;
-        if ((black_color_.attach_black_of_screen(display, screen))) {
-            black_pixel_ = black_color_.attached_to();
-            if ((white_color_.attach_white_of_screen(display, screen))) {
-                white_pixel_ = white_color_.attached_to();
-                err = 0;
+        if (None != (colormap_ = colormap_created_.attach_default_of_screen(display, screen))) {
+            if ((black_color_.attach_black_of_screen(display, screen))) {
+                black_pixel_ = black_color_.attached_to();
+                if ((white_color_.attach_white_of_screen(display, screen))) {
+                    white_pixel_ = white_color_.attached_to();
+                    err = 0;
+                }
             }
         }
         return err;
@@ -262,6 +265,9 @@ protected:
     virtual XContext context() const {
         return context_;
     }
+    virtual XColormap colormap() const {
+        return colormap_;
+    }
     virtual XPixel black_pixel() const {
         return black_pixel_;
     }
@@ -279,6 +285,8 @@ protected:
     x11::display display_opened_;
     XContext context_;
     x11::context context_created_;
+    XColormap colormap_;
+    x11::colormap colormap_created_;
     XPixel black_pixel_, white_pixel_;
     x11::color black_color_, white_color_;
 };

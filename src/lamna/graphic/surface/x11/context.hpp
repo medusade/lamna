@@ -13,43 +13,40 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: color.hpp
+///   File: context.hpp
 ///
 /// Author: $author$
-///   Date: 6/1/2015
+///   Date: 9/19/2015
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_GRAPHIC_SURFACE_COLOR_HPP
-#define _LAMNA_GRAPHIC_SURFACE_COLOR_HPP
+#ifndef _LAMNA_GRAPHIC_SURFACE_X11_CONTEXT_HPP
+#define _LAMNA_GRAPHIC_SURFACE_X11_CONTEXT_HPP
 
-#include "lamna/graphic/surface/object.hpp"
+#include "lamna/graphic/surface/x11/pixel.hpp"
+#include "lamna/graphic/surface/context.hpp"
+#include "lamna/gui/x11/gc.hpp"
 
 namespace lamna {
 namespace graphic {
 namespace surface {
+namespace x11 {
 
 ///////////////////////////////////////////////////////////////////////
-///  Class: colort
+///  Class: context_interfacet
 ///////////////////////////////////////////////////////////////////////
 template
-<class TObject = object,
- class TImageInterface = image_interface,
+<class TContextInterface = surface::context_interface,
  class TPixelInterface = pixel_interface,
- class TPixel = pixel,
  class TInt = int,
  class TSize = size_t,
  class TLength = ssize_t,
  class TOffset = ssize_t,
- class TImplements = TPixelInterface, class TExtends = TObject>
+ class TImplements = TContextInterface>
 
-class _EXPORT_CLASS colort: virtual public TImplements, public TExtends {
+class _EXPORT_CLASS context_interfacet: virtual public TImplements {
 public:
     typedef TImplements Implements;
-    typedef TExtends Extends;
 
-    typedef TObject tObject;
-    typedef TImageInterface tImageInterface;
     typedef TPixelInterface tPixelInterface;
-    typedef TPixel tPixel;
     typedef TInt tInt;
     typedef TSize tSize;
     typedef TLength tLength;
@@ -57,53 +54,63 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    colort
-    (tImageInterface& surfaceImage,
-     tSize r = 0, tSize g = 0, tSize b = 0, tSize width = 1, tSize height = 1)
-    : Extends(surfaceImage),
-      m_r(r), m_g(g), m_b(b),
-      m_width(width), m_height(height),
-      m_color(r,g,b) {
-    }
-    virtual ~colort() {
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual eError Fill(tOffset x, tOffset y, tSize w, tSize h) {
+    virtual eError FillRectangle
+    (tOffset x, tOffset y, tSize width, tSize height, const tPixelInterface& color) {
         eError error = e_ERROR_NONE;
-        w = w+m_width-1; h = h+m_height-1;
-        LAMNA_LOG_MESSAGE_TRACE("surfaceImage.FillRectangle(Pixel(r = " << m_r << ", g = " << m_g << ", b = " << m_b << "), x = " << x << ",y = " << y << ", w = " << w << ",h = " << h << ")");
-        return error;
-    }
-    virtual eError Plot(tOffset x, tOffset y) {
-        eError error = Fill(x,y, 1,1);
         return error;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual tSize Red() const { return m_r; }
-    virtual tSize Green() const { return m_g; }
-    virtual tSize Blue() const { return m_b; }
+};
+typedef context_interfacet<> context_interface;
+
+///////////////////////////////////////////////////////////////////////
+///  Class: contextt
+///////////////////////////////////////////////////////////////////////
+template
+<class TContextInterface = context_interface,
+ class TContext = surface::context,
+ class TPixelInterface = pixel_interface,
+ class TInt = int,
+ class TSize = size_t,
+ class TLength = ssize_t,
+ class TOffset = ssize_t,
+ class TImplements = TContextInterface, class TExtends = TContext>
+
+class _EXPORT_CLASS contextt: virtual public TImplements, public TExtends {
+public:
+    typedef TImplements Implements;
+    typedef TExtends Extends;
+    typedef TPixelInterface tPixelInterface;
+    typedef TInt tInt;
+    typedef TSize tSize;
+    typedef TLength tLength;
+    typedef TOffset tOffset;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual tSize Width() const { return m_width; }
-    virtual tSize Height() const { return m_height; }
+    contextt(gui::x11::gc& _gc): gc_(_gc) {
+    }
+    virtual ~contextt() {
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual tPixelInterface& Color() const {
-        return (tPixelInterface&)m_color;
+    virtual eError FillRectangle
+    (tOffset x, tOffset y, tSize width, tSize height, const tPixelInterface& color) {
+        eError error = e_ERROR_NONE;
+        gc_.set_foreground(color);
+        gc_.fill_rectangle(x,y, width,height);
+        return error;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 protected:
-    tSize m_r, m_g, m_b;
-    tSize m_width, m_height;
-    tPixel m_color;
+    gui::x11::gc& gc_;
 };
-typedef colort<> color;
+typedef contextt<> context;
 
+} // namespace x11 
 } // namespace surface 
 } // namespace graphic 
 } // namespace lamna 
 
-#endif // _LAMNA_GRAPHIC_SURFACE_COLOR_HPP
+#endif // _LAMNA_GRAPHIC_SURFACE_X11_CONTEXT_HPP 

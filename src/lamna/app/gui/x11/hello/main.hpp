@@ -22,6 +22,13 @@
 #define _LAMNA_APP_GUI_X11_HELLO_MAIN_HPP
 
 #include "lamna/app/gui/hello/main.hpp"
+#include "lamna/graphic/surface/x11/color.hpp"
+#include "lamna/graphic/surface/x11/image.hpp"
+#include "lamna/graphic/surface/x11/context.hpp"
+#include "lamna/graphic/surface/x11/pixel.hpp"
+#include "lamna/graphic/surface/color.hpp"
+#include "lamna/graphic/surface/context.hpp"
+#include "lamna/graphic/surface/image.hpp"
 #include "lamna/gui/x11/window_main.hpp"
 #include "lamna/gui/x11/main_window.hpp"
 #include "lamna/gui/x11/window.hpp"
@@ -47,22 +54,80 @@ public:
     typedef main_window_extends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    main_window() {
+    main_window
+    (lamna::gui::x11::colormap& colormap)
+    : colormap_(colormap), left_button_(1), width_(0), height_(0) {
     }
     virtual ~main_window() {
     }
 protected:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    using Extends::paint;
+    virtual bool paint
+    (lamna::gui::x11::gc& _gc,
+     lamna::gui::x11::region& _region,
+     lamna::gui::x11::rectangle& _rectangle) {
+        int x = _rectangle.wrapped().x,
+            y = _rectangle.wrapped().y,
+            width = _rectangle.wrapped().width,
+            height = _rectangle.wrapped().height;
+        if (width_ > (width)) width = width_;
+        if (height_ > (height)) height = height_;
+        if ((2 <= (x = width/2)) && (2 <= (y = height/2))) {
+            lamna::gui::x11::XDisplay* display = 0;
+            if ((display = this->display())) {
+                lamna::gui::x11::XColormap colormap = None;
+                if (None != (colormap = colormap_.attached_to())) {
+                    lamna::gui::x11::xcolor xcolor
+                    (fg_color_red_, fg_color_green_, fg_color_blue_);
+                    if ((color_.create(*display, colormap, xcolor))) {
+                        graphic::surface::x11::context gc(_gc);
+                        graphic::surface::x11::image im(gc);
+                        graphic::surface::x11::color px
+                        (im, xcolor, color_.attached_to());
+                        im.SelectImage(&px);
+                        paint(im, x,y, x,y);
+                        color_.destroy();
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     virtual bool on_ButtonRelease_XEvent(const XEvent& event) {
-        bool isHandled = false;
+        bool isHandled = on_XEvent_default(event);
         unsigned int button = event.xbutton.button;
         LAMNA_LOG_MESSAGE_DEBUG("ButtonRelease button = " << button << "...");
-        isHandled = on_XEvent_default(event);
+        if (left_button_ == (button)) {
+            size_t x = event.xbutton.x, y = event.xbutton.y;
+            lamna::gui::mouse::position p(x, y);
+            lamna::gui::mouse::button b(lamna::gui::mouse::button_left);
+            lamna::gui::mouse::event e(lamna::gui::mouse::event_button_release, b, p);
+            this->on_mouse_release_event(e);
+        }
+        return isHandled;
+    }
+    virtual bool on_ConfigureNotify_XEvent(const XEvent& event) {
+        bool isHandled = on_XEvent_default(event);
+        width_ = event.xconfigure.width;
+        height_ = event.xconfigure.height;
         return isHandled;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual void invalidate() {
+        Extends::Extends::invalidate(true);
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+protected:
+    lamna::gui::x11::colormap& colormap_;
+    lamna::gui::x11::color color_;
+    int left_button_;
+    unsigned int width_, height_;
 };
 
 typedef lamna::gui::x11::window_main_implements main_implements;
@@ -76,7 +141,7 @@ public:
     typedef main_extends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    main() {
+    main(): main_window_(this->colormap_created_) {
         this->main_window_width_ = LAMNA_APP_GUI_HELLO_WIDTH;
         this->main_window_height_ = LAMNA_APP_GUI_HELLO_HEIGHT;
     }

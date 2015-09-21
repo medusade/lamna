@@ -16,16 +16,19 @@
 ///   File: color.hpp
 ///
 /// Author: $author$
-///   Date: 6/1/2015
+///   Date: 9/19/2015
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_GRAPHIC_SURFACE_COLOR_HPP
-#define _LAMNA_GRAPHIC_SURFACE_COLOR_HPP
+#ifndef _LAMNA_GRAPHIC_SURFACE_X11_COLOR_HPP
+#define _LAMNA_GRAPHIC_SURFACE_X11_COLOR_HPP
 
-#include "lamna/graphic/surface/object.hpp"
+#include "lamna/graphic/surface/x11/object.hpp"
+#include "lamna/graphic/surface/x11/pixel.hpp"
+#include "lamna/graphic/surface/color.hpp"
 
 namespace lamna {
 namespace graphic {
 namespace surface {
+namespace x11 {
 
 ///////////////////////////////////////////////////////////////////////
 ///  Class: colort
@@ -39,31 +42,27 @@ template
  class TSize = size_t,
  class TLength = ssize_t,
  class TOffset = ssize_t,
- class TImplements = TPixelInterface, class TExtends = TObject>
+ class TColor = surface::colort
+ <TObject, TImageInterface, TPixelInterface, TPixel>,
+ class TImplements = TPixelInterface, class TExtends = TColor>
 
 class _EXPORT_CLASS colort: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
     typedef TExtends Extends;
-
-    typedef TObject tObject;
     typedef TImageInterface tImageInterface;
-    typedef TPixelInterface tPixelInterface;
-    typedef TPixel tPixel;
+    typedef TColor tColor;
     typedef TInt tInt;
     typedef TSize tSize;
     typedef TLength tLength;
     typedef TOffset tOffset;
-
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     colort
-    (tImageInterface& surfaceImage,
-     tSize r = 0, tSize g = 0, tSize b = 0, tSize width = 1, tSize height = 1)
-    : Extends(surfaceImage),
-      m_r(r), m_g(g), m_b(b),
-      m_width(width), m_height(height),
-      m_color(r,g,b) {
+    (tImageInterface& surfaceImage, const gui::x11::XColor& color,
+     gui::x11::XPixel pixel, tSize width = 1, tSize height = 1)
+    : Extends(surfaceImage, color.red,color.green,color.blue, width,height) {
+        this->operator = (pixel);
     }
     virtual ~colort() {
     }
@@ -71,39 +70,29 @@ public:
     ///////////////////////////////////////////////////////////////////////
     virtual eError Fill(tOffset x, tOffset y, tSize w, tSize h) {
         eError error = e_ERROR_NONE;
-        w = w+m_width-1; h = h+m_height-1;
-        LAMNA_LOG_MESSAGE_TRACE("surfaceImage.FillRectangle(Pixel(r = " << m_r << ", g = " << m_g << ", b = " << m_b << "), x = " << x << ",y = " << y << ", w = " << w << ",h = " << h << ")");
+        context_interface& gc = this->SurfaceImage().SurfaceContext();
+        const pixel_interface& color = this->Color();
+        tSize r = this->Red(), g = this->Green(), b = this->Blue();
+        w = w+this->Width()-1; h = h+this->Height()-1;
+        gc.FillRectangle(x,y, w,h, color);
         return error;
     }
-    virtual eError Plot(tOffset x, tOffset y) {
-        eError error = Fill(x,y, 1,1);
-        return error;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual gui::x11::XPixel operator = (gui::x11::XPixel to) {
+        return (this->Color()) = to;
+    }
+    virtual operator gui::x11::XPixel() const {
+        return (this->Color());
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual tSize Red() const { return m_r; }
-    virtual tSize Green() const { return m_g; }
-    virtual tSize Blue() const { return m_b; }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual tSize Width() const { return m_width; }
-    virtual tSize Height() const { return m_height; }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    virtual tPixelInterface& Color() const {
-        return (tPixelInterface&)m_color;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-protected:
-    tSize m_r, m_g, m_b;
-    tSize m_width, m_height;
-    tPixel m_color;
 };
 typedef colort<> color;
 
+} // namespace x11 
 } // namespace surface 
 } // namespace graphic 
 } // namespace lamna 
 
-#endif // _LAMNA_GRAPHIC_SURFACE_COLOR_HPP
+#endif // _LAMNA_GRAPHIC_SURFACE_X11_COLOR_HPP 

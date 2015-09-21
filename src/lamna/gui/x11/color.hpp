@@ -47,10 +47,52 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     colort
-    (XDisplay* display = 0, XPixel detached = None, bool is_created = false)
-    : Extends(display, detached, is_created) {
+    (XDisplay* display = 0, XColormap colormap = None, XPixel detached = None, bool is_created = false)
+    : Extends(display, detached, is_created), colormap_(colormap) {
     }
     virtual ~colort() {
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual bool create
+    (XDisplay& display, XColormap colormap, uint8_t r, uint8_t g, uint8_t b) {
+        xcolor color(r,g,b);
+        return create(display, colormap, color);
+    }
+    virtual bool create
+    (XDisplay& display, XColormap colormap, XColor& color) {
+        if ((this->destroyed())) {
+            XStatus status = 0;
+            if ((status = XAllocColor(&display, colormap, &color))) {
+                this->attach_created(&display, color.pixel);
+                this->colormap_ = colormap;
+                return true;
+            } else {
+                LAMNA_LOG_ERROR("failed 0 == XAllocColor()");
+            }
+        }
+        return false;
+    }
+    virtual bool destroy() {
+        XDisplay* display = 0;
+        XColormap colormap = None;
+        XPixel detached = this->detach(display, colormap);
+        if ((display)) {
+            if (None != (colormap)) {
+                XFreeColors(display, colormap, &detached, 1, 0);
+                return true;
+            }
+        }
+        return false;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    using Extends::detach;
+    virtual XPixel detach(XDisplay*& display, XColormap& colormap) {
+        XPixel detached = this->detach(display);
+        colormap = this->colormap_;
+        this->colormap_ = None;
+        return detached;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -72,6 +114,8 @@ public:
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+protected:
+    XColormap colormap_;
 };
 typedef colort<> color;
 

@@ -21,6 +21,9 @@
 #ifndef _LAMNA_GUI_X11_WINDOW_HPP
 #define _LAMNA_GUI_X11_WINDOW_HPP
 
+#include "lamna/gui/x11/gc.hpp"
+#include "lamna/gui/x11/region.hpp"
+#include "lamna/gui/x11/rectangle.hpp"
 #include "lamna/gui/x11/event_target.hpp"
 #include "lamna/gui/x11/event.hpp"
 #include "lamna/gui/x11/created.hpp"
@@ -67,9 +70,114 @@ public:
     ///////////////////////////////////////////////////////////////////////
     windowt
     (XDisplay* display = 0, XWindow detached = None, bool is_created = false)
-    : Extends(display, detached, is_created) {
+    : Extends(display, detached, is_created),
+      Expose_XEvent_count_(0) {
     }
     virtual ~windowt() {
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual bool on_Expose_XEvent(const XEvent& event) {
+        rectangle rect(event.xexpose);
+        XRegion region = 0;
+        bool is_handled = true;
+
+        if (!(region = paint_region_.attached_to())) {
+            LAMNA_LOG_MESSAGE_DEBUG("paint_region_.create_attached()...");
+            if (!(region = paint_region_.create_attached())) {
+                is_handled = false;
+            }
+            LAMNA_LOG_MESSAGE_DEBUG("...paint_region_.create_attached()");
+        }
+
+        if (1 > (Expose_XEvent_count_++)) {
+            paint_rectangle_.set(rect);
+        } else {
+            paint_rectangle_.include(rect);
+        }
+
+        if (1 > (event.xexpose.count)) {
+            if ((is_handled)) {
+                is_handled = on_paint(event);
+            }
+            if ((region)) {
+                paint_region_.destroy();
+            }
+            Expose_XEvent_count_ = 0;
+        }
+        return is_handled;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual bool on_paint(const XEvent& event) {
+        bool is_handled = false;
+        rectangle* _rectangle = 0;
+        region* _region = 0;
+        gc* _gc = 0;
+
+        if ((_gc = begin_paint(_region, _rectangle))) {
+            is_handled = paint(*_gc, *_region, *_rectangle);
+            end_paint(_gc, _region, _rectangle);
+        }
+        return is_handled;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual gc* begin_paint(region*& _region, rectangle*& _rectangle) {
+        XRegion region = 0;
+        if ((region = (paint_region_.attached_to()))) {
+            gc* _gc = 0;
+            if ((_gc = get_gc())) {
+                _region = &paint_region_;
+                _rectangle = &paint_rectangle_;
+                return _gc;
+            }
+        }
+        return 0;
+    }
+    virtual bool end_paint
+    (gc* _gc, region* _region, rectangle* _rectangle) {
+        bool success = free_gc(_gc);
+        if (_region != (&paint_region_)) {
+            success = false;
+        }
+        if (_rectangle != (&paint_rectangle_)) {
+            success = false;
+        }
+        return success;
+    }
+    virtual bool paint
+    (gc& _gc, region& _region, rectangle& _rectangle) {
+        return false;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual gc* get_gc() {
+        XGC gc = 0;
+        if (!(gc = (gc_.attached_to()))) {
+            XDisplay* display = 0;
+            XWindow window = None;
+            if (None != (window = this->attached_to(display))) {
+                if ((gc = gc_.create_attached(*display, window))) {
+                    return &gc_;
+                }
+            }
+        } else {
+            return &gc_;
+        }
+        return 0;
+    }
+    virtual bool free_gc(gc* _gc) {
+        if (_gc == (&gc_)) {
+            if ((gc_.destroy())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -285,6 +393,11 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+protected:
+    unsigned int Expose_XEvent_count_;
+    gc gc_;
+    region paint_region_;
+    rectangle paint_rectangle_;
 };
 typedef windowt<> window;
 
