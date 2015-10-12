@@ -63,6 +63,7 @@ $${LAMNA_SRC}/lamna/graphic/surface/fl/object.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/fl/image.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/fl/context.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/fl/pixel.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/filled_circle.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/color.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/object.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/image.hpp \
@@ -89,6 +90,7 @@ $${LAMNA_SRC}/lamna/graphic/surface/fl/object.cpp \
 $${LAMNA_SRC}/lamna/graphic/surface/fl/image.cpp \
 $${LAMNA_SRC}/lamna/graphic/surface/fl/context.cpp \
 $${LAMNA_SRC}/lamna/graphic/surface/fl/pixel.cpp \
+$${LAMNA_SRC}/lamna/graphic/surface/filled_circle.cpp \
 $${LAMNA_SRC}/lamna/graphic/hollow_midpoint_ellipse.cpp \
 $${LAMNA_SRC}/lamna/graphic/hollow_midpoint_circle.cpp \
 $${LAMNA_SRC}/lamna/graphic/midpoint_ellipse.cpp \
