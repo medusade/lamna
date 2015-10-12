@@ -26,6 +26,7 @@
 
 #define LAMNA_APP_GUI_HELLO_WIDTH 400
 #define LAMNA_APP_GUI_HELLO_HEIGHT 200
+#define LAMNA_APP_GUI_HELLO_BORDER 10
 
 #define LAMNA_APP_GUI_HELLO_FG_COLOR_RED   0
 #define LAMNA_APP_GUI_HELLO_FG_COLOR_GREEN 0
@@ -52,12 +53,14 @@ public:
     : fg_color_red_(fg_color_red),
       fg_color_green_(fg_color_green),
       fg_color_blue_(fg_color_blue),
+      border_(LAMNA_APP_GUI_HELLO_BORDER),
       paint_(0) {
     }
     surfacet()
     : fg_color_red_(LAMNA_APP_GUI_HELLO_FG_COLOR_RED),
       fg_color_green_(LAMNA_APP_GUI_HELLO_FG_COLOR_GREEN),
       fg_color_blue_(LAMNA_APP_GUI_HELLO_FG_COLOR_BLUE),
+      border_(LAMNA_APP_GUI_HELLO_BORDER),
       paint_(0) {
     }
     virtual ~surfacet() {
@@ -73,15 +76,15 @@ protected:
     ///////////////////////////////////////////////////////////////////////
     void paint_FillEllipse
     (graphic::surface::image_interface& im, int x, int y, int w, int h, int r) {
-        im.FillEllipse(x,y, x,y);
+        im.FillEllipse(x,y, w,h);
     }
     void paint_DrawEllipse
     (graphic::surface::image_interface& im, int x, int y, int w, int h, int r) {
-        im.DrawEllipse(x,y, x,y);
+        im.DrawEllipse(x,y, w,h);
     }
     void paint_HollowEllipse
     (graphic::surface::image_interface& im, int x, int y, int w, int h, int r) {
-        im.HollowEllipse(x,y, x,y);
+        im.HollowEllipse(x,y, w,h);
     }
     void paint_FillCircle
     (graphic::surface::image_interface& im, int x, int y, int w, int h, int r) {
@@ -101,19 +104,22 @@ protected:
     }
     void paint_Draw
     (graphic::surface::image_interface& im, int x, int y, int w, int h, int r) {
-        im.Draw(0,0, x+w,y+h);
-        im.Draw(0,y+h, x+w,0);
+        im.Draw(x-w,y-h, x+w,y+h);
+        im.Draw(x-w,y+h, x+w,y-h);
     }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     void paint
     (graphic::surface::image_interface& im, int x, int y, int w, int h) {
-        int r = (x > y)?(y):(x);
-        if ((paint_)) {
-            (this->*paint_)(im, x,y, w,h, r);
-        } else {
-            (this->*(paint_ = &Derives::paint_FillEllipse))(im, x,y, w,h, r);
+        int borders = (border_ + border_);
+        if ((borders < w) && (borders < h)) {
+            int r = ((w -= borders) > (h -= borders))?(h):(w);
+            if ((paint_)) {
+                (this->*paint_)(im, x,y, w,h, r);
+            } else {
+                (this->*(paint_ = &Derives::paint_FillEllipse))(im, x,y, w,h, r);
+            }
         }
     }
 
@@ -149,8 +155,18 @@ protected:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual int border() const {
+        return this->border_;
+    }
+    virtual int borders() const {
+        return border()+border();
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
 protected:
     size_t fg_color_red_, fg_color_green_, fg_color_blue_;
+    int border_;
     paint_t paint_;
 };
 
@@ -170,7 +186,8 @@ public:
       fg_color_green_(LAMNA_APP_GUI_HELLO_FG_COLOR_GREEN),
       fg_color_blue_(LAMNA_APP_GUI_HELLO_FG_COLOR_BLUE),
       width_(LAMNA_APP_GUI_HELLO_WIDTH),
-      height_(LAMNA_APP_GUI_HELLO_HEIGHT) {
+      height_(LAMNA_APP_GUI_HELLO_HEIGHT),
+      border_(LAMNA_APP_GUI_HELLO_BORDER) {
     }
     virtual ~maint() {
     }
@@ -182,6 +199,12 @@ public:
     }
     virtual int height() const {
         return this->height_;
+    }
+    virtual int border() const {
+        return this->border_;
+    }
+    virtual int borders() const {
+        return border()+border();
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -199,8 +222,8 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 protected:
-    int width_, height_;
     int fg_color_red_, fg_color_green_, fg_color_blue_;
+    int width_, height_, border_;
 };
 
 } // namespace hello

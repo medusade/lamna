@@ -366,6 +366,11 @@ public:
         MidpointEllipseT<Extends, tPixel, tInt>
         (*this, image, cx,cy, a,b, q);
     }
+    virtual void PlotCircle
+    (tImageInterface& image, tInt cx,tInt cy, tInt r,
+     eEllipseQuadrant q = e_ELLIPSE_QUADRANT_ALL) {
+        PlotEllipse(image, cx,cy, r,r, q);
+    }
 };
 
 typedef filled_midpoint_ellipset
@@ -388,6 +393,11 @@ public:
      eEllipseQuadrant q = e_ELLIPSE_QUADRANT_ALL) {
         MidpointEllipseT<Extends, tPixel, tInt>
         (*this, image, cx,cy, a,b, q);
+    }
+    virtual void PlotCircle
+    (tImageInterface& image, tInt cx,tInt cy, tInt r,
+     eEllipseQuadrant q = e_ELLIPSE_QUADRANT_ALL) {
+        PlotEllipse(image, cx,cy, r,r, q);
     }
 };
 
@@ -413,6 +423,11 @@ public:
         MidpointEllipseT<Extends, tPixel, tInt>
         (*this, image, cx,cy, a,b, q);
         EllipseFinish(image);
+    }
+    virtual void PlotCircle
+    (tImageInterface& image, tInt cx,tInt cy, tInt r,
+     eEllipseQuadrant q = e_ELLIPSE_QUADRANT_ALL) {
+        PlotEllipse(image, cx,cy, r,r, q);
     }
 };
 

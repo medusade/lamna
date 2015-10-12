@@ -13,65 +13,55 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: object.hpp
+///   File: boxed.hpp
 ///
 /// Author: $author$
-///   Date: 10/1/2015
+///   Date: 10/8/2015
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_GRAPHIC_SURFACE_FL_OBJECT_HPP
-#define _LAMNA_GRAPHIC_SURFACE_FL_OBJECT_HPP
+#ifndef _LAMNA_GUI_GLIB_BOXED_HPP
+#define _LAMNA_GUI_GLIB_BOXED_HPP
 
-#include "lamna/graphic/surface/fl/image.hpp"
-#include "lamna/graphic/surface/object.hpp"
+#include "lamna/gui/glib/glib.hpp"
 
 namespace lamna {
-namespace graphic {
-namespace surface {
-namespace fl {
+namespace gui {
+namespace glib {
 
 ///////////////////////////////////////////////////////////////////////
-///  Class: objectt
+///  Class: boxed_implementst
+///////////////////////////////////////////////////////////////////////
+template <class TImplements = implement_base>
+class _EXPORT_CLASS boxed_implementst: virtual public TImplements {
+public:
+    typedef TImplements Implements;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+};
+typedef boxed_implementst<> boxed_implements;
+typedef base boxed_extends;
+///////////////////////////////////////////////////////////////////////
+///  Class: boxedt
 ///////////////////////////////////////////////////////////////////////
 template
-<class TImageInterface = image_interface,
- class TObject = surface::object,
- class TInt = int,
- class TSize = size_t,
- class TLength = ssize_t,
- class TOffset = ssize_t,
- class TExtends = TObject>
+<class TImplements = boxed_implements, class TExtends = boxed_extends>
 
-class _EXPORT_CLASS objectt: public TExtends {
+class _EXPORT_CLASS boxedt: virtual public TImplements, public TExtends {
 public:
+    typedef TImplements Implements;
     typedef TExtends Extends;
-    typedef TImageInterface tImageInterface;
-    typedef TObject tObject ;
-    typedef TInt tInt;
-    typedef TSize tSize;
-    typedef TLength tLength;
-    typedef TOffset tOffset;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    objectt(tImageInterface& surface_image)
-    : Extends(surface_image), surface_image_(surface_image) {
+    boxedt() {
     }
-    virtual ~objectt() {
+    virtual ~boxedt() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual tImageInterface& SurfaceImage() const {
-        return (tImageInterface&)surface_image_;
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-protected:
-    tImageInterface& surface_image_;
 };
-typedef objectt<> object;
+typedef boxedt<> boxed;
 
-} // namespace fl 
-} // namespace surface 
-} // namespace graphic 
+} // namespace glib 
+} // namespace gui 
 } // namespace lamna 
 
-#endif // _LAMNA_GRAPHIC_SURFACE_FL_OBJECT_HPP 
+#endif // _LAMNA_GUI_GLIB_BOXED_HPP 

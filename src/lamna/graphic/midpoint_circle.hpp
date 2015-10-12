@@ -222,25 +222,25 @@ public:
             if (1 > x) {
                 this->Plot(pixel, cx, cy-y);
             } else {
-                this->Fill(pixel, cx-x, cy-y, x+x-1, 1);
+                this->Fill(pixel, cx-x, cy-y, x+x+1, 1);
             }
 
             if (1 > y) {
                 this->Plot(pixel, cx, cy-x);
             } else {
-                this->Fill(pixel, cx-y, cy-x, y+y-1, 1);
+                this->Fill(pixel, cx-y, cy-x, y+y+1, 1);
             }
 
             if (1 > y) {
                 this->Plot(pixel, cx, cy+x);
             } else {
-                this->Fill(pixel, cx-y, cy+x, y+y-1, 1);
+                this->Fill(pixel, cx-y, cy+x, y+y+1, 1);
             }
 
             if (1 > x) {
                 this->Plot(pixel, cx, cy+y);
             } else {
-                this->Fill(pixel, cx-x, cy+y, x+x-1, 1);
+                this->Fill(pixel, cx-x, cy+y, x+x+1, 1);
             }
         }
     }

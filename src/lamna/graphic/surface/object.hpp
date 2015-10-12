@@ -34,6 +34,7 @@ namespace surface {
 template
 <class TImageObject = image_object,
  class TImageInterface = image_interface,
+ class TImageBaseInterface = image_base_interface,
  class TInt = int,
  class TSize = size_t,
  class TLength = ssize_t,
@@ -46,6 +47,7 @@ public:
 
     typedef TImageObject tImageObject;
     typedef TImageInterface tImageInterface;
+    typedef TImageBaseInterface tImageBaseInterface;
     typedef TInt tInt;
     typedef TSize tSize;
     typedef TLength tLength;
@@ -53,15 +55,18 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    objectt(tImageInterface& image)
-    : Extends(image), m_surfaceImage(image) {
+    objectt
+    (tImageInterface& surface_image,
+     tSize width = 0, tSize height = 0)
+    : Extends(surface_image, width, height),
+      surface_image_(surface_image) {
     }
     virtual ~objectt() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 protected:
-    tImageInterface& m_surfaceImage;
+    tImageInterface& surface_image_;
 };
 typedef objectt<> object;
 

@@ -13,65 +13,86 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: object.hpp
+///   File: filled_circle.hpp
 ///
 /// Author: $author$
-///   Date: 10/1/2015
+///   Date: 10/5/2015
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_GRAPHIC_SURFACE_FL_OBJECT_HPP
-#define _LAMNA_GRAPHIC_SURFACE_FL_OBJECT_HPP
+#ifndef _LAMNA_GRAPHIC_SURFACE_FILLED_CIRCLE_HPP
+#define _LAMNA_GRAPHIC_SURFACE_FILLED_CIRCLE_HPP
 
-#include "lamna/graphic/surface/fl/image.hpp"
 #include "lamna/graphic/surface/object.hpp"
 
 namespace lamna {
 namespace graphic {
 namespace surface {
-namespace fl {
 
 ///////////////////////////////////////////////////////////////////////
-///  Class: objectt
+///  Class: filled_circlet
 ///////////////////////////////////////////////////////////////////////
 template
-<class TImageInterface = image_interface,
- class TObject = surface::object,
+<class TObject = object,
+ class TImageInterface = image_interface,
  class TInt = int,
  class TSize = size_t,
  class TLength = ssize_t,
  class TOffset = ssize_t,
  class TExtends = TObject>
 
-class _EXPORT_CLASS objectt: public TExtends {
+class _EXPORT_CLASS filled_circlet: public TExtends {
 public:
     typedef TExtends Extends;
+
+    typedef TObject tObject;
     typedef TImageInterface tImageInterface;
-    typedef TObject tObject ;
     typedef TInt tInt;
     typedef TSize tSize;
     typedef TLength tLength;
     typedef TOffset tOffset;
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    objectt(tImageInterface& surface_image)
-    : Extends(surface_image), surface_image_(surface_image) {
+    filled_circlet
+    (tImageInterface& image, tObject& color, tSize r)
+    : Extends(image, r,r), circle_(image), color_(color), r_(r) {
     }
-    virtual ~objectt() {
+    virtual ~filled_circlet() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual tImageInterface& SurfaceImage() const {
-        return (tImageInterface&)surface_image_;
+    virtual eError Fill(tOffset x, tOffset y, tSize w, tSize h) {
+        eError error = e_ERROR_NONE;
+        if ((0 < w) && (0 < h) && (0 < r_)) {
+            circle_.PlotCircle(color_, x,y, r_, e_CIRCLE_QUADRANT_4);
+            circle_.PlotCircle(color_, x,y+h-1, r_, e_CIRCLE_QUADRANT_3);
+            if ((2 < w)) {
+                color_.Fill(this->surface_image_, x+1,y-r_+1, w-2,r_);
+                color_.Fill(this->surface_image_, x+1,y+h-1, w-2,r_);
+            }
+            if ((2 < h)) {
+                color_.Fill(this->surface_image_, x-r_+1,y, w+r_+r_-2,h-2);
+            }
+            circle_.PlotCircle(color_, x+w-1,y, r_, e_CIRCLE_QUADRANT_1);
+            circle_.PlotCircle(color_, x+w-1,y+h-1, r_, e_CIRCLE_QUADRANT_2);
+        }
+        return error;
+    }
+    virtual eError Plot(tOffset x, tOffset y) {
+        eError error = e_ERROR_NONE;
+        circle_.PlotCircle(color_, x,y, r_);
+        return error;
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 protected:
-    tImageInterface& surface_image_;
+    filled_midpoint_circle_image circle_;
+    tObject& color_;
+    tSize r_;
 };
-typedef objectt<> object;
+typedef filled_circlet<> filled_circle;
 
-} // namespace fl 
 } // namespace surface 
 } // namespace graphic 
 } // namespace lamna 
 
-#endif // _LAMNA_GRAPHIC_SURFACE_FL_OBJECT_HPP 
+#endif // _LAMNA_GRAPHIC_SURFACE_FILLED_CIRCLE_HPP 

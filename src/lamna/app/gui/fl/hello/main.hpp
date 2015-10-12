@@ -24,6 +24,7 @@
 #include "lamna/app/gui/hello/main.hpp"
 #include "lamna/gui/fl/main.hpp"
 #include "lamna/gui/fl/window.hpp"
+#include "lamna/graphic/surface/filled_circle.hpp"
 #include "lamna/graphic/surface/fl/color.hpp"
 #include "lamna/graphic/surface/fl/object.hpp"
 #include "lamna/graphic/surface/fl/image.hpp"
@@ -63,14 +64,15 @@ protected:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual void draw() {
-        int x = w()/2, y = h()/2;
+        int x = (w()/2), y = (h()/2), b = (border());
         fill_rectangle(0,0, w(),h(), color());
-        if ((2 <= x) && (2 <= y)) {
+        if ((borders()+2 < x) && (borders()+2 < y)) {
             graphic::surface::fl::context gc(*this);
             graphic::surface::fl::image im(gc);
             graphic::surface::fl::color px
             (im, fg_color_red_, fg_color_green_, fg_color_blue_);
-            im.SelectImage(&px);
+            graphic::surface::filled_circle ob(im, px, (b>5)?(b):(5));
+            im.SelectImage(&ob);
             paint(im, x,y, x,y);
         }
     }

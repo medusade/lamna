@@ -27,8 +27,8 @@ namespace lamna {
 namespace gui {
 namespace fl {
 
-typedef widget_events window_implements;
-typedef widgett<Fl_Window, widget_events> window_extends;
+typedef widget_implements window_implements;
+typedef widgett<Fl_Window, window_implements> window_extends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: windowt
 ///////////////////////////////////////////////////////////////////////
@@ -41,6 +41,8 @@ public:
     typedef TExtends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    windowt(int width, int height): Extends(width, height) {
+    }
     windowt() {
     }
     virtual ~windowt() {

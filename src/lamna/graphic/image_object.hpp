@@ -110,7 +110,7 @@ public:
     ///////////////////////////////////////////////////////////////////////
     image_object
     (image_interface& image,
-     tSize width=0, tSize height = 0,
+     tSize width = 0, tSize height = 0,
      image_interface* selectedImage = 0)
     : m_item(*this),
       m_image(image),

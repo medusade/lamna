@@ -47,6 +47,7 @@ public:
     typedef TExtends Extends;
 
     typedef TObject tObject;
+    typedef image_base_interface tImageBaseInterface;
     typedef TImageInterface tImageInterface;
     typedef TPixelInterface tPixelInterface;
     typedef TPixel tPixel;
@@ -58,9 +59,9 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     colort
-    (tImageInterface& surfaceImage,
+    (tImageInterface& surface_image,
      tSize r = 0, tSize g = 0, tSize b = 0, tSize width = 1, tSize height = 1)
-    : Extends(surfaceImage),
+    : Extends(surface_image),
       m_r(r), m_g(g), m_b(b),
       m_width(width), m_height(height),
       m_color(r,g,b) {
@@ -69,10 +70,28 @@ public:
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual eError Fill
+    (tImageBaseInterface& image, tOffset x,tOffset y, tSize w,tSize h) {
+        eError error = e_ERROR_NONE;
+        tImageBaseInterface& this_image = this->surface_image_;
+        if (!(&image != &this_image)) {
+            this->Fill(x,y, w,h);
+        }
+        return error;
+    }
+    virtual eError Plot
+    (tImageBaseInterface& image, tOffset x,tOffset y) {
+        eError error = e_ERROR_NONE;
+        tImageBaseInterface& this_image = this->surface_image_;
+        if (!(&image != &this_image)) {
+            this->Fill(x,y, 1,1);
+        }
+        return error;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     virtual eError Fill(tOffset x, tOffset y, tSize w, tSize h) {
         eError error = e_ERROR_NONE;
-        w = w+m_width-1; h = h+m_height-1;
-        LAMNA_LOG_MESSAGE_TRACE("surfaceImage.FillRectangle(Pixel(r = " << m_r << ", g = " << m_g << ", b = " << m_b << "), x = " << x << ",y = " << y << ", w = " << w << ",h = " << h << ")");
         return error;
     }
     virtual eError Plot(tOffset x, tOffset y) {

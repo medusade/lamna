@@ -85,7 +85,9 @@ public:
     typedef TExtends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    widgett(): Extends(0,0) {
+    widgett(int width, int height): Extends(width, height) {
+    }
+    widgett(): Extends(0, 0) {
     }
     virtual ~widgett() {
     }

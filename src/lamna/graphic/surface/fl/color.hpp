@@ -49,12 +49,15 @@ class _EXPORT_CLASS colort: virtual public TImplements, public TExtends {
 public:
     typedef TImplements Implements;
     typedef TExtends Extends;
+
+    typedef image_base_interface tImageBaseInterface;
     typedef TImageInterface tImageInterface;
     typedef TColor tColor;
     typedef TInt tInt;
     typedef TSize tSize;
     typedef TLength tLength;
     typedef TOffset tOffset;
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     colort
