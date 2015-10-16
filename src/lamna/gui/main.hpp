@@ -113,6 +113,39 @@ protected:
         return done_event_loop_;
     }
 
+public:
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual int __usage(int argc, char_t** argv, char_t** env) {
+        int err = Extends::usage(argc, argv, env);
+        return err;
+    }
+    virtual int __on_option
+    (int optval, const char_t* optarg,
+     const char_t* optname, int optind,
+     int argc, char_t**argv, char_t**env) {
+        int err = Extends::on_option
+        (optval, optarg, optname, optind, argc, argv, env);
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual const char_t* __option_usage
+    (const char_t*& optarg, const struct option* longopt) {
+        const char_t* chars = Extends::option_usage(optarg, longopt);
+        return chars;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual const char_t* __options(const struct option*& longopts) {
+        const char_t* chars = Extends::options(longopts);
+        return chars;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual const char_t* __arguments(const char_t**& args) {
+        const char_t* chars = Extends::arguments(args);
+        args = 0;
+        return chars;
+    }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 protected:
