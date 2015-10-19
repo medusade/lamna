@@ -23,17 +23,17 @@
 
 #include "lamna/gui/cocoa/iOptMain.hh"
 
-#define XOS_GUI_COCOA_IWINDOWMAIN_WINWOW_TITLE "iWindowMain"
-#define XOS_GUI_COCOA_IWINDOWMAIN_WINWOW_X 0
-#define XOS_GUI_COCOA_IWINDOWMAIN_WINWOW_Y 2048
-#define XOS_GUI_COCOA_IWINDOWMAIN_WINWOW_WIDTH 256
-#define XOS_GUI_COCOA_IWINDOWMAIN_WINWOW_HEIGHT 256
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_TITLE "iWindowMain"
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_X 0
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_Y 2048
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_WIDTH 256
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_HEIGHT 256
 
-#define XOS_GUI_COCOA_IWINDOWMAIN_VIEW_BG_COLOR whiteColor
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_VIEW_BG_COLOR whiteColor
 
-#define XOS_GUI_COCOA_IWINDOWMAIN_WINDOW_STYLE iDefaultDesktopWindowMask
-#define XOS_GUI_COCOA_IWINDOWMAIN_WINDOW_BACKING iDefaultDesktopWindowBacking
-#define XOS_GUI_COCOA_IWINDOWMAIN_WINDOW_DEFER NO
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_STYLE iDefaultDesktopWindowMask
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_BACKING iDefaultDesktopWindowBacking
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_DEFER NO
 
 namespace lamna {
 namespace gui {
@@ -58,8 +58,10 @@ namespace cocoa {
     iView* mainView_;
     iApplication* app_;
     }
-    - (iMainWindow*)initWithRect:(iRect)contentRect;
+    - (iMainWindow*)initWithRect:(iRect)contentRect argc:(int)argc argv:(char**)argv env:(char**)env;
+    - (iString*)setMainTitle:(int)argc argv:(char**)argv env:(char**)env;
     - (iView*)createMainView:(int)argc argv:(char**)argv env:(char**)env;
+    - (const char*)mainTitleUTF8String:(int)argc argv:(char**)argv env:(char**)env;
     - (iApplication*)setApplication:(iApplication*)app;
     - (iApplication*)application;
     - (void)windowWillClose:(iNotification*)notification;
@@ -75,6 +77,7 @@ namespace cocoa {
     }
     - (id)init:(lamna::gui::main*)main;
     - (iMainWindow*)createMainWindow:(iRect)contentRect argc:(int)argc argv:(char**)argv env:(char**)env;
+    - (iRect)contentRect:(int)argc argv:(char**)argv env:(char**)env;
     - (int)runApplication:(iApplication*)app argc:(int)argc argv:(char**)argv env:(char**)env;
     - (int)run:(int)argc argv:(char**)argv env:(char**)env;
 @end

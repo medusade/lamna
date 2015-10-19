@@ -38,15 +38,17 @@ namespace osx {
 
 #define iMakeRect NSMakeRect
 #define iMakeSize NSMakeSize
-#define iMakeOrigin NSMakeOrigin
+#define iMakePoint NSMakePoint
 #define iApp NSApp
 
 typedef NSArray iArray;
+typedef CGFloat iAxis;
 typedef NSRect iRect;
 typedef NSSize iSize;
 typedef NSPoint iPoint;
 typedef NSString iString;
 typedef NSObject iObject;
+typedef NSColor iColor;
 typedef NSView iView;
 typedef NSWindow iWindow;
 @protocol iWindowDelegate <NSWindowDelegate>
@@ -130,6 +132,25 @@ enum {
 
 enum {
     iDefaultDesktopWindowBacking = iBackingStoreBuffered
+};
+
+#define iRectFill NSRectFill
+#define iRectFillUsingOperation NSRectFillUsingOperation
+typedef NSCompositingOperation iCompositingOperation;
+enum {
+    iCompositeClear = NSCompositeClear, // (R = 0)
+    iCompositeCopy = NSCompositeCopy, // (R = S)
+    iCompositeSourceOver = NSCompositeSourceOver, // (R = S + D*(1 - Sa))
+    iCompositeSourceIn = NSCompositeSourceIn, // (R = S*Da)
+    iCompositeSourceOut = NSCompositeSourceOut, // (R = S*(1 - Da))
+    iCompositeSourceAtop = NSCompositeSourceAtop, // (R = S*Da + D*(1 - Sa))
+    iCompositeDestinationOver = NSCompositeDestinationOver, // (R = S*(1 - Da) + D)
+    iCompositeDestinationIn = NSCompositeDestinationIn, // (R = D*Sa)
+    iCompositeDestinationOut = NSCompositeDestinationOut, // (R = D*(1 - Sa))
+    iCompositeDestinationAtop = NSCompositeDestinationAtop, // (R = S*(1 - Da) + D*Sa)
+    iCompositeXOR = NSCompositeXOR, // (R = S*(1 - Da) + D*(1 - Sa))
+    iCompositePlusDarker = NSCompositePlusDarker, // (R = MAX(0, (1 - D) + (1 - S)))
+    iCompositePlusLighter = NSCompositePlusLighter, // (R = MIN(1, S + D))
 };
 
 #endif // _LAMNA_GUI_COCOA_APPLE_OSX_COCOA_HH

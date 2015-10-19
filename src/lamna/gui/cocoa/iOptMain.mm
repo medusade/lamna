@@ -33,7 +33,7 @@ namespace cocoa {
 ///////////////////////////////////////////////////////////////////////
 @implementation iOptMain
     - (id)init:(lamna::gui::main*)main {
-        self = [super init];
+        [super init];
         _main = main;
         return self;
     }

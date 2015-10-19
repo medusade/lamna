@@ -22,22 +22,86 @@
 #define _LAMNA_APP_GUI_COCOA_IHELLOMAIN_HH
 
 #include "lamna/gui/cocoa/iWindowMain.hh"
+#include "lamna/app/gui/hello/main.hpp"
+#include "lamna/graphic/surface/cocoa/pixel.hh"
+
+#define LAMNA_APP_GUI_COCOA_IHELLO_WINDOW_TITLE "ilhello"
 
 namespace lamna {
 namespace app {
 namespace gui {
+namespace hello {
 namespace cocoa {
 
-} // namespace cocoa 
+class _EXPORT_CLASS surface;
+
+} // namespace cocoa
+} // namespace hello
 } // namespace gui 
 } // namespace app 
 } // namespace lamna 
 
 ///////////////////////////////////////////////////////////////////////
+/// Interface: iHelloMainView
+///////////////////////////////////////////////////////////////////////
+@interface iHelloMainView: iMainView {
+    lamna::app::gui::hello::cocoa::surface* surface_;
+    }
+    - (id)init:(lamna::app::gui::hello::cocoa::surface*)surface;
+    - (void)drawRect:(iRect)rect;
+@end
+
+///////////////////////////////////////////////////////////////////////
+/// Interface: iHelloMainWindow
+///////////////////////////////////////////////////////////////////////
+@interface iHelloMainWindow: iMainWindow {
+    lamna::app::gui::hello::cocoa::surface* surface_;
+    }
+    - (iMainWindow*)initWithRect:(iRect)contentRect
+                    argc:(int)argc argv:(char**)argv env:(char**)env
+                    surface:(lamna::app::gui::hello::cocoa::surface*)surface;
+    - (iView*)createMainView:(int)argc argv:(char**)argv env:(char**)env;
+@end
+
+///////////////////////////////////////////////////////////////////////
 /// Interface: iHelloMain
 ///////////////////////////////////////////////////////////////////////
 @interface iHelloMain: iWindowMain {
+    lamna::app::gui::hello::cocoa::surface* surface_;
     }
+    - (id)init:(lamna::gui::main*)main;
+    - (iMainWindow*)createMainWindow:(iRect)contentRect
+                    argc:(int)argc argv:(char**)argv env:(char**)env;
+    - (iRect)contentRect:(int)argc argv:(char**)argv env:(char**)env;
 @end
+
+namespace lamna {
+namespace app {
+namespace gui {
+namespace hello {
+namespace cocoa {
+
+typedef hello::surfacet<base> surface_extends;
+///////////////////////////////////////////////////////////////////////
+///  Class: surface
+///////////////////////////////////////////////////////////////////////
+class _EXPORT_CLASS surface: public surface_extends {
+public:
+    typedef surface_extends Extends;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    surface
+    (int fg_color_red, int fg_color_green, int fg_color_blue)
+    : Extends(fg_color_red, fg_color_green, fg_color_blue) {
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+};
+
+} // namespace cocoa
+} // namespace hello
+} // namespace gui
+} // namespace app
+} // namespace lamna
 
 #endif // _LAMNA_APP_GUI_COCOA_IHELLOMAIN_HH

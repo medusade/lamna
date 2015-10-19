@@ -19,6 +19,7 @@
 ///   Date: 10/16/2015
 ///////////////////////////////////////////////////////////////////////
 #include "lamna/app/gui/cocoa/iHelloMain.hh"
+#include "lamna/graphic/surface/cocoa/color.hh"
 
 namespace lamna {
 namespace app {
@@ -31,9 +32,78 @@ namespace cocoa {
 } // namespace lamna 
 
 ///////////////////////////////////////////////////////////////////////
+/// Implentation: iHelloMainView
+///////////////////////////////////////////////////////////////////////
+@implementation iHelloMainView
+    - (id)init:(lamna::app::gui::hello::cocoa::surface*)surface {
+        [super init];
+        surface_ = surface;
+        return self;
+    }
+    - (void)drawRect:(iRect)rect {
+        iRect bounds = [self bounds];
+        int x = (bounds.size.width/2), y = (bounds.size.height/2);
+        [super drawRect:rect];
+        if (((surface_->border()+2) <= (x)) && ((surface_->border()+2) <= (y))) {
+            lamna::graphic::surface::cocoa::pixel pixel
+            (surface_->fg_color_red(), surface_->fg_color_green(), surface_->fg_color_blue());
+            lamna::graphic::surface::cocoa::context gc(self);
+            lamna::graphic::surface::cocoa::image im(gc);
+            lamna::graphic::surface::cocoa::color px
+            (im, surface_->fg_color_red(), surface_->fg_color_green(), surface_->fg_color_blue());
+            im.SelectImage(&px);
+            surface_->paint(im, x,y, x,y);
+        }
+    }
+@end
+
+//////////////////////////////////////////////////////////////////////
+/// Implentation: iHelloMainWindow
+///////////////////////////////////////////////////////////////////////
+@implementation iHelloMainWindow
+    - (iHelloMainWindow*)initWithRect:(iRect)contentRect
+                         argc:(int)argc argv:(char**)argv env:(char**)env
+                         surface:(lamna::app::gui::hello::cocoa::surface*)surface {
+        [super initWithRect:contentRect argc:argc argv:argv env:env];
+        surface_ = surface;
+        return self;
+    }
+    - (iView*)createMainView:(int)argc argv:(char**)argv env:(char**)env {
+        mainView_ = [[iHelloMainView alloc] init:surface_];
+        return mainView_;
+    }
+    - (const char*)mainTitleUTF8String:(int)argc argv:(char**)argv env:(char**)env {
+        return LAMNA_APP_GUI_COCOA_IHELLO_WINDOW_TITLE;
+    }
+@end
+
+///////////////////////////////////////////////////////////////////////
 /// Implentation: iHelloMain
 ///////////////////////////////////////////////////////////////////////
 @implementation iHelloMain
+    - (id)init:(lamna::gui::main*)main {
+        [super init:main];
+        surface_ = new lamna::app::gui::hello::cocoa::surface
+        (LAMNA_APP_GUI_HELLO_FG_COLOR_RED,
+         LAMNA_APP_GUI_HELLO_FG_COLOR_GREEN,
+         LAMNA_APP_GUI_HELLO_FG_COLOR_BLUE);
+        return self;
+    }
+    - (iMainWindow*)createMainWindow:(iRect)contentRect
+                    argc:(int)argc argv:(char**)argv env:(char**)env {
+        iMainWindow* mainWindow = [[iHelloMainWindow alloc]
+                                   initWithRect:contentRect
+                                   argc:argc argv:argv env:env surface:surface_];
+        return mainWindow;
+    }
+    - (iRect)contentRect:(int)argc argv:(char**)argv env:(char**)env {
+        int x = LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_X,
+            y = LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_Y,
+            width = LAMNA_APP_GUI_HELLO_WIDTH,
+            height = LAMNA_APP_GUI_HELLO_HEIGHT;
+        iRect contentRect = iMakeRect(x,y, width, height);
+        return contentRect;
+    }
 @end
 
 ///////////////////////////////////////////////////////////////////////

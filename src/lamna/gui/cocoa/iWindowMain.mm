@@ -33,8 +33,8 @@ namespace cocoa {
 ///////////////////////////////////////////////////////////////////////
 @implementation iMainView
     - (void)drawRect:(iRect)rect {
-        [[NSColor XOS_GUI_COCOA_IWINDOWMAIN_VIEW_BG_COLOR] set];
-        NSRectFill([self bounds]);
+        [[iColor LAMNA_GUI_COCOA_IWINDOWMAIN_VIEW_BG_COLOR] set];
+        iRectFill([self bounds]);
     }
 @end
 
@@ -42,20 +42,27 @@ namespace cocoa {
 /// Implentation: iMainWindow
 ///////////////////////////////////////////////////////////////////////
 @implementation iMainWindow
-    - (iMainWindow*)initWithRect:(iRect)contentRect {
-        iWindowStyleMask style = XOS_GUI_COCOA_IWINDOWMAIN_WINDOW_STYLE;
-        iBackingStoreType backing = XOS_GUI_COCOA_IWINDOWMAIN_WINDOW_BACKING;
-        BOOL defer = XOS_GUI_COCOA_IWINDOWMAIN_WINDOW_DEFER;
+    - (iMainWindow*)initWithRect:(iRect)contentRect argc:(int)argc argv:(char**)argv env:(char**)env {
+        iWindowStyleMask style = LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_STYLE;
+        iBackingStoreType backing = LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_BACKING;
+        BOOL defer = LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_DEFER;
         mainView_ = 0;
         app_ = 0;
-        self = [super initWithContentRect:contentRect styleMask:style backing:backing defer:defer];
-        [self setTitle:[iString stringWithUTF8String:XOS_GUI_COCOA_IWINDOWMAIN_WINWOW_TITLE]];
+        [super initWithContentRect:contentRect styleMask:style backing:backing defer:defer];
         [self setDelegate:self];
         return self;
+    }
+    - (iString*)setMainTitle:(int)argc argv:(char**)argv env:(char**)env {
+        iString* mainTitle = [iString stringWithUTF8String:[self mainTitleUTF8String:argc argv:argv env:env]];
+        [self setTitle:mainTitle];
+        return mainTitle;
     }
     - (iView*)createMainView:(int)argc argv:(char**)argv env:(char**)env {
         mainView_ = [[iMainView alloc] init];
         return mainView_;
+    }
+    - (const char*)mainTitleUTF8String:(int)argc argv:(char**)argv env:(char**)env {
+        return LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_TITLE;
     }
     - (iApplication*)setApplication:(iApplication*)app {
         app_ = app;
@@ -76,15 +83,23 @@ namespace cocoa {
 ///////////////////////////////////////////////////////////////////////
 @implementation iWindowMain
     - (id)init:(lamna::gui::main*)main {
-        self = [super init:main];
+        [super init:main];
         mainWindow_ = 0;
         app_ = 0;
         pool_ = 0;
         return self;
     }
     - (iMainWindow*)createMainWindow:(iRect)contentRect argc:(int)argc argv:(char**)argv env:(char**)env {
-        iMainWindow* mainWindow = [[iMainWindow alloc] initWithRect:contentRect];
+        iMainWindow* mainWindow = [[iMainWindow alloc] initWithRect:contentRect argc:argc argv:argv env:env];
         return mainWindow;
+    }
+    - (iRect)contentRect:(int)argc argv:(char**)argv env:(char**)env {
+        int x = LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_X,
+            y = LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_Y,
+            width = LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_WIDTH,
+            height = LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_HEIGHT;
+        iRect contentRect = iMakeRect(x,y, width,height);
+        return contentRect;
     }
     - (int)runApplication:(iApplication*)app argc:(int)argc argv:(char**)argv env:(char**)env {
         int err = 0;
@@ -92,13 +107,14 @@ namespace cocoa {
         return err;
     }
     - (int)run:(int)argc argv:(char**)argv env:(char**)env {
-        iRect contentRect = iMakeRect(XOS_GUI_COCOA_IWINDOWMAIN_WINWOW_X,XOS_GUI_COCOA_IWINDOWMAIN_WINWOW_Y, XOS_GUI_COCOA_IWINDOWMAIN_WINWOW_WIDTH, XOS_GUI_COCOA_IWINDOWMAIN_WINWOW_HEIGHT);
+        iRect contentRect = [self contentRect:argc  argv:argv env:env];
         iView* mainView;
         int err = 0;
         LAMNA_LOG_TRACE("in...");
         if ((pool_ = [[iAutoreleasePool alloc] init])) {
             if ((app_ = [iApplication sharedApplication])) {
                 if ((mainWindow_ = [self createMainWindow:contentRect argc:argc argv:argv env:env])) {
+                    [mainWindow_ setMainTitle:argc argv:argv env:env];
                     if ((mainView = [mainWindow_ createMainView:argc argv:argv env:env])) {
                         [mainWindow_ setApplication:app_];
                         [mainWindow_ setContentView:mainView];
