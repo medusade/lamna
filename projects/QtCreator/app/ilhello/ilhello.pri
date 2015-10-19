@@ -27,6 +27,21 @@ $${lamna_DEFINES} \
 
 ########################################################################
 ilhello_OBJECTIVE_HEADERS += \
+$${LAMNA_SRC}/lamna/graphic/surface/cocoa/color.hh \
+$${LAMNA_SRC}/lamna/graphic/surface/cocoa/object.hh \
+$${LAMNA_SRC}/lamna/graphic/surface/cocoa/image.hh \
+$${LAMNA_SRC}/lamna/graphic/surface/cocoa/context.hh \
+$${LAMNA_SRC}/lamna/graphic/surface/cocoa/pixel.hh \
+
+ilhello_OBJECTIVE_SOURCES += \
+$${LAMNA_SRC}/lamna/graphic/surface/cocoa/color.mm \
+$${LAMNA_SRC}/lamna/graphic/surface/cocoa/object.mm \
+$${LAMNA_SRC}/lamna/graphic/surface/cocoa/image.mm \
+$${LAMNA_SRC}/lamna/graphic/surface/cocoa/context.mm \
+$${LAMNA_SRC}/lamna/graphic/surface/cocoa/pixel.mm \
+
+########################################################################
+ilhello_OBJECTIVE_HEADERS += \
 $${LAMNA_SRC}/lamna/gui/cocoa/iWindowMain.hh \
 $${LAMNA_SRC}/lamna/gui/cocoa/iOptMain.hh \
 $${LAMNA_SRC}/lamna/gui/cocoa/iMain.hh \
