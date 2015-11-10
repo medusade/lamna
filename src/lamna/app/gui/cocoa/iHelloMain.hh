@@ -49,6 +49,7 @@ class _EXPORT_CLASS surface;
     }
     - (id)init:(lamna::app::gui::hello::cocoa::surface*)surface;
     - (void)drawRect:(iRect)rect;
+    - (void)mouseUp:(iEvent*)theEvent;
 @end
 
 ///////////////////////////////////////////////////////////////////////
@@ -92,10 +93,29 @@ public:
     ///////////////////////////////////////////////////////////////////////
     surface
     (int fg_color_red, int fg_color_green, int fg_color_blue)
-    : Extends(fg_color_red, fg_color_green, fg_color_blue) {
+    : Extends(fg_color_red, fg_color_green, fg_color_blue),
+      view_(0) {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual iView* set_view(iView* to) {
+        view_ = to;
+        return view_;
+    }
+    virtual iView* view() const {
+        return view_;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual void invalidate() {
+        if ((view_)) {
+            [view_ setNeedsDisplayInRect:[view_ bounds]];
+        }
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+protected:
+    iView* view_;
 };
 
 } // namespace cocoa

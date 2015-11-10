@@ -128,6 +128,13 @@ public:
         (optval, optarg, optname, optind, argc, argv, env);
         return err;
     }
+    virtual int __on_argument
+    (const char_t* arg, int argind,
+     int argc, char_t**argv, char_t**env) {
+        int err = Extends::on_argument
+        (arg, argind, argc, argv, env);
+        return err;
+    }
     ///////////////////////////////////////////////////////////////////////
     virtual const char_t* __option_usage
     (const char_t*& optarg, const struct option* longopt) {

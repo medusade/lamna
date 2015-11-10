@@ -92,6 +92,20 @@ protected:
         return err;
     }
     ///////////////////////////////////////////////////////////////////////
+    virtual int on_argument
+    (const char_t* arg, int argind,
+     int argc, char_t**argv, char_t**env) {
+        int err = 1;
+        id<iOptMain> main = 0;
+        if ((main = main_)) {
+            err = [main onArgument:arg argind:argind argc:argc argv:argv env:env];
+        } else {
+            err = __on_argument
+            (arg, argind, argc, argv, env);
+        }
+        return err;
+    }
+    ///////////////////////////////////////////////////////////////////////
     virtual const char_t* option_usage
     (const char_t*& optarg, const struct option* longopt) {
         const char_t* chars = 0;
@@ -132,11 +146,12 @@ protected:
         id<iOptMain> main = 0;
         LAMNA_LOG_MESSAGE_DEBUG("main = [iMain create]...");
         if ((main = [iMain create:this])) {
+            main_ = main;
             if ((err = Extends::before_main(argc, argv, env))) {
                 LAMNA_LOG_MESSAGE_DEBUG("[main destroy]...");
                 [main destroy];
+                main_ = 0;
             } else {
-                main_ = main;
             }
         } else {
             LAMNA_LOG_ERROR("failed on [iMain create]");

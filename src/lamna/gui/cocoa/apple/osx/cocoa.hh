@@ -49,6 +49,16 @@ typedef NSPoint iPoint;
 typedef NSString iString;
 typedef NSObject iObject;
 typedef NSColor iColor;
+typedef NSEvent iEvent;
+typedef NSEventType iEventType;
+enum {
+    iLeftMouseDown = NSLeftMouseDown,
+    iLeftMouseUp = NSLeftMouseUp,
+    iLeftMouseDragged = NSLeftMouseDragged,
+    iRightMouseDown = NSRightMouseDown,
+    iRightMouseUp = NSRightMouseUp,
+    iRightMouseDragged = NSRightMouseDragged,
+};
 typedef NSView iView;
 typedef NSWindow iWindow;
 @protocol iWindowDelegate <NSWindowDelegate>
@@ -61,9 +71,30 @@ typedef NSBackingStoreType iBackingStoreType;
 typedef NSNotification iNotification;
 typedef NSTabView iTabView;
 typedef NSOpenGLView iOpenGLView;
+
 typedef NSOpenGLPixelFormat iOpenGLPixelFormat;
 typedef NSOpenGLPixelFormatAttribute iOpenGLPixelFormatAttribute;
 typedef NSOpenGLContext iOpenGLContext;
+typedef NSGraphicsContext iGraphicsContext;
+typedef CGFloat iCGFloat;
+typedef CGContextRef iCGContextRef;
+typedef CGColorSpaceRef iCGColorSpaceRef;
+typedef CGImageRef iCGImageRef;
+typedef CGDataProviderRef iCGDataProviderRef;
+typedef CGInterpolationQuality  iCGInterpolationQuality;
+#define iCGColorSpaceCreateDeviceRGB CGColorSpaceCreateDeviceRGB
+#define iCGColorSpaceRelease CGColorSpaceRelease
+#define iCGImageRelease CGImageRelease
+#define iCGDataProviderRelease CGDataProviderRelease
+#define iCGDataProviderCreateWithData CGDataProviderCreateWithData
+#define iCGImageCreate CGImageCreate
+#define iCGContextSaveGState CGContextSaveGState
+#define iCGContextRestoreGState CGContextRestoreGState
+#define iCGContextSetShouldAntialias CGContextSetShouldAntialias
+#define iCGContextSetInterpolationQuality CGContextSetInterpolationQuality
+#define iCGContextTranslateCTM CGContextTranslateCTM
+#define iCGContextScaleCTM CGContextScaleCTM
+#define iCGContextDrawImage CGContextDrawImage
 
 typedef NSBox iBox;
 typedef NSMenu iMenu;

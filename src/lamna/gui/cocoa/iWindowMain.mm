@@ -62,7 +62,7 @@ namespace cocoa {
         return mainView_;
     }
     - (const char*)mainTitleUTF8String:(int)argc argv:(char**)argv env:(char**)env {
-        return LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_TITLE;
+        return LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_TITLE;
     }
     - (iApplication*)setApplication:(iApplication*)app {
         app_ = app;
@@ -94,16 +94,20 @@ namespace cocoa {
         return mainWindow;
     }
     - (iRect)contentRect:(int)argc argv:(char**)argv env:(char**)env {
-        int x = LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_X,
-            y = LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_Y,
-            width = LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_WIDTH,
-            height = LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_HEIGHT;
+        int x = LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_X,
+            y = LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_Y,
+            width = LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_WIDTH,
+            height = LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_HEIGHT;
         iRect contentRect = iMakeRect(x,y, width,height);
         return contentRect;
     }
     - (int)runApplication:(iApplication*)app argc:(int)argc argv:(char**)argv env:(char**)env {
         int err = 0;
         [app run];
+        return err;
+    }
+    - (int)beforeRunApplication:(iApplication*)app argc:(int)argc argv:(char**)argv env:(char**)env {
+        int err = 0;
         return err;
     }
     - (int)run:(int)argc argv:(char**)argv env:(char**)env {
@@ -119,7 +123,9 @@ namespace cocoa {
                         [mainWindow_ setApplication:app_];
                         [mainWindow_ setContentView:mainView];
                         [mainWindow_ makeKeyAndOrderFront: nil];
-                        err = [self runApplication:app_ argc:argc argv:argv env:env];
+                        if (!(err = [self beforeRunApplication:app_ argc:argc argv:argv env:env])) {
+                            err = [self runApplication:app_ argc:argc argv:argv env:env];
+                        }
                     } else {
                         LAMNA_LOG_ERROR("failed on [mainWindow_ createMainView:...]");
                         [mainWindow_ release];

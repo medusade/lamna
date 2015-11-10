@@ -37,6 +37,7 @@ namespace cocoa {
 @protocol iOpt
     - (int)usage:(int)argc argv:(char**)argv env:(char**)env;
     - (int)onOption:(int)optval optarg:(const char*)optarg optname:(const char*)optname optind:(int)optind argc:(int)argc argv:(char**)argv env:(char**)env;
+    - (int)onArgument:(const char*)arg argind:(int)argind argc:(int)argc argv:(char**)argv env:(char**)env;
     - (const char*)optionUsage:(const char*&)optarg longopt:(const struct option*)longopt;
     - (const char*)options:(const struct option*&)longopts;
     - (const char*)arguments:(const char**&)args;
@@ -59,6 +60,7 @@ namespace cocoa {
     ///////////////////////////////////////////////////////////////////////
     - (int)usage:(int)argc argv:(char**)argv env:(char**)env;
     - (int)onOption:(int)optval optarg:(const char*)optarg optname:(const char*)optname optind:(int)optind argc:(int)argc argv:(char**)argv env:(char**)env;
+    - (int)onArgument:(const char*)arg argind:(int)argind argc:(int)argc argv:(char**)argv env:(char**)env;
     - (const char*)optionUsage:(const char*&)optarg longopt:(const struct option*)longopt;
     - (const char*)options:(const struct option*&)longopts;
     - (const char*)arguments:(const char**&)args;

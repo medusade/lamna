@@ -51,6 +51,17 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual bool set_default_size(gint width, gint height) {
+        widget_attached_t detached = 0;
+        if ((detached = this->attached_to())) {
+            gtk_window_set_default_size(GTK_WINDOW(detached), width,height);
+            return true;
+        }
+        return false;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     virtual bool create(GtkApplication* application) {
         widget_attached_t detached = 0;
         if ((detached = create_attached(application))) {

@@ -98,6 +98,8 @@ public:
     virtual eError FillRectangle
     (tOffset x, tOffset y, tSize width, tSize height, const tPixelInterface& color) {
         eError error = e_ERROR_NONE;
+        iRect rect = [view_ bounds];
+        y = ((int)rect.size.height)-y;
         [((iColor*)color) set];
         iRectFill(iMakeRect(x,y, width,height));
         return error;

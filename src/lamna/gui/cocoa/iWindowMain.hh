@@ -23,11 +23,11 @@
 
 #include "lamna/gui/cocoa/iOptMain.hh"
 
-#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_TITLE "iWindowMain"
-#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_X 0
-#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_Y 2048
-#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_WIDTH 256
-#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_HEIGHT 256
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_TITLE "iWindowMain"
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_X 0
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_Y 2048
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_WIDTH 256
+#define LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_HEIGHT 256
 
 #define LAMNA_GUI_COCOA_IWINDOWMAIN_VIEW_BG_COLOR whiteColor
 
@@ -79,6 +79,7 @@ namespace cocoa {
     - (iMainWindow*)createMainWindow:(iRect)contentRect argc:(int)argc argv:(char**)argv env:(char**)env;
     - (iRect)contentRect:(int)argc argv:(char**)argv env:(char**)env;
     - (int)runApplication:(iApplication*)app argc:(int)argc argv:(char**)argv env:(char**)env;
+    - (int)beforeRunApplication:(iApplication*)app argc:(int)argc argv:(char**)argv env:(char**)env;
     - (int)run:(int)argc argv:(char**)argv env:(char**)env;
 @end
 

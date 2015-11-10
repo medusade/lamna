@@ -55,6 +55,20 @@ namespace cocoa {
             surface_->paint(im, x,y, x,y);
         }
     }
+    - (void)mouseUp:(iEvent*)theEvent {
+        iEventType type = [theEvent type];
+        switch(type) {
+        case iLeftMouseUp: {
+            iPoint point = [theEvent locationInWindow];
+            int x = point.x, y = point.y;
+            lamna::gui::mouse::position p(x,y);
+            lamna::gui::mouse::button b(lamna::gui::mouse::button_left);
+            lamna::gui::mouse::event e(lamna::gui::mouse::event_button_release, b, p);
+            surface_->on_mouse_release_event(e);
+            LAMNA_LOG_MESSAGE_DEBUG("mouseUp:(iEvent*)theEvent...");
+            break; }
+        }
+    }
 @end
 
 //////////////////////////////////////////////////////////////////////
@@ -69,7 +83,9 @@ namespace cocoa {
         return self;
     }
     - (iView*)createMainView:(int)argc argv:(char**)argv env:(char**)env {
-        mainView_ = [[iHelloMainView alloc] init:surface_];
+        if ((mainView_ = [[iHelloMainView alloc] init:surface_])) {
+            surface_->set_view(mainView_);
+        }
         return mainView_;
     }
     - (const char*)mainTitleUTF8String:(int)argc argv:(char**)argv env:(char**)env {
@@ -97,8 +113,8 @@ namespace cocoa {
         return mainWindow;
     }
     - (iRect)contentRect:(int)argc argv:(char**)argv env:(char**)env {
-        int x = LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_X,
-            y = LAMNA_GUI_COCOA_IWINDOWMAIN_WINWOW_Y,
+        int x = LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_X,
+            y = LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_Y,
             width = LAMNA_APP_GUI_HELLO_WIDTH,
             height = LAMNA_APP_GUI_HELLO_HEIGHT;
         iRect contentRect = iMakeRect(x,y, width, height);

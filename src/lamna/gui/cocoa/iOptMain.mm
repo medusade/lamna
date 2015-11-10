@@ -53,6 +53,15 @@ namespace cocoa {
         }
         return err;
     }
+    - (int)onArgument:(const char*)arg argind:(int)argind argc:(int)argc argv:(char**)argv env:(char**)env {
+        int err = 0;
+        switch(argind) {
+        default:
+            err = _main->__on_argument(arg, argind, argc, argv, env);
+            break;
+        }
+        return err;
+    }
     - (const char*)optionUsage:(const char*&)optarg longopt:(const struct option*)longopt {
         const char* chars = "";
         switch(longopt->val) {
