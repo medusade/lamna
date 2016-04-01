@@ -27,6 +27,40 @@ LAMNA_LIB = ${LAMNA_BLD}/lib
 LAMNA_BIN = ${LAMNA_BLD}/bin
 
 ########################################################################
+# fl
+fl_USRINCLUDES += \
+${build_fl_USRINCLUDES} \
+
+fl_USRDEFINES += \
+${build_fl_USRDEFINES} \
+
+fl_USRCXXFLAGS += \
+${build_fl_USRCXXFLAGS} \
+
+fl_USRLIBDIRS += \
+${build_fl_USRLIBDIRS} \
+
+fl_LIBS += \
+${build_fl_LIBS} \
+
+########################################################################
+# wx
+wx_USRINCLUDES += \
+${build_wx_USRINCLUDES} \
+
+wx_USRDEFINES += \
+${build_wx_USRDEFINES} \
+
+wx_USRCXXFLAGS += \
+${build_wx_USRCXXFLAGS} \
+
+wx_USRLIBDIRS += \
+${build_wx_USRLIBDIRS} \
+
+wx_LIBS += \
+${build_wx_LIBS} \
+
+########################################################################
 # xos
 XOS_PKG = ${LAMNA_PKG}/../nadir
 XOS_SRC = ${XOS_PKG}/src
@@ -43,7 +77,7 @@ lamna_USRINCLUDES += \
 -I${XOS_SRC} \
 
 lamna_USRCXXFLAGS += \
--std=c++0x
+-std=c++0x \
 
 lamna_USRLIBDIRS += \
 -L${XOS_LIB} \
