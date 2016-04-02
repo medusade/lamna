@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2015 $organization$
+/// Copyright (c) 1988-2016 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,39 +13,21 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: base.hpp
+///   File: pixel.cpp
 ///
 /// Author: $author$
-///   Date: 5/25/2015
+///   Date: 4/1/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_BASE_BASE_HPP
-#define _LAMNA_BASE_BASE_HPP
-
-#include "xos/base/base.hpp"
-#include "xos/base/array.hpp"
-#include "xos/base/string.hpp"
-#include "xos/base/date.hpp"
-#include "xos/base/types.hpp"
-#include "xos/base/opened.hpp"
-#include "xos/base/opener.hpp"
-#include "xos/base/created.hpp"
-#include "xos/base/creator.hpp"
-#include "xos/base/attached.hpp"
-#include "xos/base/attacher.hpp"
-#include "xos/base/wrapped.hpp"
+#include "lamna/graphic/image/pixel.hpp"
 
 namespace lamna {
+namespace graphic {
+namespace image {
 
-typedef xos::base::implement_base implement_base;
-typedef xos::base::base base;
+///////////////////////////////////////////////////////////////////////
+///  Class: pixelt
+///////////////////////////////////////////////////////////////////////
 
-typedef xos::base::string string;
-typedef xos::base::tstring tstring;
-typedef xos::base::wstring wstring;
-
-typedef xos::base::byte_array byte_array;
-typedef xos::base::word_array word_array;
-
+} // namespace image 
+} // namespace graphic 
 } // namespace lamna 
-
-#endif // _LAMNA_BASE_BASE_HPP 

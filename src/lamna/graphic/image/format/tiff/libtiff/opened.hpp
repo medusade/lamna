@@ -109,13 +109,14 @@ public:
         return detached;
     }
     virtual bool close_detached(attached_t detached)  const {
-        bool success = false;
+        bool success = true;
         if ((detached)) {
             LAMNA_LOG_MESSAGE_DEBUG("TIFFClose(detached)...");
             TIFFClose(detached);
             LAMNA_LOG_MESSAGE_DEBUG("...TIFFClose(detached)");
         } else {
             LAMNA_LOG_ERROR("...unexpected TIFFClose(detached = 0)");
+            success = false;
         }
         return success;
     }

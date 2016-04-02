@@ -22,6 +22,7 @@
 #define _LAMNA_GRAPHIC_IMAGE_FORMAT_TIFF_LIBTIFF_READER_EVENTS_HPP
 
 #include "lamna/graphic/image/format/tiff/libtiff/libtiff.hpp"
+#include "lamna/graphic/image/pixel.hpp"
 
 namespace lamna {
 namespace graphic {
@@ -42,13 +43,35 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual bool on_TIFFPixel
+    (lamna::graphic::image::pixel& pixel,
+     byte_t* pixelByte, size_t pixelBytes, size_t imageRow, size_t imageCol,
+     size_t imageLength, size_t imageWidth, size_t rowsPerStrip,
+     size_t samplesPerPixel, size_t bitsPerSample,
+     uint16_t planarConfiguration, uint16_t photometricInterpretation) {
+        bool success = true;
+        reader_eventst* forward_to = tiff_reader_events_forward_to();
+        LAMNA_LOG_MESSAGE_TRACE("on_TIFFPixel(" << p_to_string(pixelByte) << "," <<  pixelBytes << "," <<  imageRow << "," <<  imageCol << "," <<  imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")...");
+        if ((forward_to)) {
+            success = forward_to->on_TIFFPixel
+            (pixel, pixelByte, pixelBytes, imageRow, imageCol,
+             imageLength, imageWidth, rowsPerStrip,
+             samplesPerPixel, bitsPerSample,
+             planarConfiguration, photometricInterpretation);
+        }
+        LAMNA_LOG_MESSAGE_TRACE("...on_TIFFPixel(" << p_to_string(pixelByte) << "," <<  pixelBytes << "," <<  imageRow << "," <<  imageCol << "," <<  imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")");
+        return success;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual bool on_TIFFPixel
     (byte_t* pixelByte, size_t pixelBytes, size_t imageRow, size_t imageCol,
      size_t imageLength, size_t imageWidth, size_t rowsPerStrip,
      size_t samplesPerPixel, size_t bitsPerSample,
      uint16_t planarConfiguration, uint16_t photometricInterpretation) {
         bool success = true;
         reader_eventst* forward_to = tiff_reader_events_forward_to();
-        LAMNA_LOG_MESSAGE_DEBUG("on_TIFFPixel(" << p_to_string(pixelByte) << "," <<  pixelBytes << "," <<  imageRow << "," <<  imageCol << "," <<  imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")...");
+        LAMNA_LOG_MESSAGE_TRACE("on_TIFFPixel(" << p_to_string(pixelByte) << "," <<  pixelBytes << "," <<  imageRow << "," <<  imageCol << "," <<  imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")...");
         if ((forward_to)) {
             success = forward_to->on_TIFFPixel
             (pixelByte, pixelBytes, imageRow, imageCol,
@@ -56,7 +79,7 @@ public:
              samplesPerPixel, bitsPerSample,
              planarConfiguration, photometricInterpretation);
         }
-        LAMNA_LOG_MESSAGE_DEBUG("...on_TIFFPixel(" << p_to_string(pixelByte) << "," <<  pixelBytes << "," <<  imageRow << "," <<  imageCol << "," <<  imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")");
+        LAMNA_LOG_MESSAGE_TRACE("...on_TIFFPixel(" << p_to_string(pixelByte) << "," <<  pixelBytes << "," <<  imageRow << "," <<  imageCol << "," <<  imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")");
         return success;
     }
 
@@ -118,56 +141,56 @@ public:
     ///////////////////////////////////////////////////////////////////////
     virtual bool on_begin_TIFFStrip
     (byte_t* stripByte, size_t stripBytes, size_t stripRows, tstrip_t strip,
-     size_t imageLength, size_t imageWidth, size_t rowsPerStrip,
+     size_t imageRow, size_t imageLength, size_t imageWidth, size_t rowsPerStrip,
      size_t samplesPerPixel, size_t bitsPerSample,
      uint16_t planarConfiguration, uint16_t photometricInterpretation) {
         bool success = true;
         reader_eventst* forward_to = tiff_reader_events_forward_to();
-        LAMNA_LOG_MESSAGE_DEBUG("on_begin_TIFFStrip(" << p_to_string(stripByte) << "," <<  stripBytes << "," <<  stripRows << "," <<  strip << "," <<  imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")...");
+        LAMNA_LOG_MESSAGE_DEBUG("on_begin_TIFFStrip(" << p_to_string(stripByte) << "," <<  stripBytes << "," <<  stripRows << "," <<  strip << "," <<  imageRow << "," << imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")...");
         if ((forward_to)) {
             success = forward_to->on_begin_TIFFStrip
             (stripByte, stripBytes, stripRows, strip,
-             imageLength, imageWidth, rowsPerStrip,
+             imageRow, imageLength, imageWidth, rowsPerStrip,
              samplesPerPixel, bitsPerSample,
              planarConfiguration, photometricInterpretation);
         }
-        LAMNA_LOG_MESSAGE_DEBUG("...on_begin_TIFFStrip(" << p_to_string(stripByte) << "," <<  stripBytes << "," <<  stripRows << "," <<  strip << "," <<  imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")");
+        LAMNA_LOG_MESSAGE_DEBUG("...on_begin_TIFFStrip(" << p_to_string(stripByte) << "," <<  stripBytes << "," <<  stripRows << "," <<  strip << "," <<  imageRow << "," << imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")");
         return success;
     }
     virtual bool on_end_TIFFStrip
     (byte_t* stripByte, size_t stripBytes, size_t stripRows, tstrip_t strip,
-     size_t imageLength, size_t imageWidth, size_t rowsPerStrip,
+     size_t imageRow, size_t imageLength, size_t imageWidth, size_t rowsPerStrip,
      size_t samplesPerPixel, size_t bitsPerSample,
      uint16_t planarConfiguration, uint16_t photometricInterpretation) {
         bool success = true;
         reader_eventst* forward_to = tiff_reader_events_forward_to();
-        LAMNA_LOG_MESSAGE_DEBUG("on_end_TIFFStrip(" << p_to_string(stripByte) << "," <<  stripBytes << "," <<  stripRows << "," <<  strip << "," <<  imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")...");
+        LAMNA_LOG_MESSAGE_DEBUG("on_end_TIFFStrip(" << p_to_string(stripByte) << "," <<  stripBytes << "," <<  stripRows << "," <<  strip << "," <<  imageRow << "," << imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")...");
         if ((forward_to)) {
             success = forward_to->on_end_TIFFStrip
             (stripByte, stripBytes, stripRows, strip,
-             imageLength, imageWidth, rowsPerStrip,
+             imageRow, imageLength, imageWidth, rowsPerStrip,
              samplesPerPixel, bitsPerSample,
              planarConfiguration, photometricInterpretation);
         }
-        LAMNA_LOG_MESSAGE_DEBUG("...on_end_TIFFStrip(" << p_to_string(stripByte) << "," <<  stripBytes << "," <<  stripRows << "," <<  strip << "," <<  imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")");
+        LAMNA_LOG_MESSAGE_DEBUG("...on_end_TIFFStrip(" << p_to_string(stripByte) << "," <<  stripBytes << "," <<  stripRows << "," <<  strip << "," <<  imageRow << "," << imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")");
         return success;
     }
     virtual bool on_TIFFStrip
     (byte_t* stripByte, size_t stripBytes, size_t stripRows, tstrip_t strip,
-     size_t imageLength, size_t imageWidth, size_t rowsPerStrip,
+     size_t imageRow, size_t imageLength, size_t imageWidth, size_t rowsPerStrip,
      size_t samplesPerPixel, size_t bitsPerSample,
      uint16_t planarConfiguration, uint16_t photometricInterpretation) {
         bool success = true;
         reader_eventst* forward_to = tiff_reader_events_forward_to();
-        LAMNA_LOG_MESSAGE_DEBUG("on_TIFFStrip(" << p_to_string(stripByte) << "," <<  stripBytes << "," <<  stripRows << "," <<  strip << "," <<  imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")...");
+        LAMNA_LOG_MESSAGE_DEBUG("on_TIFFStrip(" << p_to_string(stripByte) << "," <<  stripBytes << "," <<  stripRows << "," <<  strip << "," <<  imageRow << "," << imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")...");
         if ((forward_to)) {
             success = forward_to->on_TIFFStrip
             (stripByte, stripBytes, stripRows, strip,
-             imageLength, imageWidth, rowsPerStrip,
+             imageRow, imageLength, imageWidth, rowsPerStrip,
              samplesPerPixel, bitsPerSample,
              planarConfiguration, photometricInterpretation);
         }
-        LAMNA_LOG_MESSAGE_DEBUG("...on_TIFFStrip(" << p_to_string(stripByte) << "," <<  stripBytes << "," <<  stripRows << "," <<  strip << "," <<  imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")");
+        LAMNA_LOG_MESSAGE_DEBUG("...on_TIFFStrip(" << p_to_string(stripByte) << "," <<  stripBytes << "," <<  stripRows << "," <<  strip << "," <<  imageRow << "," << imageLength << "," <<  imageWidth << "," <<  rowsPerStrip << "," <<  samplesPerPixel << "," <<  bitsPerSample << "," <<  planarConfiguration << "," <<  photometricInterpretation << ")");
         return success;
     }
 
