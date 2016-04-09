@@ -22,8 +22,8 @@
 #define _LAMNA_GRAPHIC_IMAGE_FORMAT_PNG_PNG_HPP
 
 #include "lamna/base/base.hpp"
-#define PNG_NO_STDIO
-#define PNG_NO_SETJUMP
+#define PNG_NO_CONSOLE_IO
+#define PNG_NO_SETJMP_SUPPORTED
 #define PNG_NO_GLOBAL_ARRAYS
 #include "png.h"
 
@@ -38,7 +38,7 @@ namespace libpng {
 /// Class: p_to_stringt
 ///////////////////////////////////////////////////////////////////////
 template
-<typename TChar = char_t, class TExtends = xos::base::stringt<TChar> >
+<typename TChar = char, class TExtends = xos::base::stringt<TChar> >
 class _EXPORT_CLASS p_to_stringt: public TExtends {
 public:
     typedef TExtends Extends;
@@ -52,6 +52,26 @@ public:
     ///////////////////////////////////////////////////////////////////////
 };
 typedef p_to_stringt<> p_to_string;
+
+///////////////////////////////////////////////////////////////////////
+/// Class: error_stringt
+///////////////////////////////////////////////////////////////////////
+template
+<typename TChar = char, class TExtends = xos::base::stringt<TChar> >
+class _EXPORT_CLASS error_stringt: public TExtends {
+public:
+    typedef TExtends Extends;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    error_stringt(png_const_charp charp) {
+        if ((charp)) {
+            this->append(charp);
+        }
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+};
+typedef error_stringt<> error_string;
 
 } // namespace libpng
 } // namespace png

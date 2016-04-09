@@ -85,11 +85,11 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual color_sample_t red() const {
-        return 0; }
+        return color_sample_[color_channels_rgb_red]; }
     virtual color_sample_t green() const {
-        return 0; }
+        return color_sample_[color_channels_rgb_green]; }
     virtual color_sample_t blue() const {
-        return 0; }
+        return color_sample_[color_channels_rgb_blue]; }
     virtual color_sample_t alpha() const {
         return color_sample_[max_color_channels_channels]; }
     virtual color_sample_t max() const {
@@ -117,16 +117,26 @@ public:
     : Extends(color_channels_rgb, max, red, green, blue) {}
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual color_sample_t red() const {
-        return color_sample_[color_channels_rgb_red]; }
-    virtual color_sample_t green() const {
-        return color_sample_[color_channels_rgb_green]; }
-    virtual color_sample_t blue() const {
-        return color_sample_[color_channels_rgb_blue]; }
+};
+} // namespace rgb
+
+namespace rgba {
+///////////////////////////////////////////////////////////////////////
+///  Class: pixel
+///////////////////////////////////////////////////////////////////////
+class _EXPORT_CLASS pixel: public image::pixel {
+public:
+    typedef image::pixel Extends;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    pixel
+    (color_sample_t red, color_sample_t green,
+     color_sample_t blue, color_sample_t alpha, color_sample_t max)
+    : Extends(color_channels_rgba, max, red, green, blue, alpha) {}
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
-} // namespace rgb
+} // namespace rgba
 
 } // namespace image 
 } // namespace graphic 

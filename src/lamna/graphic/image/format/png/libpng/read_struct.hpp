@@ -79,7 +79,7 @@ public:
             png_rw_ptr read_data_fn  = this->ReadFn;
 
             LAMNA_LOG_MESSAGE_DEBUG("...png_create_read_struct(user_png_ver = \"" << user_png_ver << "\")");
-            LAMNA_LOG_MESSAGE_DEBUG("...png_set_read_fnt()");
+            LAMNA_LOG_MESSAGE_DEBUG("...png_set_read_fn()");
             png_set_read_fn(detached, io_ptr, read_data_fn);
         } else {
             LAMNA_LOG_ERROR("...failed on png_create_read_struct(user_png_ver = \"" << user_png_ver << "\")");
@@ -89,8 +89,7 @@ public:
     virtual bool destroy_detached(attached_t detached) const {
         if ((detached)) {
             LAMNA_LOG_MESSAGE_DEBUG("...png_destroy_read_struct()");
-            png_destroy_read_struct
-            (&detached, png_infopp_NULL, png_infopp_NULL);
+            png_destroy_read_struct(&detached, NULL, NULL);
             return true;
         }
         return false;

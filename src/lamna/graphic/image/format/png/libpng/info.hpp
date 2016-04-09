@@ -59,6 +59,18 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual bool destroy() {
+        bool success = true;
+        if (!(FreedImageRows())) {
+            success = false;
+        }
+        if (!(Extends::destroy())) {
+            success = false;
+        }
+        return success;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     virtual png_int_32 Read() {
         attached_t detached = 0;
         if ((detached = this->attached_to())) {
@@ -68,32 +80,40 @@ public:
                 png_uint_32 oldBytesRead = 0, rows = 0, rowBytes = 0;
                 int colorType = 0, bitDepth = 0, channels = 0, paletteColors = 0;
 
-                if (0 < (count = ReadInfo
-                    (rows, rowBytes, colorType, bitDepth, channels, paletteColors))) {
-                    // Allocate the memory to hold the image rows.
-                    //
-                    if ((imageRow_ = AllocateImageRows(rowBytes, rows))) {
-                        imageRows_ = rows;
-                        oldBytesRead = this->struct_created_.SetBytesRead(0);
-
-                        // Read the image all at once
+                try {
+                    if (0 < (count = ReadInfo
+                        (rows, rowBytes, colorType, bitDepth, channels, paletteColors))) {
+                        // Allocate the memory to hold the image rows.
                         //
-                        LAMNA_LOG_MESSAGE_DEBUG("png_read_image()...");
-                        png_read_image(struct_detached, imageRow_);
-                        LAMNA_LOG_MESSAGE_DEBUG("...png_read_image()");
+                        if ((imageRow_ = AllocateImageRows(rowBytes, rows))) {
+                            imageRows_ = rows;
+                            oldBytesRead = this->struct_created_.SetBytesRead(0);
 
-                        if (0 < (readCount = this->struct_created_.SetBytesRead(oldBytesRead))) {
-                            count += readCount;
-                            if (0 < (readCount = ReadEnd())) {
+                            // Read the image all at once
+                            //
+                            try {
+                                LAMNA_LOG_MESSAGE_DEBUG("png_read_image()...");
+                                png_read_image(struct_detached, imageRow_);
+                                LAMNA_LOG_MESSAGE_DEBUG("...png_read_image()");
+                            } catch (const error_string& e) {
+                                LAMNA_LOG_ERROR("...caught const error_string& e = \"" << e << "\"");
+                            }
+
+                            if (0 < (readCount = this->struct_created_.SetBytesRead(oldBytesRead))) {
                                 count += readCount;
-                                return count;
+                                if (0 < (readCount = ReadEnd())) {
+                                    count += readCount;
+                                    return count;
+                                } else {
+                                }
                             } else {
                             }
                         } else {
                         }
                     } else {
                     }
-                } else {
+                } catch (const error_string& e) {
+                    LAMNA_LOG_ERROR("...caught const error_string& e = \"" << e << "\"");
                 }
             } else {
             }
@@ -110,27 +130,32 @@ public:
                 png_uint_32 rows = 0, rowBytes = 0;
                 int colorType = 0, bitDepth = 0, channels = 0, paletteColors = 0;
 
-                if (0 < (count = ReadInfo
-                    (rows, rowBytes, colorType, bitDepth, channels, paletteColors))) {
-                    if (0 > (rowsPerRead)) {
-                        rowsPerRead = rows;
-                    } else {
-                        if (1 > (rowsPerRead)) {
+                try {
+                    if (0 < (count = ReadInfo
+                        (rows, rowBytes, colorType, bitDepth, channels, paletteColors))) {
+                        if (0 > (rowsPerRead)) {
                             rowsPerRead = rows;
                         } else {
-                            rowsPerRead = ImageRowsPerRead();
+                            if (1 > (rowsPerRead)) {
+                                rowsPerRead = rows;
+                            } else {
+                                rowsPerRead = ImageRowsPerRead();
+                            }
                         }
-                    }
-                    if (0 <  (rowsPerRead)) {
-                        // Allocate the memory to hold the image rows.
-                        //
-                        if ((imageRow_ = AllocateImageRows(rowBytes, rowsPerRead))) {
-                            imageRows_ = rowsPerRead;
+                        if (0 <  (rowsPerRead)) {
+                            // Allocate the memory to hold the image rows.
+                            //
+                            if ((imageRow_ = AllocateImageRows(rowBytes, rowsPerRead))) {
+                                imageRows_ = rowsPerRead;
+                                return count;
+                            } else {
+                            }
                         } else {
                         }
                     } else {
                     }
-                } else {
+                } catch (const error_string& e) {
+                    LAMNA_LOG_ERROR("...caught const error_string& e = \"" << e << "\"");
                 }
             } else {
             }
@@ -150,9 +175,13 @@ public:
 
                 // read rest of file, and get additional chunks in info_ptr
                 //
-                LAMNA_LOG_MESSAGE_DEBUG("png_read_end()...");
-                png_read_end(struct_detached, detached);
-                LAMNA_LOG_MESSAGE_DEBUG("...png_read_end()");
+                try {
+                    LAMNA_LOG_MESSAGE_DEBUG("png_read_end()...");
+                    png_read_end(struct_detached, detached);
+                    LAMNA_LOG_MESSAGE_DEBUG("...png_read_end()");
+                } catch (const error_string& e) {
+                    LAMNA_LOG_ERROR("...caught const error_string& e = \"" << e << "\"");
+                }
 
                 if (0 < (count = this->struct_created_.SetBytesRead(oldBytesRead))) {
                     return count;
@@ -182,9 +211,13 @@ public:
                 // The call to png_read_info() gives all of the information from the
                 // PNG file before the first IDAT (image data chunk).
                 //
-                LAMNA_LOG_MESSAGE_DEBUG("png_read_info()...");
-                png_read_info(struct_detached, detached);
-                LAMNA_LOG_MESSAGE_DEBUG("...png_read_info()");
+                try {
+                    LAMNA_LOG_MESSAGE_DEBUG("png_read_info()...");
+                    png_read_info(struct_detached, detached);
+                    LAMNA_LOG_MESSAGE_DEBUG("...png_read_info()");
+                } catch (const error_string& e) {
+                    LAMNA_LOG_ERROR("...caught const error_string& e = \"" << e << "\"");
+                }
 
                 if (0 < (count = this->struct_created_.SetBytesRead(oldBytesRead))) {
                     if (0 < (rows = this->ImageHeight())) {
@@ -235,17 +268,23 @@ public:
 
                     // Read imageRows_ rows at a time
                     //
-                    LAMNA_LOG_MESSAGE_DEBUG("png_read_rows()...");
-                    png_read_rows(struct_detached, imageRow_, png_bytepp_NULL, imageRows_);
-                    LAMNA_LOG_MESSAGE_DEBUG("...png_read_rows()");
-                    this->struct_created_.SetBytesRead(oldBytesRead);
+                    try {
+                        LAMNA_LOG_MESSAGE_TRACE("png_read_rows()...");
+                        png_read_rows(struct_detached, imageRow_, NULL, imageRows_);
+                        LAMNA_LOG_MESSAGE_TRACE("...png_read_rows()");
+                        count = this->struct_created_.SetBytesRead(oldBytesRead);
+                        return count;
+                    } catch (const error_string& e) {
+                        LAMNA_LOG_ERROR("...caught const error_string& e = \"" << e << "\"");
+                        this->struct_created_.SetBytesRead(oldBytesRead);
+                    }
                 } else {
                 }
             } else {
             }
         } else {
         }
-        return 0;
+        return -1;
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -283,10 +322,11 @@ public:
         return 0;
     }
     virtual bool FreeImageRows(png_bytep* imageRow, png_uint_32 imageRows) {
-        if ((imageRow)) {
-            for (png_uint_32 row = imageRows; row; --row, ++imageRow) {
+        png_bytep* imageRowBytes = 0;
+        if ((imageRowBytes = imageRow)) {
+            for (png_uint_32 row = imageRows; row; --row, ++imageRowBytes) {
                 png_bytep rowBytes = 0;
-                if ((rowBytes = *imageRow)) {
+                if ((rowBytes = *imageRowBytes)) {
                     if ((FreeImageRow(rowBytes))) {
                         continue;
                     }
@@ -307,7 +347,9 @@ public:
             struct_attached_t struct_detached = 0;
             if ((struct_detached = this->struct_created_.attached_to())) {
                 png_bytep imageRow = 0;
+                LAMNA_LOG_MESSAGE_TRACE("png_malloc(struct_detached, rowBytes = " << rowBytes << ")...");
                 if ((imageRow = (png_bytep)png_malloc(struct_detached, rowBytes))) {
+                    LAMNA_LOG_MESSAGE_TRACE("...png_malloc(struct_detached, rowBytes = " << rowBytes << ")");
                     return imageRow;
                 } else {
                 }
@@ -322,7 +364,9 @@ public:
         if ((detached = this->attached_to())) {
             struct_attached_t struct_detached = 0;
             if ((struct_detached = this->struct_created_.attached_to())) {
+                LAMNA_LOG_MESSAGE_TRACE("png_free(struct_detached, imageRow)...");
                 png_free(struct_detached, imageRow);
+                LAMNA_LOG_MESSAGE_TRACE("...png_free(struct_detached, imageRow)");
                 return true;
             } else {
             }
@@ -342,7 +386,9 @@ public:
             struct_attached_t struct_detached = 0;
             if ((struct_detached = this->struct_created_.attached_to())) {
                 png_int_32 to = 0;
+                LAMNA_LOG_MESSAGE_DEBUG("png_get_image_height(struct_detached, detached)...");
                 if (0 < (to = png_get_image_height(struct_detached, detached))) {
+                    LAMNA_LOG_MESSAGE_DEBUG("..." << to << " = png_get_image_height(struct_detached, detached)");
                     return to;
                 } else {
                 }
@@ -364,7 +410,9 @@ public:
             struct_attached_t struct_detached = 0;
             if ((struct_detached = this->struct_created_.attached_to())) {
                 png_int_32 to = 0;
+                LAMNA_LOG_MESSAGE_DEBUG("png_get_image_width(struct_detached, detached)...");
                 if (0 < (to = png_get_image_width(struct_detached, detached))) {
+                    LAMNA_LOG_MESSAGE_DEBUG("..." << to << " = png_get_image_width(struct_detached, detached)");
                     return to;
                 } else {
                 }
@@ -386,7 +434,9 @@ public:
             struct_attached_t struct_detached = 0;
             if ((struct_detached = this->struct_created_.attached_to())) {
                 int to = 0;
+                LAMNA_LOG_MESSAGE_DEBUG("png_get_bit_depth(struct_detached, detached)...");
                 if (0 < (to = png_get_bit_depth(struct_detached, detached))) {
+                    LAMNA_LOG_MESSAGE_DEBUG("..." << to << " = png_get_bit_depth(struct_detached, detached)");
                     return to;
                 } else {
                 }
@@ -408,7 +458,9 @@ public:
             struct_attached_t struct_detached = 0;
             if ((struct_detached = this->struct_created_.attached_to())) {
                 int to = 0;
+                LAMNA_LOG_MESSAGE_DEBUG("png_get_color_type(struct_detached, detached)...");
                 if (0 <= (to = png_get_color_type(struct_detached, detached))) {
+                    LAMNA_LOG_MESSAGE_DEBUG("..." << to << " = png_get_color_type(struct_detached, detached)");
                     return to;
                 } else {
                 }
@@ -430,7 +482,9 @@ public:
             struct_attached_t struct_detached = 0;
             if ((struct_detached = this->struct_created_.attached_to())) {
                 int to = 0;
+                LAMNA_LOG_MESSAGE_DEBUG("png_get_channels(struct_detached, detached)...");
                 if (0 < (to = png_get_channels(struct_detached, detached))) {
+                    LAMNA_LOG_MESSAGE_DEBUG("..." << to << " = png_get_channels(struct_detached, detached)");
                     return to;
                 } else {
                 }
@@ -452,7 +506,9 @@ public:
             struct_attached_t struct_detached = 0;
             if ((struct_detached = this->struct_created_.attached_to())) {
                 int to = 0;
+                LAMNA_LOG_MESSAGE_DEBUG("png_get_filter_type(struct_detached, detached)...");
                 if (0 <= (to = png_get_filter_type(struct_detached, detached))) {
+                    LAMNA_LOG_MESSAGE_DEBUG("..." << to << " = png_get_filter_type(struct_detached, detached)");
                     return to;
                 } else {
                 }
@@ -474,7 +530,9 @@ public:
             struct_attached_t struct_detached = 0;
             if ((struct_detached = this->struct_created_.attached_to())) {
                 int to = 0;
+                LAMNA_LOG_MESSAGE_DEBUG("png_get_interlace_type(struct_detached, detached)...");
                 if (0 <= (to = png_get_interlace_type(struct_detached, detached))) {
+                    LAMNA_LOG_MESSAGE_DEBUG("..." << to << " = png_get_interlace_type(struct_detached, detached)");
                     return to;
                 } else {
                 }
@@ -496,7 +554,9 @@ public:
             struct_attached_t struct_detached = 0;
             if ((struct_detached = this->struct_created_.attached_to())) {
                 int to = 0;
+                LAMNA_LOG_MESSAGE_DEBUG("png_get_compression_type(struct_detached, detached)...");
                 if (0 <= (to = png_get_compression_type(struct_detached, detached))) {
+                    LAMNA_LOG_MESSAGE_DEBUG("..." << to << " = png_get_compression_type(struct_detached, detached)");
                     return to;
                 } else {
                 }
@@ -518,7 +578,9 @@ public:
             struct_attached_t struct_detached = 0;
             if ((struct_detached = this->struct_created_.attached_to())) {
                 png_uint_32 to = 0;
+                LAMNA_LOG_MESSAGE_DEBUG("png_get_rowbytes(struct_detached, detached)...");
                 if (0 < (to = png_get_rowbytes(struct_detached, detached))) {
+                    LAMNA_LOG_MESSAGE_DEBUG("..." << to << " = png_get_rowbytes(struct_detached, detached)");
                     return to;
                 } else {
                 }
@@ -532,7 +594,7 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual png_bytep* ImageRow
-    (png_int_32& imageRows, png_int_32& rowBytes) const {
+    (png_uint_32& imageRows, png_uint_32& rowBytes) const {
         rowBytes = RowBytes();
         imageRows = imageRows_;
         return imageRow_;

@@ -79,6 +79,7 @@ public:
         struct_createdt* pngStruct = 0;
         if ((pngStruct = (struct_createdt*)(error_ptr = png_get_error_ptr(structp))))
             pngStruct->on_Error(structp, charp);
+        throw error_string(charp);
     }
     static void WarnFn(png_structp structp, png_const_charp charp) {
         png_voidp error_ptr = 0;
