@@ -61,6 +61,23 @@ wx_LIBS += \
 ${build_wx_LIBS} \
 
 ########################################################################
+# x11
+x11_USRINCLUDES += \
+${build_x11_USRINCLUDES} \
+
+x11_USRDEFINES += \
+${build_x11_USRDEFINES} \
+
+x11_USRCXXFLAGS += \
+${build_x11_USRCXXFLAGS} \
+
+x11_USRLIBDIRS += \
+${build_x11_USRLIBDIRS} \
+
+x11_LIBS += \
+${build_x11_LIBS} \
+
+########################################################################
 # xos
 XOS_PKG = ${LAMNA_PKG}/../nadir
 XOS_SRC = ${XOS_PKG}/src
