@@ -83,8 +83,14 @@ namespace cocoa {
         return self;
     }
     - (iView*)createMainView:(int)argc argv:(char**)argv env:(char**)env {
-        if ((mainView_ = [[iHelloMainView alloc] init:surface_])) {
+        /*if ((mainView_ = [[iHelloMainView alloc] init:surface_])) {
             surface_->set_view(mainView_);
+        }*/
+        iHelloMainView* mainView = 0;
+        if ((mainView_ = (mainView = [iHelloMainView alloc]))) {
+            if ([mainView  init:surface_]) {
+                surface_->set_view(mainView_);
+            }
         }
         return mainView_;
     }

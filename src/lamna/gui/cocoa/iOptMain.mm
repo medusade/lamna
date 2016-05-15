@@ -32,6 +32,7 @@ namespace cocoa {
 /// Implentation: iOptMain
 ///////////////////////////////////////////////////////////////////////
 @implementation iOptMain
+    @synthesize main = _main;
     - (id)init:(lamna::gui::main*)main {
         [super init];
         _main = main;

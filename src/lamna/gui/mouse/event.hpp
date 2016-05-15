@@ -59,7 +59,7 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     eventt
-    (event_which which, const button& button, const position& position)
+    (event_which which, const mouse::button& button, const mouse::position& position)
     : which_(which), button_(button), position_(position) {
     }
     eventt(event_which which = event_none): which_(which) {
@@ -89,12 +89,15 @@ public:
     virtual mouse::position position() const {
         return position_;
     }
+    virtual mouse::button button() const {
+        return button_;
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 protected:
     event_which which_;
     mouse::position position_;
-    button button_;
+    mouse::button button_;
 };
 typedef eventt<> event;
 

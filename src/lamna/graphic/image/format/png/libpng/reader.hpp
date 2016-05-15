@@ -227,6 +227,7 @@ protected:
                 break;
             default:
                 success = false;
+                LAMNA_LOG_MESSAGE_DEBUG("...unimplemented bitDepth = " << bitDepth << " on_PNGColorType(" << height << "," <<  width << "," <<  bitDepth << "," <<  colorChannels << "," <<  colorType << "," <<  filterType << "," <<  interlaceType << "," <<  compressionType << ")");
                 break;
             }
             break;
@@ -241,6 +242,7 @@ protected:
                 break;
             default:
                 success = false;
+                LAMNA_LOG_MESSAGE_DEBUG("...unimplemented bitDepth = " << bitDepth << " on_PNGColorType(" << height << "," <<  width << "," <<  bitDepth << "," <<  colorChannels << "," <<  colorType << "," <<  filterType << "," <<  interlaceType << "," <<  compressionType << ")");
                 break;
             }
             break;
@@ -255,11 +257,13 @@ protected:
                 break;
             default:
                 success = false;
+                LAMNA_LOG_MESSAGE_DEBUG("...unimplemented bitDepth = " << bitDepth << " on_PNGColorType(" << height << "," <<  width << "," <<  bitDepth << "," <<  colorChannels << "," <<  colorType << "," <<  filterType << "," <<  interlaceType << "," <<  compressionType << ")");
                 break;
             }
             break;
         default:
             success = false;
+            LAMNA_LOG_MESSAGE_DEBUG("...unimplemented colorType = " << colorType << " on_PNGColorType(" << height << "," <<  width << "," <<  bitDepth << "," <<  colorChannels << "," <<  colorType << "," <<  filterType << "," <<  interlaceType << "," <<  compressionType << ")");
             break;
         }
         return success;

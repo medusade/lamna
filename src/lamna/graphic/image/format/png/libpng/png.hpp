@@ -25,6 +25,9 @@
 #define PNG_NO_CONSOLE_IO
 #define PNG_NO_SETJMP_SUPPORTED
 #define PNG_NO_GLOBAL_ARRAYS
+#define PNG_FAR FAR
+#undef FAR
+#define FAR
 #include "png.h"
 
 namespace lamna {
@@ -80,6 +83,8 @@ typedef error_stringt<> error_string;
 } // namespace graphic 
 } // namespace lamna 
 
-#endif // _LAMNA_GRAPHIC_IMAGE_FORMAT_PNG_PNG_HPP
-        
+#undef FAR
+#define FAR PNG_FAR
+#undef PNG_FAR
 
+#endif // _LAMNA_GRAPHIC_IMAGE_FORMAT_PNG_PNG_HPP
