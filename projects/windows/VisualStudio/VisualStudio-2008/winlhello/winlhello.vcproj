@@ -357,7 +357,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\src\lamna\gui\windows\main_window.cpp"
+				RelativePath="..\..\..\..\..\..\nadir\src\xos\base\getopt\main_implement.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\src\lamna\app\gui\windows\hello\main_window.cpp"
 				>
 			</File>
 			<File
@@ -414,6 +418,14 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\..\..\..\..\..\nadir\src\xos\base\getopt\main_implement.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\..\src\lamna\app\gui\windows\hello\main_window.hpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

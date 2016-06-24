@@ -14,6 +14,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liblamna", "liblamna\liblamna.vcproj", "{725A0F72-4934-4713-983F-2590D6574C3F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winlhello", "winlhello\winlhello.vcproj", "{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{725A0F72-4934-4713-983F-2590D6574C3F} = {725A0F72-4934-4713-983F-2590D6574C3F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
