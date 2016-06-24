@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2015 $organization$
+/// Copyright (c) 1988-2016 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,47 +13,21 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: window_main.hpp
+///   File: cmdline_parser_events.cpp
 ///
 /// Author: $author$
-///   Date: 6/8/2015
+///   Date: 6/17/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_GUI_WINDOWS_WINDOW_MAIN_HPP
-#define _LAMNA_GUI_WINDOWS_WINDOW_MAIN_HPP
-
-#include "lamna/gui/windows/main.hpp"
+#include "lamna/gui/windows/cmdline_parser_events.hpp"
 
 namespace lamna {
 namespace gui {
 namespace windows {
 
-typedef main_implements window_main_implements;
-typedef main window_main_extends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: window_maint
+///  Class: cmdline_parser_eventst
 ///////////////////////////////////////////////////////////////////////
-template
-<class TImplements = window_main_implements, class TExtends = window_main_extends>
-
-class _EXPORT_CLASS window_maint: virtual public TImplements, public TExtends {
-public:
-    typedef TImplements Implements;
-    typedef TExtends Extends;
-
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    window_maint() {
-    }
-    virtual ~window_maint() {
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-};
-typedef window_maint<> window_main;
 
 } // namespace windows 
 } // namespace gui 
 } // namespace lamna 
-
-#endif // _LAMNA_GUI_WINDOWS_WINDOW_MAIN_HPP 

@@ -36,8 +36,10 @@ typedef xos::mt::locker main_locker;
 typedef main_locker* main_attached_t;
 
 typedef main_locker main_implements;
-typedef xos::base::attachert<main_attached_t, int, 0, main_implements> main_attacher;
-typedef xos::base::attachedt<main_attached_t, int, 0, main_attacher, base> main_extends;
+typedef xos::base::attachert
+<main_attached_t, int, 0, main_implements> main_attacher;
+typedef xos::base::attachedt
+<main_attached_t, int, 0, main_attacher, base> main_extends;
 ///////////////////////////////////////////////////////////////////////
 ///  Class: maint
 ///////////////////////////////////////////////////////////////////////
@@ -145,30 +147,51 @@ protected:
     virtual int before_WinMain
     (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
         int err = 1;
-        if ((main_window_class_ = create_main_window_class
+
+        if ((before_create_main_window_class
              (hInstance, hPrevInstance, cmdLine, cmdShow))) {
-            if ((main_window_ = create_main_window
-                 (*main_window_class_, hInstance, hPrevInstance, cmdLine, cmdShow))) {
-                if ((show_main_window
-                     (*main_window_, *main_window_class_, 
-                      hInstance, hPrevInstance, cmdLine, cmdShow))) {
-                    err = 0;
-                    return err;
+
+            if ((main_window_class_ = create_main_window_class
+                 (hInstance, hPrevInstance, cmdLine, cmdShow))) {
+
+                if ((before_create_main_window
+                     (*main_window_class_, hInstance, hPrevInstance, cmdLine, cmdShow))) {
+
+                    if ((main_window_ = create_main_window
+                         (*main_window_class_, hInstance, hPrevInstance, cmdLine, cmdShow))) {
+
+                        if ((before_show_main_window
+                             (*main_window_, *main_window_class_, 
+                              hInstance, hPrevInstance, cmdLine, cmdShow))) {
+
+                            if ((show_main_window
+                                 (*main_window_, *main_window_class_, 
+                                  hInstance, hPrevInstance, cmdLine, cmdShow))) {
+                                err = 0;
+                                return err;
+                            }
+                        }
+                        destroy_main_window
+                        (*main_window_, *main_window_class_, 
+                         hInstance, hPrevInstance, cmdLine, cmdShow);
+                    }
                 }
-                destroy_main_window
-                (*main_window_, *main_window_class_, 
+                destroy_main_window_class
+                (*main_window_class_, 
                  hInstance, hPrevInstance, cmdLine, cmdShow);
             }
-            destroy_main_window_class
-            (*main_window_class_, 
-             hInstance, hPrevInstance, cmdLine, cmdShow);
         }
         return err;
     }
     virtual int after_WinMain
     (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
         int err = 0;
-        if ((main_window_)) {
+        if ((main_window_) && (main_window_class_)) {
+            if (!(before_destroy_main_window
+                 (*main_window_, *main_window_class_, 
+                  hInstance, hPrevInstance, cmdLine, cmdShow))) {
+                if (!(err)) err = 1;
+            }
             if (!(destroy_main_window
                  (*main_window_, *main_window_class_, 
                   hInstance, hPrevInstance, cmdLine, cmdShow))) {
@@ -179,6 +202,10 @@ protected:
             if (!(err)) err = 1;
         }
         if ((main_window_class_)) {
+            if (!(before_destroy_main_window_class
+                 (*main_window_class_, hInstance, hPrevInstance, cmdLine, cmdShow))) {
+                if (!(err)) err = 1;
+            }
             if (!(destroy_main_window_class
                  (*main_window_class_, hInstance, hPrevInstance, cmdLine, cmdShow))) {
                 if (!(err)) err = 1;
@@ -261,6 +288,21 @@ protected:
          }
          return false;
     }
+    virtual bool before_create_main_window
+    (window_class& main_window_class, 
+     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+         return true;
+    }
+    virtual bool before_destroy_main_window
+    (window& main_window, window_class& main_window_class, 
+     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+         return true;
+    }
+    virtual bool before_show_main_window
+    (window& main_window, window_class& main_window_class, 
+     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+         return true;
+    }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -280,6 +322,15 @@ protected:
              }
          }
          return false;
+    }
+    virtual bool before_create_main_window_class
+    (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+         return true;
+    }
+    virtual bool before_destroy_main_window_class
+    (window_class& main_window_class, 
+     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
+         return true;
     }
 
     ///////////////////////////////////////////////////////////////////////

@@ -33,32 +33,24 @@
 #include "xos/base/attached.hpp"
 #include "xos/base/attacher.hpp"
 #include "xos/base/wrapped.hpp"
+#include "xos/base/to_string.hpp"
+#include "xos/base/argv.hpp"
 
 namespace lamna {
 
 typedef xos::base::implement_base implement_base;
 typedef xos::base::base base;
 
+typedef xos::base::byte_array byte_array;
+typedef xos::base::word_array word_array;
+
 typedef xos::base::string string;
 typedef xos::base::tstring tstring;
 typedef xos::base::wstring wstring;
 
-typedef xos::base::byte_array byte_array;
-typedef xos::base::word_array word_array;
-
-///////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS pointer_to_string: public string {
-public:
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    pointer_to_string(void* p) {
-        this->append("0x");
-        this->appendx(&p, sizeof(void*));
-    }
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-};
+typedef xos::base::char_to_string char_to_string;
+typedef xos::base::chars_to_string chars_to_string;
+typedef xos::base::pointer_to_string pointer_to_string;
 
 } // namespace lamna
 

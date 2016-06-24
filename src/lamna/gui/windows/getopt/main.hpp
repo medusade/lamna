@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2015 $organization$
+/// Copyright (c) 1988-2016 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -16,75 +16,77 @@
 ///   File: main.hpp
 ///
 /// Author: $author$
-///   Date: 6/8/2015
+///   Date: 6/18/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_APP_GUI_WINDOWS_HELLO_MAIN_HPP
-#define _LAMNA_APP_GUI_WINDOWS_HELLO_MAIN_HPP
+#ifndef _LAMNA_GUI_WINDOWS_GETOPT_MAIN_HPP
+#define _LAMNA_GUI_WINDOWS_GETOPT_MAIN_HPP
 
-#include "lamna/app/gui/windows/hello/main_window.hpp"
-#include "lamna/gui/windows/window_main.hpp"
 #include "lamna/gui/windows/main.hpp"
+#include "lamna/gui/windows/cmdline_to_getopt_argv_parser.hpp"
+#include "xos/base/getopt/main_extend.hpp"
+#include "xos/base/getopt/main_implement.hpp"
 
 namespace lamna {
-namespace app {
 namespace gui {
 namespace windows {
-namespace hello {
+namespace getopt {
 
-typedef lamna::gui::windows::window_main_implements main_implements;
-typedef gui::hello::maint<lamna::gui::windows::window_main> main_extends;
+typedef xos::base::getopt::main_implementt
+<char, int, 0, windows::main_implements> main_implements;
+typedef xos::base::getopt::main_extendt
+<main_implements, windows::main> main_extends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: main
+///  Class: maint
 ///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS main
-: virtual public main_implements, public main_extends {
+template
+<class TImplements = main_implements, class TExtends = main_extends>
+class _EXPORT_CLASS maint: virtual public TImplements, public TExtends {
 public:
-    typedef main_implements Implements;
-    typedef main_extends Extends;
-
+    typedef TImplements Implements;
+    typedef TExtends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    main() {
+    maint() {
     }
-    virtual ~main() {
+    virtual ~maint() {
     }
-
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual lamna::gui::windows::window* create_main_window
+    virtual bool before_create_main_window
     (lamna::gui::windows::window_class& main_window_class, 
      HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
-         LPCSTR windowClassName = 0;
-         if ((windowClassName = main_window_class.GetWindowClassName())) {
-             if ((window_.create(hInstance, windowClassName))) {
-                 window_.set_size(width_, height_);
-                 return &window_;
-             }
-         }
-         return 0;
-    }
-    virtual bool destroy_main_window
-    (lamna::gui::windows::window& main_window, 
-     lamna::gui::windows::window_class& main_window_class, 
-     HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow) {
-         if (&main_window == (&window_)) {
-             if ((window_.destroy())) {
-                 return true;
-             }
-         }
-         return false;
-    }
+        bool success = true;
 
+        if ((cmdLine) && (cmdLine[0])) {
+            string cmd(cmdLine);
+            const char* chars = 0;
+            size_t length = 0;
+
+            if ((chars = cmd.has_chars(length))) {
+                lamna::gui::windows::cmdline_to_getopt_argv_parser::argv_t a;
+                lamna::gui::windows::cmdline_to_getopt_argv_parser p(a);
+
+                if ((p.parse("hello", chars, length))) {
+                    int argc = a.length();
+                    char **argv = a.elements();
+                    char **env = 0;
+
+                    if ((this->before_main(argc, argv, env))) {
+                    } else {
+                    }
+                }
+            }
+        }
+        return success;
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-protected:
-    main_window window_;
 };
+typedef maint<> main;
 
-} // namespace hello 
+} // namespace getopt 
 } // namespace windows 
 } // namespace gui 
-} // namespace app 
 } // namespace lamna 
 
-#endif // _LAMNA_APP_GUI_WINDOWS_HELLO_MAIN_HPP 
+#endif // _LAMNA_GUI_WINDOWS_GETOPT_MAIN_HPP 
