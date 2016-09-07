@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2015 $organization$
+/// Copyright (c) 1988-2016 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,35 +13,29 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: main.hpp
+///   File: libpgm.hpp
 ///
 /// Author: $author$
-///   Date: 5/30/2015
+///   Date: 7/15/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_CONSOLE_MAIN_HPP
-#define _LAMNA_CONSOLE_MAIN_HPP
+#ifndef _LAMNA_GRAPHIC_IMAGE_FORMAT_PGM_LIBPGM_LIBPGM_HPP
+#define _LAMNA_GRAPHIC_IMAGE_FORMAT_PGM_LIBPGM_LIBPGM_HPP
 
-#include "lamna/console/main_opt.hpp"
 #include "lamna/io/logger.hpp"
-#include "lamna/base/base.hpp"
-#include "xos/base/getopt/main.hpp"
-#include "xos/base/main.hpp"
+#include "libpgm.h"
 
 namespace lamna {
-namespace console {
+namespace graphic {
+namespace image {
+namespace format {
+namespace pgm {
+namespace libpgm {
 
-typedef xos::base::getopt::main_implement main_implements;
-typedef xos::base::getopt::main main;
+} // namespace libpgm 
+} // namespace pgm 
+} // namespace format 
+} // namespace image 
+} // namespace graphic 
+} // namespace lamna 
 
-} // namespace console
-namespace app {
-namespace console {
-
-typedef lamna::console::main_implements main_implements;
-typedef lamna::console::main main;
-
-} // namespace console
-} // namespace app
-} // namespace lamna
-
-#endif // _LAMNA_CONSOLE_MAIN_HPP 
+#endif // _LAMNA_GRAPHIC_IMAGE_FORMAT_PGM_LIBPGM_LIBPGM_HPP 

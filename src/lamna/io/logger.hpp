@@ -23,6 +23,8 @@
 
 #include "lamna/base/base.hpp"
 #include "xos/io/file/opened.hpp"
+#include "xos/io/read/file.hpp"
+#include "xos/io/write/file.hpp"
 #include "xos/io/logger.hpp"
 
 #define LAMNA_LOG_ANY XOS_LOG_ANY

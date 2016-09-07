@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2015 $organization$
+/// Copyright (c) 1988-2016 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,35 +13,25 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: main.hpp
+///   File: main.cpp
 ///
 /// Author: $author$
-///   Date: 5/30/2015
+///   Date: 7/15/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_CONSOLE_MAIN_HPP
-#define _LAMNA_CONSOLE_MAIN_HPP
-
-#include "lamna/console/main_opt.hpp"
-#include "lamna/io/logger.hpp"
-#include "lamna/base/base.hpp"
-#include "xos/base/getopt/main.hpp"
-#include "xos/base/main.hpp"
+#include "lamna/app/console/pgm/main.hpp"
 
 namespace lamna {
-namespace console {
-
-typedef xos::base::getopt::main_implement main_implements;
-typedef xos::base::getopt::main main;
-
-} // namespace console
 namespace app {
 namespace console {
+namespace pgm {
 
-typedef lamna::console::main_implements main_implements;
-typedef lamna::console::main main;
+///////////////////////////////////////////////////////////////////////
+///  Class: main
+///////////////////////////////////////////////////////////////////////
+static main the_main;
 
-} // namespace console
-} // namespace app
-} // namespace lamna
+} // namespace pgm 
+} // namespace console 
+} // namespace app 
+} // namespace lamna 
 
-#endif // _LAMNA_CONSOLE_MAIN_HPP 

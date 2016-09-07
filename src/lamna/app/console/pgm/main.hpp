@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2015 $organization$
+/// Copyright (c) 1988-2016 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,58 +13,62 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: base.hpp
+///   File: main.hpp
 ///
 /// Author: $author$
-///   Date: 5/25/2015
+///   Date: 7/15/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_BASE_BASE_HPP
-#define _LAMNA_BASE_BASE_HPP
+#ifndef _LAMNA_APP_CONSOLE_PGM_MAIN_HPP
+#define _LAMNA_APP_CONSOLE_PGM_MAIN_HPP
 
-#include "xos/base/base.hpp"
-#include "xos/base/array.hpp"
-#include "xos/base/string.hpp"
-#include "xos/base/date.hpp"
-#include "xos/base/types.hpp"
-#include "xos/base/opened.hpp"
-#include "xos/base/opener.hpp"
-#include "xos/base/created.hpp"
-#include "xos/base/creator.hpp"
-#include "xos/base/attached.hpp"
-#include "xos/base/attacher.hpp"
-#include "xos/base/wrapped.hpp"
-#include "xos/base/to_string.hpp"
-#include "xos/base/argv.hpp"
+#include "lamna/console/main.hpp"
+#include "lamna/graphic/image/format/raw/libpgm/reader.hpp"
 
 namespace lamna {
+namespace app {
+namespace console {
+namespace pgm {
 
-typedef xos::base::implement_base implement_base;
-typedef xos::base::base base;
-
-typedef xos::base::byte_array byte_array;
-typedef xos::base::word_array word_array;
-
-typedef xos::base::string string;
-typedef xos::base::tstring tstring;
-typedef xos::base::wstring wstring;
-
-typedef xos::base::char_to_string char_to_string;
-typedef xos::base::chars_to_string chars_to_string;
-typedef xos::base::pointer_to_string pointer_to_string;
-
+typedef console::main_implements main_implements;
+typedef console::main main_extends;
 ///////////////////////////////////////////////////////////////////////
+///  Class: main
 ///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS bool_to_string: public string {
+class _EXPORT_CLASS main: virtual public main_implements, public main_extends {
 public:
+    typedef main_implements Implements;
+    typedef main_extends Extends;
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    bool_to_string(bool is_true) {
-        this->append((is_true)?("true"):("false"));
+    main() {
     }
+    virtual ~main() {
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual int run(int argc, char_t **argv, char_t **env) {
+        int err = 0;
+        char* arg = 0;
+
+        if ((0 < argc) && (optind < argc) && (arg = argv[optind]) && (arg[0])) {
+            lamna::graphic::image::format::raw::libpgm::gbrg::reader r;
+            if ((r.read(arg))) {
+            }
+        } else {
+            err = usage(argc, argv, env);
+        }
+        return err;
+    }
+
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
 
-} // namespace lamna
+} // namespace pgm 
+} // namespace console 
+} // namespace app 
+} // namespace lamna 
 
-#endif // _LAMNA_BASE_BASE_HPP 
+#endif // _LAMNA_APP_CONSOLE_PGM_MAIN_HPP 

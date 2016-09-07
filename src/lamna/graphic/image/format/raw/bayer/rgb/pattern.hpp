@@ -84,8 +84,10 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     patternt(pattern_which_t which = none): which_(which) {
+        set_filters();
     }
     patternt(const patternt& copy): which_(copy.which_) {
+        set_filters();
     }
     virtual ~patternt() {
     }
@@ -105,6 +107,27 @@ public:
         }
         return filters_;
     }
+    virtual filters_which_t& set_filters() {
+        which_t to = which_;
+        if (none != (to)) {
+            filter_which_t filter = next_filter;
+            for (filter = next_filter; filter > first_filter; --filter) {
+                filter_which_t to_index = ((filter - first_filter - 1) & filter_mask);
+                filter_which_t to_filter = (to & filter_mask);
+                const char* to_name  = filter::name_of(to_filter);
+                const char* name  = filter::name_of(to_index);
+
+                LAMNA_LOG_MESSAGE_DEBUG("filters_[" << to_index << " (" << name << ")] = " << to_filter << " (" << to_name << ")");
+                filters_[to_index] = to_filter;
+                to = (to >> filter_bits);
+            }
+        } else {
+            for (filter_which_t filter = first_filter; filter < next_filter; ++filter) {
+                filters_[filter - first_filter] = filter;
+            }
+        }
+        return filters_;
+    }
     virtual filters_which_t& filters() const {
         return (filters_which_t&)filters_;
     }
@@ -115,17 +138,8 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     virtual which_t set_which(which_t to) {
-        filter_which_t filter = next_filter;
-        for (which_ = to, filter = next_filter; filter > first_filter; --filter) {
-            filter_which_t to_index = ((filter - first_filter - 1) & filter_mask);
-            filter_which_t to_filter = (to & filter_mask);
-            const char* to_name  = filter::name_of(to_filter);
-            const char* name  = filter::name_of(to_index);
-
-            LAMNA_LOG_MESSAGE_DEBUG("filters_[" << to_index << " (" << name << ")] = " << to_filter << " (" << to_name << ")");
-            filters_[to_index] = to_filter;
-            to = (to >> filter_bits);
-        }
+        which_ = to;
+        set_filters();
         return which_;
     }
     virtual which_t which() const {
@@ -137,6 +151,9 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual const char* name() const {
+        return name(which_);
+    }
     static const char* name(which_t of) {
         switch (of) {
         case pattern_rggb:
@@ -149,6 +166,49 @@ public:
             return LAMNA_GRAPHIC_IMAGE_FORMAT_RAW_BAYER_RGB_PATTERN_GBRG_NAME;
         }
         return LAMNA_GRAPHIC_IMAGE_FORMAT_RAW_BAYER_RGB_PATTERN_NONE_NAME;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual filter_which_t filter(filter_which_t which) const {
+        return filter(which_, which);
+    }
+    static filter_which_t filter(which_t of, filter_which_t which) {
+        switch (of) {
+        case pattern_rggb:
+            switch (which) {
+            case filter_red: return filter_red;
+            case filter_green: return filter_green;
+            case filter_green2: return filter_green2;
+            case filter_blue: return filter_blue;
+            }
+            break;
+        case pattern_bggr:
+            switch (which) {
+            case filter_red: return filter_blue;
+            case filter_green: return filter_green;
+            case filter_green2: return filter_green2;
+            case filter_blue: return filter_red;
+            }
+            break;
+        case pattern_grbg:
+            switch (which) {
+            case filter_red: return filter_green;
+            case filter_green: return filter_red;
+            case filter_green2: return filter_blue;
+            case filter_blue: return filter_green2;
+            }
+            break;
+        case pattern_gbrg:
+            switch (which) {
+            case filter_red: return filter_green;
+            case filter_green: return filter_blue;
+            case filter_green2: return filter_red;
+            case filter_blue: return filter_green2;
+            }
+            break;
+        }
+        return filter_none;
     }
 
     ///////////////////////////////////////////////////////////////////////
