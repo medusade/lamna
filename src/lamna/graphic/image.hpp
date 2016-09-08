@@ -145,6 +145,42 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
+    virtual eError DrawRoundedRectangle
+    (tOffset x, tOffset y, tSize w, tSize h, tSize r) {
+        eError error = e_ERROR_NONE;
+        DrawCircle(x,y, r, e_CIRCLE_QUADRANT_4);
+        DrawCircle(x+w-1,y, r, e_CIRCLE_QUADRANT_1);
+        DrawCircle(x+w-1,y+h-1, r, e_CIRCLE_QUADRANT_2);
+        DrawCircle(x,y+h-1, r, e_CIRCLE_QUADRANT_3);
+        if (2 < w) {
+            Fill(x+1,y-r+1, w-2,1);
+            Fill(x+1,y+h+r-1, w-2,1);
+        }
+        if (2 < h) {
+            Fill(x-r+1,y, 1,h-2);
+            Fill(x+w+r-1,y, 1,h-2);
+        }
+        return error;
+    }
+    virtual eError FillRoundedRectangle
+    (tOffset x, tOffset y, tSize w, tSize h, tSize r) {
+        eError error = e_ERROR_NONE;
+        FillCircle(x,y, r, e_CIRCLE_QUADRANT_4);
+        FillCircle(x+w-1,y, r, e_CIRCLE_QUADRANT_1);
+        FillCircle(x+w-1,y+h-1, r, e_CIRCLE_QUADRANT_2);
+        FillCircle(x,y+h-1, r, e_CIRCLE_QUADRANT_3);
+        if (2 < w) {
+            Fill(x+1,y-r+1, w-2,r);
+            Fill(x+1,y+h-1, w-2,r);
+        }
+        if (2 < h) {
+            Fill(x-r+1,y, w+r+r-2,h-2);
+        }
+        return error;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     virtual tImageInterface* SelectAsImage(tImageInterface* image) {
         tImageInterface* prevImage = 0;
         if (image)

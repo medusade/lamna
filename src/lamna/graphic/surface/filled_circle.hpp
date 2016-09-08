@@ -70,7 +70,7 @@ public:
                 color_.Fill(this->surface_image_, x+1,y+h-1, w-2,r_);
             }
             if ((2 < h)) {
-                color_.Fill(this->surface_image_, x-r_+1,y, w+r_+r_-2,h-2);
+                color_.Fill(this->surface_image_, x-r_+1,y+1, w+r_+r_-2,h-2);
             }
             circle_.PlotCircle(color_, x+w-1,y, r_, e_CIRCLE_QUADRANT_1);
             circle_.PlotCircle(color_, x+w-1,y+h-1, r_, e_CIRCLE_QUADRANT_2);
