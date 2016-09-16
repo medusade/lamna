@@ -231,6 +231,98 @@ void FillTriangleT
     }
 }
 
+///////////////////////////////////////////////////////////////////////
+///  Class: trianglet
+///////////////////////////////////////////////////////////////////////
+template
+<class TImageBase = image_base,
+ class TImageBaseInterface = image_base_interface,
+ class TImage = TImageBaseInterface,
+ class TPixel = TImageBaseInterface,
+ class TInt = int,
+ class TSize = size_t,
+ class TLength = ssize_t,
+ class TOffset = ssize_t,
+ class TExtends = TImageBase>
+
+class _EXPORT_CLASS trianglet: public TExtends {
+public:
+    typedef TExtends Extends;
+
+    typedef TImageBaseInterface tImageBaseInterface;
+    typedef TImageBase tImageBase;
+    typedef TImage tImage;
+    typedef TPixel tPixel;
+    typedef TInt tInt;
+    typedef TSize tSize;
+    typedef TLength tLength;
+    typedef TOffset tOffset;
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    trianglet(tImageBaseInterface& image): Extends(image) {
+    }
+    virtual ~trianglet() {
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual void PlotTriangle
+    (tPixel &pixel, tInt x1,tInt y1, tInt x2,tInt y2,
+     tInt x3,tInt y3, tSize thickness = 1) {
+        tImageBaseInterface* old = this->m_image.SelectImage(&pixel);
+        this->m_image.DrawTriangle(x1,y1, x2,y2, x3,y3);
+        this->m_image.SelectImage(old);
+    }
+};
+typedef trianglet<> triangle;
+
+///////////////////////////////////////////////////////////////////////
+///  Class: filled_trianglet
+///////////////////////////////////////////////////////////////////////
+template
+<class TImageBase = image_base,
+ class TImageBaseInterface = image_base_interface,
+ class TImage = TImageBaseInterface,
+ class TPixel = TImageBaseInterface,
+ class TInt = int,
+ class TSize = size_t,
+ class TLength = ssize_t,
+ class TOffset = ssize_t,
+ class TExtends = TImageBase>
+
+class _EXPORT_CLASS filled_trianglet: public TExtends {
+public:
+    typedef TExtends Extends;
+
+    typedef TImageBaseInterface tImageBaseInterface;
+    typedef TImageBase tImageBase;
+    typedef TImage tImage;
+    typedef TPixel tPixel;
+    typedef TInt tInt;
+    typedef TSize tSize;
+    typedef TLength tLength;
+    typedef TOffset tOffset;
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    filled_trianglet(tImageBaseInterface& image): Extends(image) {
+    }
+    virtual ~filled_trianglet() {
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual void PlotTriangle
+    (tPixel &pixel, tInt x1,tInt y1, tInt x2,tInt y2,
+     tInt x3,tInt y3, tSize thickness = 1) {
+        tImageBaseInterface* old = this->m_image.SelectImage(&pixel);
+        this->m_image.FillTriangle(x1,y1, x2,y2, x3,y3);
+        this->m_image.SelectImage(old);
+    }
+};
+typedef filled_trianglet<> filled_triangle;
+
 } // namespace graphic
 } // namespace lamna 
 

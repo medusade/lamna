@@ -13,75 +13,75 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: elliptical_rounded_rectangle_image.hpp
+///   File: rounded_rectangle_image.hpp
 ///
 /// Author: $author$
-///   Date: 9/9/2016
+///   Date: 9/15/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_GRAPHIC_ELLIPTICAL_ROUNDED_RECTANGLE_IMAGE_HPP
-#define _LAMNA_GRAPHIC_ELLIPTICAL_ROUNDED_RECTANGLE_IMAGE_HPP
+#ifndef _LAMNA_GRAPHIC_ROUNDED_RECTANGLE_IMAGE_HPP
+#define _LAMNA_GRAPHIC_ROUNDED_RECTANGLE_IMAGE_HPP
 
-#include "lamna/graphic/elliptical_rounded_rectangle.hpp"
+#include "lamna/graphic/rounded_rectangle.hpp"
 #include "lamna/graphic/base_image.hpp"
 
 namespace lamna {
 namespace graphic {
 
-typedef elliptical_rounded_rectanglet
-<base_image, image_interface> elliptical_rounded_rectangle_image_extends;
+typedef rounded_rectanglet
+<base_image, image_interface> rounded_rectangle_image_extends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: elliptical_rounded_rectangle_imaget
+///  Class: rounded_rectangle_imaget
 ///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS elliptical_rounded_rectangle_image
-: public elliptical_rounded_rectangle_image_extends {
+class _EXPORT_CLASS rounded_rectangle_image
+: public rounded_rectangle_image_extends {
 public:
-    typedef elliptical_rounded_rectangle_image_extends Extends;
+    typedef rounded_rectangle_image_extends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    elliptical_rounded_rectangle_image
+    rounded_rectangle_image
     (tImageInterface& image): Extends(image) {
     }
-    virtual ~elliptical_rounded_rectangle_image() {
+    virtual ~rounded_rectangle_image() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
 
-typedef filled_elliptical_rounded_rectanglet
-<base_image, image_interface> filled_elliptical_rounded_rectangle_image_extends;
+typedef filled_rounded_rectanglet
+<base_image, image_interface> filled_rounded_rectangle_image_extends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: filled_elliptical_rounded_rectangle_imaget
+///  Class: filled_rounded_rectangle_imaget
 ///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS filled_elliptical_rounded_rectangle_image
-: public filled_elliptical_rounded_rectangle_image_extends {
+class _EXPORT_CLASS filled_rounded_rectangle_image
+: public filled_rounded_rectangle_image_extends {
 public:
-    typedef filled_elliptical_rounded_rectangle_image_extends Extends;
+    typedef filled_rounded_rectangle_image_extends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    filled_elliptical_rounded_rectangle_image
+    filled_rounded_rectangle_image
     (tImageInterface& image): Extends(image) {
     }
-    virtual ~filled_elliptical_rounded_rectangle_image() {
+    virtual ~filled_rounded_rectangle_image() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
 
-typedef hollowed_elliptical_rounded_rectanglet
-<base_image, image_interface> hollowed_elliptical_rounded_rectangle_image_extends;
+typedef hollowed_rounded_rectanglet
+<base_image, image_interface> hollowed_rounded_rectangle_image_extends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: hollowed_elliptical_rounded_rectangle_imaget
+///  Class: hollowed_rounded_rectangle_imaget
 ///////////////////////////////////////////////////////////////////////
-class _EXPORT_CLASS hollowed_elliptical_rounded_rectangle_image
-: public hollowed_elliptical_rounded_rectangle_image_extends {
+class _EXPORT_CLASS hollowed_rounded_rectangle_image
+: public hollowed_rounded_rectangle_image_extends {
 public:
-    typedef hollowed_elliptical_rounded_rectangle_image_extends Extends;
+    typedef hollowed_rounded_rectangle_image_extends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    hollowed_elliptical_rounded_rectangle_image
+    hollowed_rounded_rectangle_image
     (tImageInterface& image): Extends(image) {
     }
-    virtual ~hollowed_elliptical_rounded_rectangle_image() {
+    virtual ~hollowed_rounded_rectangle_image() {
     }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -90,4 +90,4 @@ public:
 } // namespace graphic
 } // namespace lamna 
 
-#endif // _LAMNA_GRAPHIC_ELLIPTICAL_ROUNDED_RECTANGLE_IMAGE_HPP 
+#endif // _LAMNA_GRAPHIC_ROUNDED_RECTANGLE_IMAGE_HPP 

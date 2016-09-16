@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////
-/// Copyright (c) 1988-2015 $organization$
+/// Copyright (c) 1988-2016 $organization$
 ///
 /// This software is provided by the author and contributors ``as is'' 
 /// and any express or implied warranties, including, but not limited to, 
@@ -13,76 +13,61 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: object.hpp
+///   File: rectangle_image.hpp
 ///
 /// Author: $author$
-///   Date: 6/1/2015
+///   Date: 9/15/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_GRAPHIC_SURFACE_OBJECT_HPP
-#define _LAMNA_GRAPHIC_SURFACE_OBJECT_HPP
+#ifndef _LAMNA_GRAPHIC_RECTANGLE_IMAGE_HPP
+#define _LAMNA_GRAPHIC_RECTANGLE_IMAGE_HPP
 
-#include "lamna/graphic/surface/image.hpp"
-#include "lamna/graphic/image_object.hpp"
+#include "lamna/graphic/rectangle.hpp"
+#include "lamna/graphic/base_image.hpp"
 
 namespace lamna {
 namespace graphic {
-namespace surface {
 
+typedef rectanglet
+<base_image, image_interface> rectangle_image_extends;
 ///////////////////////////////////////////////////////////////////////
-///  Class: objectt
+///  Class: rectangle_imaget
 ///////////////////////////////////////////////////////////////////////
-template
-<class TImageObject = image_object,
- class TImageInterface = image_interface,
- class TImageBaseInterface = image_base_interface,
- class TSelectedImage = selected_image,
- class TInt = int,
- class TSize = size_t,
- class TLength = ssize_t,
- class TOffset = ssize_t,
- class TExtends = TImageObject>
-
-class _EXPORT_CLASS objectt: public TExtends {
+class _EXPORT_CLASS rectangle_image
+: public rectangle_image_extends {
 public:
-    typedef TExtends Extends;
-
-    typedef objectt tObject;
-    typedef TImageObject tImageObject;
-    typedef TImageInterface tImageInterface;
-    typedef TImageBaseInterface tImageBaseInterface;
-    typedef TSelectedImage tSelectedImage;
-    typedef TInt tInt;
-    typedef TSize tSize;
-    typedef TLength tLength;
-    typedef TOffset tOffset;
-
+    typedef rectangle_image_extends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    objectt
-    (tImageInterface& surface_image,
-     tSize width = 0, tSize height = 0)
-    : Extends(surface_image, width, height),
-      surface_image_(surface_image) {
+    rectangle_image
+    (tImageInterface& image): Extends(image) {
     }
-    virtual ~objectt() {
+    virtual ~rectangle_image() {
     }
-
-protected:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    virtual tSelectedImage* SurfaceSelectImage(tSelectedImage* image) {
-        return surface_image_.SelectImage(image);
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-protected:
-    tImageInterface& surface_image_;
 };
-typedef objectt<> object;
 
-} // namespace surface 
-} // namespace graphic 
+typedef filled_rectanglet
+<base_image, image_interface> filled_rectangle_image_extends;
+///////////////////////////////////////////////////////////////////////
+///  Class: filled_rectangle_imaget
+///////////////////////////////////////////////////////////////////////
+class _EXPORT_CLASS filled_rectangle_image
+: public filled_rectangle_image_extends {
+public:
+    typedef filled_rectangle_image_extends Extends;
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    filled_rectangle_image
+    (tImageInterface& image): Extends(image) {
+    }
+    virtual ~filled_rectangle_image() {
+    }
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+};
+
+} // namespace graphic
 } // namespace lamna 
 
-#endif // _LAMNA_GRAPHIC_SURFACE_OBJECT_HPP
+#endif // _LAMNA_GRAPHIC_RECTANGLE_IMAGE_HPP 

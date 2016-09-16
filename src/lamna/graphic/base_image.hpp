@@ -25,8 +25,9 @@
 #include "lamna/graphic/hollow_midpoint_circle.hpp"
 #include "lamna/graphic/midpoint_ellipse.hpp"
 #include "lamna/graphic/midpoint_circle.hpp"
-#include "lamna/graphic/triangle.hpp"
 #include "lamna/graphic/bresenham_line.hpp"
+#include "lamna/graphic/triangle.hpp"
+#include "lamna/graphic/rectangle.hpp"
 #include "lamna/graphic/image_base.hpp"
 
 namespace lamna {
@@ -134,11 +135,30 @@ public:
     virtual eError DrawTriangle
     (tOffset x1, tOffset y1, tOffset x2, tOffset y2, tOffset x3, tOffset y3) {
         eError error = e_ERROR_NONE;
+        Draw(x1,y1, x2,y2);
+        Draw(x2,y2, x3,y3);
+        Draw(x3,y3, x1,y1);
         return error;
     }
     virtual eError FillTriangle
     (tOffset x1, tOffset y1, tOffset x2, tOffset y2, tOffset x3, tOffset y3) {
         eError error = e_ERROR_NONE;
+        return error;
+    }
+    ///////////////////////////////////////////////////////////////////////
+    virtual eError DrawRectangle
+    (tOffset x, tOffset y, tSize w, tSize h) {
+        eError error = e_ERROR_NONE;
+        Fill(x,y, w-1,1);
+        Fill(x+w-1,y, 1,h-1);
+        Fill(x+1,y+h-1, w-1,1);
+        Fill(x,y+1, 1,h-1);
+        return error;
+    }
+    virtual eError FillRectangle
+    (tOffset x, tOffset y, tSize w, tSize h) {
+        eError error = e_ERROR_NONE;
+        Fill(x,y, w,h);
         return error;
     }
 
@@ -177,6 +197,15 @@ public:
         }
         return error;
     }
+    virtual eError HollowRoundedRectangle
+    (tOffset x, tOffset y, tSize w, tSize h, tSize r) {
+        eError error = e_ERROR_NONE;
+        HollowCircle(x,y, r, e_CIRCLE_QUADRANT_4);
+        HollowCircle(x+w-1,y, r, e_CIRCLE_QUADRANT_1);
+        HollowCircle(x+w-1,y+h-1, r, e_CIRCLE_QUADRANT_2);
+        HollowCircle(x,y+h-1, r, e_CIRCLE_QUADRANT_3);
+        return error;
+    }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
@@ -211,6 +240,97 @@ public:
         if (2 < h) {
             Fill(x-rx+1,y, w+rx+rx-2,h-2);
         }
+        return error;
+    }
+    virtual eError HollowEllipticalRoundedRectangle
+    (tOffset x, tOffset y, tSize w, tSize h, tSize rx, tSize ry) {
+        eError error = e_ERROR_NONE;
+        HollowEllipse(x,y, rx,ry, e_CIRCLE_QUADRANT_4);
+        HollowEllipse(x+w-1,y, rx,ry, e_CIRCLE_QUADRANT_1);
+        HollowEllipse(x+w-1,y+h-1, rx,ry, e_CIRCLE_QUADRANT_2);
+        HollowEllipse(x,y+h-1, rx,ry, e_CIRCLE_QUADRANT_3);
+        return error;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual eError DrawRoundedRectangle
+    (tOffset x, tOffset y, tSize w, tSize h, tSize r,
+     tSize thickness, eRectangleCorner corner, eRectangleSide side) {
+        eError error = e_ERROR_NONE;
+        if ((e_RECTANGLE_CORNER_TOP_LEFT & corner))     DrawCircle(x,y, r, e_CIRCLE_QUADRANT_4);
+        if ((e_RECTANGLE_CORNER_TOP_RIGHT & corner))    DrawCircle(x+w-1,y, r, e_CIRCLE_QUADRANT_1);
+        if ((e_RECTANGLE_CORNER_BOTTOM_RIGHT & corner)) DrawCircle(x+w-1,y+h-1, r, e_CIRCLE_QUADRANT_2);
+        if ((e_RECTANGLE_CORNER_BOTTOM_LEFT & corner))  DrawCircle(x,y+h-1, r, e_CIRCLE_QUADRANT_3);
+        if ((e_RECTANGLE_SIDE_LEFT & side)) Fill(x-r+1,y, 1,h);
+        if ((e_RECTANGLE_SIDE_TOP & side)) Fill(x,y-r+1, w,1);
+        if ((e_RECTANGLE_SIDE_RIGHT & side)) Fill(x+w-1,y, 1,h);
+        if ((e_RECTANGLE_SIDE_BOTTOM & side)) Fill(x,y+h-1, w,1);
+        return error;
+    }
+    virtual eError FillRoundedRectangle
+    (tOffset x, tOffset y, tSize w, tSize h, tSize r,
+     tSize thickness, eRectangleCorner corner, eRectangleSide side) {
+        eError error = e_ERROR_NONE;
+        if ((e_RECTANGLE_CORNER_TOP_LEFT & corner))     FillCircle(x,y, r, e_CIRCLE_QUADRANT_4);
+        if ((e_RECTANGLE_CORNER_TOP_RIGHT & corner))    FillCircle(x+w-1,y, r, e_CIRCLE_QUADRANT_1);
+        if ((e_RECTANGLE_CORNER_BOTTOM_RIGHT & corner)) FillCircle(x+w-1,y+h-1, r, e_CIRCLE_QUADRANT_2);
+        if ((e_RECTANGLE_CORNER_BOTTOM_LEFT & corner))  FillCircle(x,y+h-1, r, e_CIRCLE_QUADRANT_3);
+        if ((e_RECTANGLE_SIDE_LEFT & side)) Fill(x-r+1,y, r,h);
+        if ((e_RECTANGLE_SIDE_TOP & side)) Fill(x,y-r+1, w,r);
+        if ((e_RECTANGLE_SIDE_RIGHT & side)) Fill(x+w-1,y, r,h);
+        if ((e_RECTANGLE_SIDE_BOTTOM & side)) Fill(x,y+r+h-1, w,r);
+        return error;
+    }
+    virtual eError HollowRoundedRectangle
+    (tOffset x, tOffset y, tSize w, tSize h, tSize r,
+     tSize thickness, eRectangleCorner corner, eRectangleSide side) {
+        eError error = e_ERROR_NONE;
+        if ((e_RECTANGLE_CORNER_TOP_LEFT & corner))     HollowCircle(x,y, r, e_CIRCLE_QUADRANT_4);
+        if ((e_RECTANGLE_CORNER_TOP_RIGHT & corner))    HollowCircle(x+w-1,y, r, e_CIRCLE_QUADRANT_1);
+        if ((e_RECTANGLE_CORNER_BOTTOM_RIGHT & corner)) HollowCircle(x+w-1,y+h-1, r, e_CIRCLE_QUADRANT_2);
+        if ((e_RECTANGLE_CORNER_BOTTOM_LEFT & corner))  HollowCircle(x,y+h-1, r, e_CIRCLE_QUADRANT_3);
+        return error;
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual eError DrawEllipticalRoundedRectangle
+    (tOffset x, tOffset y, tSize w, tSize h, tSize rx, tSize ry,
+     tSize thickness, eRectangleCorner corner, eRectangleSide side) {
+        eError error = e_ERROR_NONE;
+        if ((e_RECTANGLE_CORNER_TOP_LEFT & corner))     DrawEllipse(x,y, rx,ry, e_CIRCLE_QUADRANT_4);
+        if ((e_RECTANGLE_CORNER_TOP_RIGHT & corner))    DrawEllipse(x+w-1,y, rx,ry, e_CIRCLE_QUADRANT_1);
+        if ((e_RECTANGLE_CORNER_BOTTOM_RIGHT & corner)) DrawEllipse(x+w-1,y+h-1, rx,ry, e_CIRCLE_QUADRANT_2);
+        if ((e_RECTANGLE_CORNER_BOTTOM_LEFT & corner))  DrawEllipse(x,y+h-1, rx,ry, e_CIRCLE_QUADRANT_3);
+        if ((e_RECTANGLE_SIDE_LEFT & side)) Fill(x-rx+1,y, 1,h);
+        if ((e_RECTANGLE_SIDE_TOP & side)) Fill(x,y-ry+1, w,1);
+        if ((e_RECTANGLE_SIDE_RIGHT & side)) Fill(x+w-1,y, 1,h);
+        if ((e_RECTANGLE_SIDE_BOTTOM & side)) Fill(x,y+ry+h-1, w,1);
+        return error;
+    }
+    virtual eError FillEllipticalRoundedRectangle
+    (tOffset x, tOffset y, tSize w, tSize h, tSize rx, tSize ry,
+     tSize thickness, eRectangleCorner corner, eRectangleSide side) {
+        eError error = e_ERROR_NONE;
+        if ((e_RECTANGLE_CORNER_TOP_LEFT & corner))     FillEllipse(x,y, rx,ry, e_CIRCLE_QUADRANT_4);
+        if ((e_RECTANGLE_CORNER_TOP_RIGHT & corner))    FillEllipse(x+w-1,y, rx,ry, e_CIRCLE_QUADRANT_1);
+        if ((e_RECTANGLE_CORNER_BOTTOM_RIGHT & corner)) FillEllipse(x+w-1,y+h-1, rx,ry, e_CIRCLE_QUADRANT_2);
+        if ((e_RECTANGLE_CORNER_BOTTOM_LEFT & corner))  FillEllipse(x,y+h-1, rx,ry, e_CIRCLE_QUADRANT_3);
+        if ((e_RECTANGLE_SIDE_LEFT & side)) Fill(x-rx+1,y, rx,h);
+        if ((e_RECTANGLE_SIDE_TOP & side)) Fill(x,y-ry+1, w,ry);
+        if ((e_RECTANGLE_SIDE_RIGHT & side)) Fill(x+w-1,y, rx,h);
+        if ((e_RECTANGLE_SIDE_BOTTOM & side)) Fill(x,y+h-1, w,ry);
+        return error;
+    }
+    virtual eError HollowEllipticalRoundedRectangle
+    (tOffset x, tOffset y, tSize w, tSize h, tSize rx, tSize ry,
+     tSize thickness, eRectangleCorner corner, eRectangleSide side) {
+        eError error = e_ERROR_NONE;
+        if ((e_RECTANGLE_CORNER_TOP_LEFT & corner))     HollowEllipse(x,y, rx,ry, e_CIRCLE_QUADRANT_4);
+        if ((e_RECTANGLE_CORNER_TOP_RIGHT & corner))    HollowEllipse(x+w-1,y, rx,ry, e_CIRCLE_QUADRANT_1);
+        if ((e_RECTANGLE_CORNER_BOTTOM_RIGHT & corner)) HollowEllipse(x+w-1,y+h-1, rx,ry, e_CIRCLE_QUADRANT_2);
+        if ((e_RECTANGLE_CORNER_BOTTOM_LEFT & corner))  HollowEllipse(x,y+h-1, rx,ry, e_CIRCLE_QUADRANT_3);
         return error;
     }
 
@@ -324,6 +444,8 @@ protected:
     tImageInterface& m_image;
 };
 typedef base_imaget<> base_image;
+
+typedef image_interface selected_image;
 
 } // namespace graphic
 } // namespace lamna 

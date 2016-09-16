@@ -13,16 +13,16 @@
 /// or otherwise) arising in any way out of the use of this software, 
 /// even if advised of the possibility of such damage.
 ///
-///   File: elliptical_rounded_rectangle.hpp
+///   File: rounded_rectangle.hpp
 ///
 /// Author: $author$
-///   Date: 9/9/2016
+///   Date: 9/15/2016
 ///////////////////////////////////////////////////////////////////////
-#ifndef _LAMNA_GRAPHIC_SURFACE_ELLIPTICAL_ROUNDED_RECTANGLE_HPP
-#define _LAMNA_GRAPHIC_SURFACE_ELLIPTICAL_ROUNDED_RECTANGLE_HPP
+#ifndef _LAMNA_GRAPHIC_SURFACE_ROUNDED_RECTANGLE_HPP
+#define _LAMNA_GRAPHIC_SURFACE_ROUNDED_RECTANGLE_HPP
 
-#include "lamna/graphic/elliptical_rounded_rectangle_image.hpp"
-#include "lamna/graphic/elliptical_rounded_rectangle.hpp"
+#include "lamna/graphic/rounded_rectangle_image.hpp"
+#include "lamna/graphic/rounded_rectangle.hpp"
 #include "lamna/graphic/surface/object.hpp"
 
 namespace lamna {
@@ -30,7 +30,7 @@ namespace graphic {
 namespace surface {
 
 ///////////////////////////////////////////////////////////////////////
-///  Class: elliptical_rounded_rectanglet
+///  Class: rounded_rectanglet
 ///////////////////////////////////////////////////////////////////////
 template
 <class TObject = object,
@@ -41,7 +41,7 @@ template
  class TOffset = ssize_t,
  class TExtends = TObject>
 
-class _EXPORT_CLASS elliptical_rounded_rectanglet: public TExtends {
+class _EXPORT_CLASS rounded_rectanglet: public TExtends {
 public:
     typedef TExtends Extends;
 
@@ -54,16 +54,16 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    elliptical_rounded_rectanglet
+    rounded_rectanglet
     (tImageInterface& image, tObject& color,
-     tSize w, tSize h, tSize rx, tSize ry, tSize thick = 1,
+     tSize w, tSize h, tSize r, tSize thick = 1,
      eRectangleCorner corner = e_RECTANGLE_CORNER_ALL,
      eRectangleSide side = e_RECTANGLE_SIDE_ALL)
     : Extends(image), rectangle_(image),
-      color_(color), w_(w),h_(h), rx_(rx),ry_(ry),
+      color_(color), w_(w),h_(h), r_(r),
       thick_(thick), corner_(corner), side_(side) {
     }
-    virtual ~elliptical_rounded_rectanglet() {
+    virtual ~rounded_rectanglet() {
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -74,24 +74,24 @@ public:
     }
     virtual eError Plot(tOffset x, tOffset y) {
         eError error = e_ERROR_NONE;
-        rectangle_.PlotEllipticalRoundedRectangle
-        (color_, x,y, w_,h_, rx_,ry_, thick_, corner_, side_);
+        rectangle_.PlotRoundedRectangle
+        (color_, x,y, w_,h_, r_, thick_, corner_, side_);
         return error;
     }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 protected:
-    elliptical_rounded_rectangle_image rectangle_;
+    rounded_rectangle_image rectangle_;
     tObject& color_;
-    tSize w_, h_, rx_, ry_, thick_;
+    tSize w_, h_, r_, thick_;
     eRectangleCorner corner_;
     eRectangleSide side_;
 };
-typedef elliptical_rounded_rectanglet<> elliptical_rounded_rectangle;
+typedef rounded_rectanglet<> rounded_rectangle;
 
 ///////////////////////////////////////////////////////////////////////
-///  Class: filled_elliptical_rounded_rectanglet
+///  Class: filled_rounded_rectanglet
 ///////////////////////////////////////////////////////////////////////
 template
 <class TObject = object,
@@ -102,7 +102,7 @@ template
  class TOffset = ssize_t,
  class TExtends = TObject>
 
-class _EXPORT_CLASS filled_elliptical_rounded_rectanglet: public TExtends {
+class _EXPORT_CLASS filled_rounded_rectanglet: public TExtends {
 public:
     typedef TExtends Extends;
 
@@ -115,16 +115,16 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    filled_elliptical_rounded_rectanglet
+    filled_rounded_rectanglet
     (tImageInterface& image, tObject& color,
-     tSize w, tSize h, tSize rx, tSize ry, tSize thick = 1,
+     tSize w, tSize h, tSize r, tSize thick = 1,
      eRectangleCorner corner = e_RECTANGLE_CORNER_ALL,
      eRectangleSide side = e_RECTANGLE_SIDE_ALL)
     : Extends(image), rectangle_(image),
-      color_(color), w_(w),h_(h), rx_(rx),ry_(ry),
+      color_(color), w_(w),h_(h), r_(r),
       thick_(thick), corner_(corner), side_(side) {
     }
-    virtual ~filled_elliptical_rounded_rectanglet() {
+    virtual ~filled_rounded_rectanglet() {
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -135,24 +135,24 @@ public:
     }
     virtual eError Plot(tOffset x, tOffset y) {
         eError error = e_ERROR_NONE;
-        rectangle_.PlotEllipticalRoundedRectangle
-        (color_, x,y, w_,h_, rx_,ry_, thick_, corner_, side_);
+        rectangle_.PlotRoundedRectangle
+        (color_, x,y, w_,h_, r_, thick_, corner_, side_);
         return error;
     }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 protected:
-    filled_elliptical_rounded_rectangle_image rectangle_;
+    filled_rounded_rectangle_image rectangle_;
     tObject& color_;
-    tSize w_, h_, rx_, ry_, thick_;
+    tSize w_, h_, r_, thick_;
     eRectangleCorner corner_;
     eRectangleSide side_;
 };
-typedef filled_elliptical_rounded_rectanglet<> filled_elliptical_rounded_rectangle;
+typedef filled_rounded_rectanglet<> filled_rounded_rectangle;
 
 ///////////////////////////////////////////////////////////////////////
-///  Class: hollowed_elliptical_rounded_rectanglet
+///  Class: hollowed_rounded_rectanglet
 ///////////////////////////////////////////////////////////////////////
 template
 <class TObject = object,
@@ -163,7 +163,7 @@ template
  class TOffset = ssize_t,
  class TExtends = TObject>
 
-class _EXPORT_CLASS hollowed_elliptical_rounded_rectanglet: public TExtends {
+class _EXPORT_CLASS hollowed_rounded_rectanglet: public TExtends {
 public:
     typedef TExtends Extends;
 
@@ -176,16 +176,16 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    hollowed_elliptical_rounded_rectanglet
+    hollowed_rounded_rectanglet
     (tImageInterface& image, tObject& color,
-     tSize w, tSize h, tSize rx, tSize ry, tSize thick = 1,
+     tSize w, tSize h, tSize r, tSize thick = 1,
      eRectangleCorner corner = e_RECTANGLE_CORNER_ALL,
      eRectangleSide side = e_RECTANGLE_SIDE_ALL)
     : Extends(image), rectangle_(image),
-      color_(color), w_(w),h_(h), rx_(rx),ry_(ry),
+      color_(color), w_(w),h_(h), r_(r),
       thick_(thick), corner_(corner), side_(side) {
     }
-    virtual ~hollowed_elliptical_rounded_rectanglet() {
+    virtual ~hollowed_rounded_rectanglet() {
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -196,24 +196,24 @@ public:
     }
     virtual eError Plot(tOffset x, tOffset y) {
         eError error = e_ERROR_NONE;
-        rectangle_.PlotEllipticalRoundedRectangle
-        (color_, x,y, w_,h_, rx_,ry_, thick_, corner_, side_);
+        rectangle_.PlotRoundedRectangle
+        (color_, x,y, w_,h_, r_, thick_, corner_, side_);
         return error;
     }
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 protected:
-    hollowed_elliptical_rounded_rectangle_image rectangle_;
+    hollowed_rounded_rectangle_image rectangle_;
     tObject& color_;
-    tSize w_, h_, rx_, ry_, thick_;
+    tSize w_, h_, r_, thick_;
     eRectangleCorner corner_;
     eRectangleSide side_;
 };
-typedef hollowed_elliptical_rounded_rectanglet<> hollowed_elliptical_rounded_rectangle;
+typedef hollowed_rounded_rectanglet<> hollowed_rounded_rectangle;
 
 } // namespace surface
 } // namespace graphic 
 } // namespace lamna 
 
-#endif // _LAMNA_GRAPHIC_SURFACE_ELLIPTICAL_ROUNDED_RECTANGLE_HPP 
+#endif // _LAMNA_GRAPHIC_SURFACE_ROUNDED_RECTANGLE_HPP 

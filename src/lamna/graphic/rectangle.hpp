@@ -85,7 +85,7 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    rectanglet() {
+    rectanglet(tImageBaseInterface& image): Extends(image) {
     }
     virtual ~rectanglet() {
     }
@@ -97,12 +97,72 @@ public:
      tSize cWidth, tSize cHeight, tSize thickness = 1,
      eRectangleCorner corner = e_RECTANGLE_CORNER_ALL,
      eRectangleSide side = e_RECTANGLE_SIDE_ALL) {
+        tImageBaseInterface* old = this->m_image.SelectImage(&pixel);
 
+        if ((e_RECTANGLE_CORNER_ALL == corner)
+            && (e_RECTANGLE_SIDE_ALL == side)) {
+            this->m_image.DrawRectangle
+            (cx,cy, cWidth,cHeight);
+        }
+        this->m_image.SelectImage(old);
     }
 };
 typedef rectanglet<> rectangle;
 
-} // namespace graphic 
+///////////////////////////////////////////////////////////////////////
+///  Class: filled_rectanglet
+///////////////////////////////////////////////////////////////////////
+template
+<class TImageBase = image_base,
+ class TImageBaseInterface = image_base_interface,
+ class TImage = TImageBaseInterface,
+ class TPixel = TImageBaseInterface,
+ class TInt = int,
+ class TSize = size_t,
+ class TLength = ssize_t,
+ class TOffset = ssize_t,
+ class TExtends = TImageBase>
+
+class _EXPORT_CLASS filled_rectanglet: public TExtends {
+public:
+    typedef TExtends Extends;
+
+    typedef TImageBaseInterface tImageBaseInterface;
+    typedef TImageBase tImageBase;
+    typedef TImage tImage;
+    typedef TPixel tPixel;
+    typedef TInt tInt;
+    typedef TSize tSize;
+    typedef TLength tLength;
+    typedef TOffset tOffset;
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    filled_rectanglet(tImageBaseInterface& image): Extends(image) {
+    }
+    virtual ~filled_rectanglet() {
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    virtual void PlotRectangle
+    (tPixel &pixel, tInt cx,tInt cy,
+     tSize cWidth, tSize cHeight, tSize thickness = 1,
+     eRectangleCorner corner = e_RECTANGLE_CORNER_ALL,
+     eRectangleSide side = e_RECTANGLE_SIDE_ALL) {
+        tImageBaseInterface* old = this->m_image.SelectImage(&pixel);
+
+        if ((e_RECTANGLE_CORNER_ALL == corner)
+            && (e_RECTANGLE_SIDE_ALL == side)) {
+            this->m_image.FillRectangle
+            (cx,cy, cWidth,cHeight);
+        }
+        this->m_image.SelectImage(old);
+    }
+};
+typedef filled_rectanglet<> filled_rectangle;
+
+} // namespace graphic
 } // namespace lamna 
 
 #endif // _LAMNA_GRAPHIC_RECTANGLE_HPP 

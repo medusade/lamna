@@ -49,6 +49,15 @@ public:
         BresenhamLineT<Extends, tPixel, tInt>
         (*this, image, x1,y1, x2,y2);
     }
+    virtual void DrawTriangle
+    (tImageInterface &image, tInt x1,tInt y1, tInt x2,tInt y2, tInt x3,tInt y3) {
+        BresenhamLineT<Extends, tPixel, tInt>
+        (*this, image, x1,y1, x2,y2);
+        BresenhamLineT<Extends, tPixel, tInt>
+        (*this, image, x2,y2, x3,y3);
+        BresenhamLineT<Extends, tPixel, tInt>
+        (*this, image, x3,y3, x1,y1);
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 };
@@ -345,6 +354,8 @@ public:
         eError error = e_ERROR_NONE;
         tImageInterface* image;
         if ((image = Image())) {
+            bresenham_line_image line(*image);
+            line.DrawTriangle(*image, x1,y1, x2,y2, x3,y3);
         }
         return error;
     }

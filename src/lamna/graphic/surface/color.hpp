@@ -66,6 +66,18 @@ public:
       m_width(width), m_height(height),
       m_color(r,g,b) {
     }
+    colort(const colort& copy, tSize width, tSize height)
+    : Extends(copy.surface_image_),
+      m_r(copy.m_r), m_g(copy.m_g), m_b(copy.m_b),
+      m_width(width), m_height(height),
+      m_color(copy.m_color) {
+    }
+    colort(const colort& copy)
+    : Extends(copy.surface_image_),
+      m_r(copy.m_r), m_g(copy.m_g), m_b(copy.m_b),
+      m_width(copy.m_width), m_height(copy.m_height),
+      m_color(copy.m_color) {
+    }
     virtual ~colort() {
     }
     ///////////////////////////////////////////////////////////////////////
