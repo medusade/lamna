@@ -26,6 +26,14 @@ ilhello_DEFINES += \
 $${lamna_DEFINES} \
 
 ########################################################################
+ilhello_HEADERS += \
+$${LAMNA_SRC}/lamna/graphic/surface/color.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/object.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/image.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/context.hpp \
+$${LAMNA_SRC}/lamna/graphic/surface/pixel.hpp \
+
+########################################################################
 ilhello_OBJECTIVE_HEADERS += \
 $${LAMNA_SRC}/lamna/graphic/surface/cocoa/color.hh \
 $${LAMNA_SRC}/lamna/graphic/surface/cocoa/object.hh \

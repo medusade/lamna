@@ -101,7 +101,7 @@
     />
     <UserMacro
         Name="NADIR_LIBS"
-        Value="libnadir.lib Ws2_32.lib"
+        Value="libxosnadir.lib Ws2_32.lib"
     />
 
     <!--===============================================-->

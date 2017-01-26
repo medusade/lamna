@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!--========================================================================-->
+<!-- Copyright (c) 1988-2016 $organization$                                 -->
+<!--                                                                        -->
+<!-- This software is provided by the author and contributors ``as is''     -->
+<!-- and any express or implied warranties, including, but not limited to,  -->
+<!-- the implied warranties of merchantability and fitness for a particular -->
+<!-- purpose are disclaimed. In no event shall the author or contributors   -->
+<!-- be liable for any direct, indirect, incidental, special, exemplary,    -->
+<!-- or consequential damages (including, but not limited to, procurement   -->
+<!-- of substitute goods or services; loss of use, data, or profits; or     -->
+<!-- business interruption) however caused and on any theory of liability,  -->
+<!-- whether in contract, strict liability, or tort (including negligence   -->
+<!-- or otherwise) arising in any way out of the use of this software,      -->
+<!-- even if advised of the possibility of such damage.                     -->
+<!--                                                                        -->
+<!--   File: lamna.props                                                    -->
+<!--                                                                        -->
+<!-- Author: $author$                                                       -->
+<!--   Date: 3/25/2016                                                      -->
+<!--========================================================================-->
+<Project
+  ToolsVersion="4.0"
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ImportGroup Label="PropertySheets" />
+
+  <PropertyGroup Label="UserMacros">
+    <LAMNA_GROUP></LAMNA_GROUP>
+    <LAMNA_NAME>lamna</LAMNA_NAME>
+    <LAMNA_VERSION></LAMNA_VERSION>
+    <LAMNA_DIR>$(LAMNA_GROUP)$(LAMNA_NAME)$(LAMNA_VERSION)</LAMNA_DIR>
+    <LAMNA_SOURCE_DIR>$(SOURCE_ROOT_DIR)/$(LAMNA_DIR)/src</LAMNA_SOURCE_DIR>
+    <LAMNA_BUILD_DIR>$(SOURCE_BUILD_DIR)/$(LAMNA_DIR)/build</LAMNA_BUILD_DIR>
+    <LAMNA_BUILD>$(LAMNA_BUILD_DIR)/$(PlatformName)/$(VCVersion)/$(Configuration)</LAMNA_BUILD>
+    <LAMNA_OBJ>$(LAMNA_BUILD)/obj/$(ProjectName)</LAMNA_OBJ>
+    <LAMNA_LIB>$(LAMNA_BUILD)/lib</LAMNA_LIB>
+    <LAMNA_BIN>$(LAMNA_BUILD)/bin</LAMNA_BIN>
+    <LAMNA_DEFINES></LAMNA_DEFINES>
+    <LAMNA_INCLUDE_DIRS>$(LAMNA_SOURCE_DIR);$(NADIR_INCLUDE_DIRS)</LAMNA_INCLUDE_DIRS>
+    <LAMNA_LIB_DIRS>$(LAMNA_LIB);$(NADIR_LIB_DIRS)</LAMNA_LIB_DIRS>
+    <LAMNA_LIBS>liblamna.lib;$(NADIR_LIBS)</LAMNA_LIBS>
+  </PropertyGroup>
+
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+
+  <ItemGroup>
+    <BuildMacro Include="LAMNA_GROUP">
+      <Value>$(LAMNA_GROUP)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LAMNA_NAME">
+      <Value>$(LAMNA_NAME)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LAMNA_VERSION">
+      <Value>$(LAMNA_VERSION)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LAMNA_DIR">
+      <Value>$(LAMNA_DIR)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LAMNA_SOURCE_DIR">
+      <Value>$(LAMNA_SOURCE_DIR)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LAMNA_BUILD_DIR">
+      <Value>$(LAMNA_BUILD_DIR)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LAMNA_BUILD">
+      <Value>$(LAMNA_BUILD)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LAMNA_OBJ">
+      <Value>$(LAMNA_OBJ)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LAMNA_LIB">
+      <Value>$(LAMNA_LIB)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LAMNA_BIN">
+      <Value>$(LAMNA_BIN)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LAMNA_DEFINES">
+      <Value>$(LAMNA_DEFINES)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LAMNA_INCLUDE_DIRS">
+      <Value>$(LAMNA_INCLUDE_DIRS)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LAMNA_LIB_DIRS">
+      <Value>$(LAMNA_LIB_DIRS)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LAMNA_LIBS">
+      <Value>$(LAMNA_LIBS)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
