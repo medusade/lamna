@@ -60,8 +60,8 @@ public:
     ///////////////////////////////////////////////////////////////////////
     virtual bool create
     (HINSTANCE hInstance, LPCSTR className, 
-     LPCSTR windowName = NULL, HWND hParentWnd = NULL_HANDLE, 
-     HMENU hMenu = NULL_HANDLE, DWORD style = LAMNA_GUI_WINDOWS_DEFAULT_WINDOW_STYLE,
+     LPCSTR windowName = NULL, HWND hParentWnd = NULL, 
+     HMENU hMenu = NULL, DWORD style = LAMNA_GUI_WINDOWS_DEFAULT_WINDOW_STYLE,
      DWORD exStyle = LAMNA_GUI_WINDOWS_DEFAULT_WINDOW_EXSTYLE, 
      int x = CW_USEDEFAULT, int y = CW_USEDEFAULT, 
      int width = CW_USEDEFAULT, int height = CW_USEDEFAULT,

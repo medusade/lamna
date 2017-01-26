@@ -62,18 +62,21 @@ public:
     (tImageInterface& surface_image,
      tSize r = 0, tSize g = 0, tSize b = 0, tSize width = 1, tSize height = 1)
     : Extends(surface_image),
+      m_surface_image(surface_image),
       m_r(r), m_g(g), m_b(b),
       m_width(width), m_height(height),
       m_color(r,g,b) {
     }
     colort(const colort& copy, tSize width, tSize height)
-    : Extends(copy.surface_image_),
+    : Extends(copy.m_surface_image),
+      m_surface_image(copy.m_surface_image),
       m_r(copy.m_r), m_g(copy.m_g), m_b(copy.m_b),
       m_width(width), m_height(height),
       m_color(copy.m_color) {
     }
     colort(const colort& copy)
-    : Extends(copy.surface_image_),
+    : Extends(copy.m_surface_image),
+      m_surface_image(copy.m_surface_image),
       m_r(copy.m_r), m_g(copy.m_g), m_b(copy.m_b),
       m_width(copy.m_width), m_height(copy.m_height),
       m_color(copy.m_color) {
@@ -127,6 +130,7 @@ public:
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 protected:
+    tImageInterface& m_surface_image;
     tSize m_r, m_g, m_b;
     tSize m_width, m_height;
     tPixel m_color;

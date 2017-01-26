@@ -90,17 +90,18 @@ public:
               green = this->rgb_axis_to_float(g),
               blue = this->rgb_axis_to_float(b),
               alpha = this->rgb_axis_to_float(a);
-        //iColor* color = [iColor colorWithRed:red green:green blue:blue alpha:alpha];
-        iColor* color = [iColor colorWithDeviceRed:red green:green blue:blue alpha:alpha];
-        return color;
+        return make_color(red, green, blue, alpha);
     }
     virtual iColor* make_color(int r, int g, int b) const {
         float red = this->rgb_axis_to_float(r),
               green = this->rgb_axis_to_float(g),
               blue = this->rgb_axis_to_float(b),
               alpha = 1.0;
-        //iColor* color = [iColor colorWithRed:red green:green blue:blue alpha:alpha];
-        iColor* color = [iColor colorWithDeviceRed:red green:green blue:blue alpha:alpha];
+        return make_color(red, green, blue, alpha);
+    }
+    virtual iColor* make_color(float red, float green, float blue, float alpha) const {
+        iColor* color = nil;
+        color = [[iColor colorWithDeviceRed:red green:green blue:blue alpha:alpha] retain];
         return color;
     }
     virtual operator iColor*() const {
