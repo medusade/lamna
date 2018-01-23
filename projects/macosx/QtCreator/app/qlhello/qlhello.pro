@@ -32,12 +32,14 @@ DEFINES += \
 $${qlhello_DEFINES} \
 $${qt_DEFINES} \
 
+########################################################################
 HEADERS += \
 $${qlhello_HEADERS} \
 
 SOURCES += \
 $${qlhello_SOURCES} \
 
+########################################################################
 LIBS += \
 $${qlhello_LIBS} \
 $${qt_LIBS} \

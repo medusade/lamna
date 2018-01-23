@@ -1,5 +1,5 @@
 ########################################################################
-# Copyright (c) 1988-2015 $organization$
+# Copyright (c) 1988-2016 $organization$
 #
 # This software is provided by the author and contributors ``as is''
 # and any express or implied warranties, including, but not limited to,
@@ -13,30 +13,19 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: liblamna.pro
+#   File: fl.pri
 #
 # Author: $author$
-#   Date: 5/25/2015
+#   Date: 7/15/2016
 ########################################################################
-include(../../../../QtCreator/lamna.pri)
-include(../../lamna.pri)
-include(../../../../QtCreator/lib/liblamna/liblamna.pri)
-
-TARGET = lamna
-TEMPLATE = lib
-CONFIG += staticlib
-
-INCLUDEPATH += \
-$${liblamna_INCLUDEPATH} \
-
-DEFINES += \
-$${liblamna_DEFINES} \
 
 ########################################################################
-HEADERS += \
-$${liblamna_HEADERS} \
+# libpgm
+build_libpgm_INCLUDEPATH += \
+${HOME}/build/apertus/include \
 
-SOURCES += \
-$${liblamna_SOURCES} \
+build_libpgm_DEFINES += \
 
-########################################################################
+build_libpgm_LIBS += \
+-L${HOME}/build/apertus/lib \
+-lpgm \

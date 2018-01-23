@@ -13,30 +13,23 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: liblamna.pro
+#   File: wx.pri
 #
 # Author: $author$
-#   Date: 5/25/2015
+#   Date: 9/23/2015
 ########################################################################
-include(../../../../QtCreator/lamna.pri)
-include(../../lamna.pri)
-include(../../../../QtCreator/lib/liblamna/liblamna.pri)
-
-TARGET = lamna
-TEMPLATE = lib
-CONFIG += staticlib
-
-INCLUDEPATH += \
-$${liblamna_INCLUDEPATH} \
-
-DEFINES += \
-$${liblamna_DEFINES} \
 
 ########################################################################
-HEADERS += \
-$${liblamna_HEADERS} \
+# wx
+build_wx_INCLUDEPATH += \
+${HOME}/build/wxwidgets/include/wx-3.0 \
+${HOME}/build/wxwidgets/lib/wx/include/osx_cocoa-unicode-3.0 \
 
-SOURCES += \
-$${liblamna_SOURCES} \
+build_wx_DEFINES += \
+__WXOSX_COCOA__ \
 
-########################################################################
+build_wx_LIBS += \
+-L${HOME}/build/wxwidgets/lib \
+-lwx_osx_cocoau_core-3.0 \
+-lwx_baseu-3.0 \
+-framework CoreFoundation \

@@ -33,12 +33,14 @@ $${gtk_INCLUDEPATH} \
 DEFINES += \
 $${glhello_DEFINES} \
 
+########################################################################
 HEADERS += \
 $${glhello_HEADERS} \
 
 SOURCES += \
 $${glhello_SOURCES} \
 
+########################################################################
 LIBS += \
 $${glhello_LIBS} \
 $${gtk_LIBS} \

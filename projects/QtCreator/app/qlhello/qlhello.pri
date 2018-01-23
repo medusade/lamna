@@ -25,22 +25,8 @@ $${lamna_INCLUDEPATH} \
 qlhello_DEFINES += \
 $${lamna_DEFINES} \
 
-qlhello_HEADERS += \
-$${LAMNA_SRC}/lamna/app/gui/qt/hello/main.hpp \
-$${LAMNA_SRC}/lamna/app/gui/hello/main.hpp \
-$${LAMNA_SRC}/lamna/gui/qt/application/window_main.hpp \
-$${LAMNA_SRC}/lamna/gui/qt/application/main.hpp \
-$${LAMNA_SRC}/lamna/gui/qt/main.hpp \
-$${LAMNA_SRC}/lamna/gui/main.hpp \
-$${LAMNA_SRC}/lamna/console/main.hpp \
-$${LAMNA_SRC}/lamna/console/main_opt.hpp \
-$${LAMNA_SRC}/lamna/console/main_main.hpp \
-
-qlhello_SOURCES += \
-$${LAMNA_SRC}/lamna/app/gui/qt/hello/main.cpp \
-$${LAMNA_SRC}/lamna/console/main_opt.cpp \
-$${LAMNA_SRC}/lamna/console/main_main.cpp \
-
+########################################################################
+# graphic
 qlhello_HEADERS += \
 $${LAMNA_SRC}/lamna/graphic/surface/qt/color.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/qt/object.hpp \
@@ -82,8 +68,30 @@ $${LAMNA_SRC}/lamna/graphic/image_point.cpp \
 $${LAMNA_SRC}/lamna/graphic/image_base.cpp \
 $${LAMNA_SRC}/lamna/graphic/list.cpp \
 
+########################################################################
+# gui
+qlhello_HEADERS += \
+$${LAMNA_SRC}/lamna/gui/qt/application/window_main.hpp \
+$${LAMNA_SRC}/lamna/gui/qt/application/main.hpp \
+$${LAMNA_SRC}/lamna/gui/qt/main.hpp \
+$${LAMNA_SRC}/lamna/gui/main.hpp \
+
+qlhello_SOURCES += \
+$${LAMNA_SRC}/lamna/gui/qt/application/window_main.cpp \
+
+########################################################################
+qlhello_HEADERS += \
+$${LAMNA_SRC}/lamna/app/gui/qt/hello/main.hpp \
+$${LAMNA_SRC}/lamna/app/gui/hello/main.hpp \
+$${LAMNA_SRC}/lamna/console/main.hpp \
+$${LAMNA_SRC}/lamna/console/main_opt.hpp \
+$${LAMNA_SRC}/lamna/console/main_main.hpp \
+
+qlhello_SOURCES += \
+$${LAMNA_SRC}/lamna/app/gui/qt/hello/main.cpp \
+$${LAMNA_SRC}/lamna/console/main_opt.cpp \
+$${LAMNA_SRC}/lamna/console/main_main.cpp \
+
+########################################################################
 qlhello_LIBS += \
 $${lamna_LIBS} \
-
-
-

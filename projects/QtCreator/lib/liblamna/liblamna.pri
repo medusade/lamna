@@ -25,6 +25,7 @@ $${lamna_INCLUDEPATH} \
 liblamna_DEFINES += \
 $${lamna_DEFINES} \
 
+########################################################################
 liblamna_HEADERS += \
 $${LAMNA_SRC}/lamna/graphic/image_base.hpp \
 $${LAMNA_SRC}/lamna/base/base.hpp \
@@ -33,5 +34,4 @@ liblamna_SOURCES += \
 $${LAMNA_SRC}/lamna/graphic/image_base.cpp \
 $${LAMNA_SRC}/lamna/base/base.cpp \
 
-liblamna_LIBS += \
-$${lamna_LIBS} \
+########################################################################

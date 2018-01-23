@@ -13,30 +13,44 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: liblamna.pro
+#   File: gtk.pri
 #
 # Author: $author$
-#   Date: 5/25/2015
+#   Date: 6/22/2015
 ########################################################################
-include(../../../../QtCreator/lamna.pri)
-include(../../lamna.pri)
-include(../../../../QtCreator/lib/liblamna/liblamna.pri)
-
-TARGET = lamna
-TEMPLATE = lib
-CONFIG += staticlib
-
-INCLUDEPATH += \
-$${liblamna_INCLUDEPATH} \
-
-DEFINES += \
-$${liblamna_DEFINES} \
 
 ########################################################################
-HEADERS += \
-$${liblamna_HEADERS} \
+# gtk
+#
+# pkg-config --cflags --libs gtk+-3.0
+#
+build_gtk_INCLUDEPATH += \
+/usr/include/gtk-3.0 \
+/usr/include/atk-1.0 \
+/usr/include/at-spi2-atk/2.0 \
+/usr/include/pango-1.0 \
+/usr/include/gio-unix-2.0/ \
+/usr/include/cairo \
+/usr/include/gdk-pixbuf-2.0 \
+/usr/include/glib-2.0 \
+/usr/lib/x86_64-linux-gnu/glib-2.0/include \
+/usr/include/harfbuzz \
+/usr/include/freetype2 \
+/usr/include/pixman-1 \
+/usr/include/libpng12  \
 
-SOURCES += \
-$${liblamna_SOURCES} \
+build_gtk_DEFINES += \
 
-########################################################################
+build_gtk_LIBS += \
+-lgtk-3 \
+-lgdk-3 \
+-latk-1.0 \
+-lgio-2.0 \
+-lpangocairo-1.0 \
+-lgdk_pixbuf-2.0 \
+-lcairo-gobject \
+-lpango-1.0 \
+-lcairo \
+-lgobject-2.0 \
+-lglib-2.0
+

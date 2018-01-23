@@ -80,6 +80,7 @@ $${LAMNA_SRC}/lamna/app/gui/gtk/hello/main.cpp \
 $${LAMNA_SRC}/lamna/console/main_opt.cpp \
 $${LAMNA_SRC}/lamna/console/main_main.cpp \
 
+########################################################################
 glhello_LIBS += \
 $${lamna_LIBS} \
 

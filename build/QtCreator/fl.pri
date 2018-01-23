@@ -13,30 +13,25 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: liblamna.pro
+#   File: fl.pri
 #
 # Author: $author$
-#   Date: 5/25/2015
+#   Date: 10/2/2015
 ########################################################################
-include(../../../../QtCreator/lamna.pri)
-include(../../lamna.pri)
-include(../../../../QtCreator/lib/liblamna/liblamna.pri)
-
-TARGET = lamna
-TEMPLATE = lib
-CONFIG += staticlib
-
-INCLUDEPATH += \
-$${liblamna_INCLUDEPATH} \
-
-DEFINES += \
-$${liblamna_DEFINES} \
 
 ########################################################################
-HEADERS += \
-$${liblamna_HEADERS} \
+# fl
+build_fl_INCLUDEPATH += \
+${HOME}/build/fltk/include \
 
-SOURCES += \
-$${liblamna_SOURCES} \
+build_fl_DEFINES += \
 
-########################################################################
+build_fl_LIBS += \
+-L${HOME}/build/fltk/lib \
+-lfltk_forms \
+-lfltk_gl \
+-lfltk_images \
+-lfltk_jpeg \
+-lfltk_png \
+-lfltk \
+-framework Cocoa \

@@ -18,8 +18,12 @@
 # Author: $author$
 #   Date: 5/25/2015
 ########################################################################
+
+########################################################################
+# lamna
 LAMNA_PKG = ../../../../..
 LAMNA_BLD = ../..
+
 LAMNA_PRJ = $${LAMNA_PKG}
 LAMNA_BIN = $${LAMNA_BLD}/bin
 LAMNA_LIB = $${LAMNA_BLD}/lib
@@ -27,29 +31,33 @@ LAMNA_SRC = $${LAMNA_PKG}/src
 
 CONFIG(debug, debug|release) {
 LAMNA_CONFIG = Debug
+BUILD_CONFIG = Debug
+lamna_DEFINES += DEBUG_BUILD
 } else {
 LAMNA_CONFIG = Release
+BUILD_CONFIG = Release
+lamna_DEFINES += RELEASE_BUILD
 }
 
 ########################################################################
-# xos
-XOS_PKG = $${LAMNA_PKG}/../nadir
-XOS_PRJ = $${XOS_PKG}
-XOS_SRC = $${XOS_PKG}/src
+# nadir
+NADIR_PKG = $${LAMNA_PKG}/../nadir
+NADIR_PRJ = $${NADIR_PKG}
+NADIR_SRC = $${NADIR_PKG}/src
 
-xos_INCLUDEPATH += \
-$${XOS_SRC} \
+nadir_INCLUDEPATH += \
+$${NADIR_SRC} \
 
-xos_DEFINES += \
+nadir_DEFINES += \
 
 ########################################################################
 
 lamna_INCLUDEPATH += \
 $${LAMNA_SRC} \
-$${xos_INCLUDEPATH} \
+$${nadir_INCLUDEPATH} \
 
 lamna_DEFINES += \
-$${xos_DEFINES} \
+$${nadir_DEFINES} \
 
 lamna_LIBS += \
 -L$${LAMNA_LIB}/liblamna \

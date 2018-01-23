@@ -19,8 +19,8 @@
 #   Date: 5/25/2015
 ########################################################################
 include(../../../../QtCreator/lamna.pri)
-include(../../../../QtCreator/lib/liblamna/liblamna.pri)
 include(../../lamna.pri)
+include(../../../../QtCreator/lib/liblamna/liblamna.pri)
 
 TARGET = lamna
 TEMPLATE = lib
@@ -32,9 +32,11 @@ $${liblamna_INCLUDEPATH} \
 DEFINES += \
 $${liblamna_DEFINES} \
 
+########################################################################
 HEADERS += \
 $${liblamna_HEADERS} \
 
 SOURCES += \
 $${liblamna_SOURCES} \
 
+########################################################################

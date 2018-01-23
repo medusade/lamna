@@ -22,12 +22,12 @@
 LAMNA_OS = macosx
 
 ########################################################################
-# xos
-XOS_BLD = ../$${XOS_PKG}/build/$${LAMNA_OS}/QtCreator/$${LAMNA_CONFIG}
-XOS_LIB = $${XOS_BLD}/lib
+# nadir
+NADIR_BLD = ../$${NADIR_PKG}/build/$${LAMNA_OS}/QtCreator/$${LAMNA_CONFIG}
+NADIR_LIB = $${NADIR_BLD}/lib
 
 ########################################################################
-
+# lamna
 lamna_INCLUDEPATH += \
 
 lamna_DEFINES += \
@@ -37,7 +37,7 @@ lamna_HEADERS += \
 lamna_SOURCES += \
 
 lamna_LIBS += \
--L$${XOS_LIB}/libxosnadir \
+-L$${NADIR_LIB}/libxosnadir \
 -lxosnadir \
 -lpthread \
 -ldl \

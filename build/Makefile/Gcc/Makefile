@@ -13,30 +13,32 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: liblamna.pro
+#   File: Makefile
 #
 # Author: $author$
-#   Date: 5/25/2015
+#   Date: 12/23/2015
+#
+# build Gcc Makefile for lamna
 ########################################################################
-include(../../../../QtCreator/lamna.pri)
-include(../../lamna.pri)
-include(../../../../QtCreator/lib/liblamna/liblamna.pri)
-
-TARGET = lamna
-TEMPLATE = lib
-CONFIG += staticlib
-
-INCLUDEPATH += \
-$${liblamna_INCLUDEPATH} \
-
-DEFINES += \
-$${liblamna_DEFINES} \
 
 ########################################################################
-HEADERS += \
-$${liblamna_HEADERS} \
+# fl
+#
+build_fl_USRINCLUDES += \
+-I$(HOME)/build/fltk/include \
 
-SOURCES += \
-$${liblamna_SOURCES} \
+build_fl_USRDEFINES += \
 
-########################################################################
+build_fl_USRCXXFLAGS += \
+
+build_fl_USRLIBDIRS += \
+-L$(HOME)/build/fltk/lib \
+
+build_fl_LIBS += \
+-lfltk_forms \
+-lfltk_gl \
+-lfltk_images \
+-lfltk_jpeg \
+-lfltk_png \
+-lfltk \
+-framework Cocoa \
