@@ -13,63 +13,67 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: qLHello.pro
+#   File: xLHello.pro
 #
 # Author: $author$
-#   Date: 11/19/2018
+#   Date: 11/24/2018
 #
-# QtCreator .pro file for lamna executable qLHello
+# QtCreator .pro file for lamna executable xLHello
 ########################################################################
-include(../../../../../../build/QtCreator/qt.pri)
+include(../../../../../../build/QtCreator/x11.pri)
 include(../../../../../build/QtCreator/lamna.pri)
 include(../../../../QtCreator/lamna.pri)
 include(../../lamna.pri)
-include(../../../../QtCreator/app/qLHello/qLHello.pri)
+include(../../../../QtCreator/app/xLHello/xLHello.pri)
 
-TARGET = $${qLHello_TARGET}
+TARGET = $${xLHello_TARGET}
 
 ########################################################################
 # INCLUDEPATH
 #
 INCLUDEPATH += \
-$${qLHello_INCLUDEPATH} \
+$${xLHello_INCLUDEPATH} \
 
 # DEFINES
 # 
 DEFINES += \
-$${qLHello_DEFINES} \
+$${xLHello_DEFINES} \
 
 ########################################################################
 # OBJECTIVE_HEADERS
 #
 OBJECTIVE_HEADERS += \
-$${qLHello_OBJECTIVE_HEADERS} \
+$${xLHello_OBJECTIVE_HEADERS} \
 
 # OBJECTIVE_SOURCES
 #
-OBJECTIVE_SOURCES += \
-$${qLHello_OBJECTIVE_SOURCES} \
+SOURCES += \
+$${xLHello_OBJECTIVE_SOURCES} \
 
 ########################################################################
 # HEADERS
 #
 HEADERS += \
-$${qLHello_HEADERS} \
-$${OBJECTIVE_HEADERS} \
+$${xLHello_HEADERS} \
 
 # SOURCES
 #
 SOURCES += \
-$${qLHello_SOURCES} \
+$${xLHello_SOURCES} \
+$${OBJECTIVE_SOURCES} \
 
 ########################################################################
 # FRAMEWORKS
 #
 FRAMEWORKS += \
-$${qLHello_FRAMEWORKS} \
+$${xLHello_FRAMEWORKS} \
 
 # LIBS
 #
 LIBS += \
-$${qLHello_LIBS} \
+$${xLHello_LIBS} \
 $${FRAMEWORKS} \
+
+########################################################################
+# NO Qt
+QT -= gui core

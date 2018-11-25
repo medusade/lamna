@@ -20,6 +20,7 @@
 #
 # QtCreator .pro file for lamna executable fLHello
 ########################################################################
+include(../../../../../../build/QtCreator/fl.pri)
 include(../../../../../build/QtCreator/lamna.pri)
 include(../../../../QtCreator/lamna.pri)
 include(../../lamna.pri)

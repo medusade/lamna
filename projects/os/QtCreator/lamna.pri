@@ -85,29 +85,7 @@ lamna_LIBS += \
 }
 
 ########################################################################
-# lamna cocoa INCLUDEPATH
-#
-lamna_cocoa_INCLUDEPATH += \
-
-# lamna cocoa DEFINES
-#
-lamna_cocoa_DEFINES += \
-
-# lamna cocoa_LIBS
-#
-lamna_cocoa_LIBS += \
-
-# lamna cocoa FRAMEWORKS
-#
 contains(UNAME,Darwin) {
-lamna_cocoa_FRAMEWORKS += \
--framework AppKit \
--framework CoreFoundation \
--framework Foundation
-} else {
-}
-
-########################################################################
 # lamna qt INCLUDEPATH
 #
 lamna_qt_INCLUDEPATH += \
@@ -127,8 +105,34 @@ lamna_qt_FRAMEWORKS += -framework QtGui
 } else {
 lamna_qt_FRAMEWORKS += -framework QtWidgets
 }
+} else {
+} # contains(UNAME,Darwin)
 
 ########################################################################
+contains(UNAME,Darwin) {
+# lamna cocoa INCLUDEPATH
+#
+lamna_cocoa_INCLUDEPATH += \
+
+# lamna cocoa DEFINES
+#
+lamna_cocoa_DEFINES += \
+
+# lamna cocoa_LIBS
+#
+lamna_cocoa_LIBS += \
+
+# lamna cocoa FRAMEWORKS
+#
+lamna_cocoa_FRAMEWORKS += \
+-framework AppKit \
+-framework CoreFoundation \
+-framework Foundation
+} else {
+} # contains(UNAME,Darwin)
+
+########################################################################
+contains(UNAME,Darwin) {
 # lamna fl INCLUDEPATH
 #
 lamna_fl_INCLUDEPATH += \
@@ -151,43 +155,119 @@ lamna_fl_LIBS += \
 
 # lamna fl FRAMEWORKS
 #
-contains(UNAME,Darwin) {
 lamna_fl_FRAMEWORKS += -framework Cocoa
 } else {
-}
+# lamna fl INCLUDEPATH
+#
+lamna_fl_INCLUDEPATH += \
+$${build_fl_INCLUDEPATH}
+
+# lamna fl DEFINES
+#
+lamna_fl_DEFINES += \
+$${build_fl_DEFINES}
+
+# lamna fl_LIBS
+#
+lamna_fl_LIBS += \
+$${build_fl_LIBS}
+
+# lamna fl FRAMEWORKS
+#
+lamna_fl_FRAMEWORKS += \
+$${build_fl_FRAMEWORKS}
+} # contains(UNAME,Darwin)
 
 ########################################################################
+contains(UNAME,Darwin) {
 # lamna wx INCLUDEPATH
 #
-contains(UNAME,Darwin) {
 lamna_wx_INCLUDEPATH += \
 ${HOME}/build/wxwidgets/include/wx-3.0 \
 ${HOME}/build/wxwidgets/lib/wx/include/osx_cocoa-unicode-3.0
-} else {
-}
 
 # lamna wx DEFINES
 #
-contains(UNAME,Darwin) {
 lamna_wx_DEFINES += \
 __WXOSX_COCOA__
-} else {
-}
 
 # lamna wx_LIBS
 #
-contains(UNAME,Darwin) {
 lamna_wx_LIBS += \
 -L${HOME}/build/wxwidgets/lib \
 -lwx_osx_cocoau_core-3.0 \
 -lwx_baseu-3.0
-} else {
-}
 
 # lamna wx FRAMEWORKS
 #
-contains(UNAME,Darwin) {
 lamna_wx_FRAMEWORKS += \
 -framework CoreFoundation
 } else {
-}
+# lamna wx INCLUDEPATH
+#
+lamna_wx_INCLUDEPATH += \
+$${build_wx_INCLUDEPATH}
+
+# lamna wx DEFINES
+#
+lamna_wx_DEFINES += \
+$${build_wx_DEFINES}
+
+# lamna wx_LIBS
+#
+lamna_wx_LIBS += \
+$${build_wx_LIBS}
+
+# lamna wx FRAMEWORKS
+#
+lamna_wx_FRAMEWORKS += \
+$${build_wx_FRAMEWORKS}
+} # contains(UNAME,Darwin)
+
+########################################################################
+contains(UNAME,Darwin) {
+} else {
+# lamna gtk INCLUDEPATH
+#
+lamna_gtk_INCLUDEPATH += \
+$${build_gtk_INCLUDEPATH}
+
+# lamna gtk DEFINES
+#
+lamna_gtk_DEFINES += \
+$${build_gtk_DEFINES}
+
+# lamna gtk_LIBS
+#
+lamna_gtk_LIBS += \
+$${build_gtk_LIBS}
+
+# lamna gtk FRAMEWORKS
+#
+lamna_gtk_FRAMEWORKS += \
+$${build_gtk_FRAMEWORKS}
+} # contains(UNAME,Darwin)
+
+########################################################################
+contains(UNAME,Darwin) {
+} else {
+# lamna x11 INCLUDEPATH
+#
+lamna_x11_INCLUDEPATH += \
+$${build_x11_INCLUDEPATH}
+
+# lamna x11 DEFINES
+#
+lamna_x11_DEFINES += \
+$${build_x11_DEFINES}
+
+# lamna x11_LIBS
+#
+lamna_x11_LIBS += \
+$${build_x11_LIBS}
+
+# lamna x11 FRAMEWORKS
+#
+lamna_x11_FRAMEWORKS += \
+$${build_x11_FRAMEWORKS}
+} # contains(UNAME,Darwin)

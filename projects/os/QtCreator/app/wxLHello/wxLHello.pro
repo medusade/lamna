@@ -20,6 +20,7 @@
 #
 # QtCreator .pro file for lamna executable wxLHello
 ########################################################################
+include(../../../../../../build/QtCreator/wx.pri)
 include(../../../../../build/QtCreator/lamna.pri)
 include(../../../../QtCreator/lamna.pri)
 include(../../lamna.pri)

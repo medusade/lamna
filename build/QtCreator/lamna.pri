@@ -58,5 +58,3 @@ $${build_nadir_DEFINES} \
 #
 build_lamna_LIBS += \
 $${build_nadir_LIBS} \
-
-
