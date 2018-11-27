@@ -1,22 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{445E9E42-805D-4949-A222-171C113A1E0E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{2095ED7F-B2DC-40D5-B39D-17F1139D1684}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Property Sheets", "Property Sheets", "{69FA973A-305D-45B8-9905-FE8227FAF96A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "properties", "properties", "{87BFED09-147B-4D23-BA4A-EAF1F5AC8658}"
 	ProjectSection(SolutionItems) = preProject
-		lamna-vcversion.vsprops = lamna-vcversion.vsprops
 		..\lamna.vsprops = ..\lamna.vsprops
+		..\nadir.vsprops = ..\nadir.vsprops
+		..\vcproj.vsprops = ..\vcproj.vsprops
+		vcversion.vsprops = vcversion.vsprops
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{FB735746-4D79-40C3-B621-F309D8151457}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{B3BC0F61-9F60-4DE3-AB6E-A457CB44F7BC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "liblamna", "liblamna\liblamna.vcproj", "{725A0F72-4934-4713-983F-2590D6574C3F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winlhello", "winlhello\winlhello.vcproj", "{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{725A0F72-4934-4713-983F-2590D6574C3F} = {725A0F72-4934-4713-983F-2590D6574C3F}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinLHello", "WinLHello\WinLHello.vcproj", "{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,16 +35,18 @@ Global
 		{725A0F72-4934-4713-983F-2590D6574C3F}.Release|x64.Build.0 = Release|x64
 		{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}.Debug|Win32.ActiveCfg = Debug|Win32
 		{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}.Debug|Win32.Build.0 = Debug|Win32
-		{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}.Debug|x64.ActiveCfg = Debug|Win32
+		{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}.Debug|x64.ActiveCfg = Debug|x64
+		{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}.Debug|x64.Build.0 = Debug|x64
 		{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}.Release|Win32.ActiveCfg = Release|Win32
 		{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}.Release|Win32.Build.0 = Release|Win32
-		{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}.Release|x64.ActiveCfg = Release|Win32
+		{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}.Release|x64.ActiveCfg = Release|x64
+		{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A39286A7-9BDC-4537-B183-FF0D71BF0BBF} = {445E9E42-805D-4949-A222-171C113A1E0E}
-		{725A0F72-4934-4713-983F-2590D6574C3F} = {2095ED7F-B2DC-40D5-B39D-17F1139D1684}
+		{A39286A7-9BDC-4537-B183-FF0D71BF0BBF} = {FB735746-4D79-40C3-B621-F309D8151457}
+		{725A0F72-4934-4713-983F-2590D6574C3F} = {B3BC0F61-9F60-4DE3-AB6E-A457CB44F7BC}
 	EndGlobalSection
 EndGlobal

@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A39286A7-9BDC-4537-B183-FF0D71BF0BBF}</ProjectGuid>
-    <RootNamespace>winlhello</RootNamespace>
+    <RootNamespace>WinLHello</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -47,25 +47,29 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\lamna-vcversion.props" />
+    <Import Project="..\vcversion.props" />
+    <Import Project="..\..\vcxproj.props" />
     <Import Project="..\..\nadir.props" />
     <Import Project="..\..\lamna.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\lamna-vcversion.props" />
+    <Import Project="..\vcversion.props" />
+    <Import Project="..\..\vcxproj.props" />
     <Import Project="..\..\nadir.props" />
     <Import Project="..\..\lamna.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\lamna-vcversion.props" />
+    <Import Project="..\vcversion.props" />
+    <Import Project="..\..\vcxproj.props" />
     <Import Project="..\..\nadir.props" />
     <Import Project="..\..\lamna.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\lamna-vcversion.props" />
+    <Import Project="..\vcversion.props" />
+    <Import Project="..\..\vcxproj.props" />
     <Import Project="..\..\nadir.props" />
     <Import Project="..\..\lamna.props" />
   </ImportGroup>
@@ -88,8 +92,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(LAMNA_INCLUDE_DIRS);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(VC10_LAMNA_INCLUDE_DIRS);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;$(LAMNA_DEBUG_DEFINES);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -111,8 +115,8 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(LAMNA_INCLUDE_DIRS);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(VC10_LAMNA_INCLUDE_DIRS);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;$(LAMNA_DEBUG_DEFINES);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -132,8 +136,8 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(LAMNA_INCLUDE_DIRS);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(VC10_LAMNA_INCLUDE_DIRS);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;$(LAMNA_RELEASE_DEFINES);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -157,8 +161,8 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(LAMNA_INCLUDE_DIRS);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(VC10_LAMNA_INCLUDE_DIRS);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;$(LAMNA_RELEASE_DEFINES);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -181,7 +185,8 @@
     <ClCompile Include="..\..\..\..\..\src\lamna\gui\windows\handle.cpp" />
     <ClCompile Include="..\..\..\..\..\src\lamna\gui\windows\hwnd.cpp" />
     <ClCompile Include="..\..\..\..\..\src\lamna\app\gui\windows\hello\main.cpp" />
-    <ClCompile Include="..\..\..\..\..\src\lamna\gui\windows\main_window.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\nadir\src\xos\base\getopt\main_implement.cpp" />
+    <ClCompile Include="..\..\..\..\..\src\lamna\app\gui\windows\hello\main_window.cpp" />
     <ClCompile Include="..\..\..\..\..\src\lamna\gui\windows\message_target.cpp" />
     <ClCompile Include="..\..\..\..\..\src\lamna\gui\windows\window.cpp" />
     <ClCompile Include="..\..\..\..\..\src\lamna\gui\windows\window_class.cpp" />
@@ -192,6 +197,10 @@
     <ClCompile Include="..\..\..\..\..\src\lamna\graphic\surface\windows\image.cpp" />
     <ClCompile Include="..\..\..\..\..\src\lamna\graphic\surface\windows\object.cpp" />
     <ClCompile Include="..\..\..\..\..\src\lamna\graphic\surface\windows\pixel.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\nadir\src\xos\base\getopt\main_implement.hpp" />
+    <ClInclude Include="..\..\..\..\..\src\lamna\app\gui\windows\hello\main_window.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

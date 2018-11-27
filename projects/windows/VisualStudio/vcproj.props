@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <SOURCE_ROOT_DIR>../../../../../..</SOURCE_ROOT_DIR>
+    <SOURCE_BUILD_DIR>$(SOURCE_ROOT_DIR)</SOURCE_BUILD_DIR>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="SOURCE_ROOT_DIR">
+      <Value>$(SOURCE_ROOT_DIR)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SOURCE_BUILD_DIR">
+      <Value>$(SOURCE_BUILD_DIR)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
