@@ -57,7 +57,7 @@ public:
     : color_channels_(which) {
         va_list va;
         clear();
-        va_start(va, which);
+        va_start(va, max);
         assign(max, va);
         va_end(va);
     }
