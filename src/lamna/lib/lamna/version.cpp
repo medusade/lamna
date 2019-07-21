@@ -21,7 +21,7 @@
 #include "lamna/lib/lamna/version.hpp"
 
 #if !defined(LAMNA_LIB_LAMNA_VERSION_NAME)
-#define LAMNA_LIB_LAMNA_VERSION_NAME "lamna"
+#define LAMNA_LIB_LAMNA_VERSION_NAME "liblamna"
 #endif // !defined(LAMNA_LIB_LAMNA_VERSION_NAME)
 
 #if !defined(LAMNA_LIB_LAMNA_VERSION_MAJOR)
