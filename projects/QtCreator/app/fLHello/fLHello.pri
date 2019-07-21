@@ -121,12 +121,12 @@ $${LAMNA_SRC}/lamna/console/main_main.cpp \
 # fLHello FRAMEWORKS
 #
 fLHello_FRAMEWORKS += \
-$${lamna_FRAMEWORKS} \
 $${lamna_fl_FRAMEWORKS} \
+$${lamna_FRAMEWORKS} \
 
 # fLHello LIBS
 #
 fLHello_LIBS += \
-$${lamna_LIBS} \
 $${lamna_fl_LIBS} \
+$${lamna_LIBS} \
 

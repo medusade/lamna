@@ -1,5 +1,5 @@
 ########################################################################
-# Copyright (c) 1988-2018 $organization$
+# Copyright (c) 1988-2019 $organization$
 #
 # This software is provided by the author and contributors ``as is''
 # and any express or implied warranties, including, but not limited to,
@@ -13,67 +13,62 @@
 # or otherwise) arising in any way out of the use of this software,
 # even if advised of the possibility of such damage.
 #
-#   File: gLHello.pro
+#   File: lamna.pri
 #
 # Author: $author$
-#   Date: 11/24/2018
+#   Date: 7/18/2019
 #
-# QtCreator .pro file for lamna executable gLHello
+# QtCreator .pri file for lamna executable lamna
 ########################################################################
-include(../../../../../../build/QtCreator/gtk.pri)
-include(../../../../../build/QtCreator/lamna.pri)
-include(../../../../QtCreator/lamna.pri)
-include(../../lamna.pri)
-include(../../../../QtCreator/app/gLHello/gLHello.pri)
-
-TARGET = $${gLHello_TARGET}
 
 ########################################################################
-# INCLUDEPATH
-#
-INCLUDEPATH += \
-$${gLHello_INCLUDEPATH} \
+# lamna
 
-# DEFINES
-# 
-DEFINES += \
-$${gLHello_DEFINES} \
+# lamna_exe TARGET
+#
+lamna_exe_TARGET = lamna
+
+# lamna_exe INCLUDEPATH
+#
+lamna_exe_INCLUDEPATH += \
+$${lamna_INCLUDEPATH} \
+
+# lamna_exe DEFINES
+#
+lamna_exe_DEFINES += \
+$${lamna_DEFINES} \
 
 ########################################################################
-# OBJECTIVE_HEADERS
+# lamna_exe OBJECTIVE_HEADERS
 #
-OBJECTIVE_HEADERS += \
-$${gLHello_OBJECTIVE_HEADERS} \
+#lamna_exe_OBJECTIVE_HEADERS += \
+#$${LAMNA_SRC}/lamna/base/Base.hh \
 
-# OBJECTIVE_SOURCES
+# lamna_exe OBJECTIVE_SOURCES
 #
-SOURCES += \
-$${gLHello_OBJECTIVE_SOURCES} \
-
-########################################################################
-# HEADERS
-#
-HEADERS += \
-$${gLHello_HEADERS} \
-
-# SOURCES
-#
-SOURCES += \
-$${gLHello_SOURCES} \
-$${OBJECTIVE_SOURCES} \
+#lamna_exe_OBJECTIVE_SOURCES += \
+#$${LAMNA_SRC}/lamna/base/Base.mm \
 
 ########################################################################
-# FRAMEWORKS
+# lamna_exe HEADERS
 #
-FRAMEWORKS += \
-$${gLHello_FRAMEWORKS} \
+lamna_exe_HEADERS += \
+$${LAMNA_SRC}/lamna/app/console/lamna/main.hpp \
 
-# LIBS
+# lamna_exe SOURCES
 #
-LIBS += \
-$${gLHello_LIBS} \
-$${FRAMEWORKS} \
+lamna_exe_SOURCES += \
+$${LAMNA_SRC}/lamna/app/console/lamna/main.cpp \
 
 ########################################################################
-# NO Qt
-QT -= gui core
+# lamna_exe FRAMEWORKS
+#
+lamna_exe_FRAMEWORKS += \
+$${lamna_FRAMEWORKS} \
+
+# lamna_exe LIBS
+#
+lamna_exe_LIBS += \
+$${lamna_LIBS} \
+
+

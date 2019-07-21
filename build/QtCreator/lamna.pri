@@ -22,6 +22,42 @@
 ########################################################################
 
 ########################################################################
+# fl
+#
+# pkg-config --cflags --libs fl
+#
+
+# build fl INCLUDEPATH
+#
+build_fl_INCLUDEPATH += \
+
+# build fl DEFINES
+#
+build_fl_DEFINES += \
+
+# build fl LIBS
+#
+build_fl_LIBS += \
+
+########################################################################
+# gtk
+#
+# pkg-config --cflags --libs gtk
+#
+
+# build gtk INCLUDEPATH
+#
+build_gtk_INCLUDEPATH += \
+
+# build gtk DEFINES
+#
+build_gtk_DEFINES += \
+
+# build gtk LIBS
+#
+build_gtk_LIBS += \
+
+########################################################################
 # nadir
 #
 # pkg-config --cflags --libs nadir

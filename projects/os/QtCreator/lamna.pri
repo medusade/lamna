@@ -22,10 +22,20 @@
 ########################################################################
 UNAME = $$system(uname)
 
+contains(UNAME,Windows) {
+LAMNA_OS = windows
+} else {
 contains(UNAME,Darwin) {
 LAMNA_OS = macosx
 } else {
 LAMNA_OS = linux
+}
+}
+
+contains(LAMNA_OS,linux) {
+LAMNA_BUILD = os
+} else {
+LAMNA_BUILD = $${LAMNA_OS}
 }
 
 #CONFIG += c++11
@@ -33,12 +43,12 @@ LAMNA_OS = linux
 
 ########################################################################
 # nadir
-NADIR_THIRDPARTY_PKG_MAKE_BLD = $${NADIR_THIRDPARTY_PKG}/build/$${LAMNA_OS}/$${BUILD_CONFIG}
-NADIR_THIRDPARTY_PRJ_MAKE_BLD = $${NADIR_THIRDPARTY_PRJ}/build/$${LAMNA_OS}/$${BUILD_CONFIG}
-NADIR_THIRDPARTY_PKG_BLD = $${NADIR_THIRDPARTY_PKG}/build/$${LAMNA_OS}/QtCreator/$${BUILD_CONFIG}
-NADIR_THIRDPARTY_PRJ_BLD = $${NADIR_THIRDPARTY_PRJ}/build/$${LAMNA_OS}/QtCreator/$${BUILD_CONFIG}
-NADIR_PKG_BLD = $${OTHER_BLD}/$${NADIR_PKG}/build/$${LAMNA_OS}/QtCreator/$${BUILD_CONFIG}
-NADIR_PRJ_BLD = $${OTHER_BLD}/$${NADIR_PRJ}/build/$${LAMNA_OS}/QtCreator/$${BUILD_CONFIG}
+NADIR_THIRDPARTY_PKG_MAKE_BLD = $${NADIR_THIRDPARTY_PKG}/build/$${LAMNA_BUILD}/$${BUILD_CONFIG}
+NADIR_THIRDPARTY_PRJ_MAKE_BLD = $${NADIR_THIRDPARTY_PRJ}/build/$${LAMNA_BUILD}/$${BUILD_CONFIG}
+NADIR_THIRDPARTY_PKG_BLD = $${NADIR_THIRDPARTY_PKG}/build/$${LAMNA_BUILD}/QtCreator/$${BUILD_CONFIG}
+NADIR_THIRDPARTY_PRJ_BLD = $${NADIR_THIRDPARTY_PRJ}/build/$${LAMNA_BUILD}/QtCreator/$${BUILD_CONFIG}
+NADIR_PKG_BLD = $${OTHER_BLD}/$${NADIR_PKG}/build/$${LAMNA_BUILD}/QtCreator/$${BUILD_CONFIG}
+NADIR_PRJ_BLD = $${OTHER_BLD}/$${NADIR_PRJ}/build/$${LAMNA_BUILD}/QtCreator/$${BUILD_CONFIG}
 #NADIR_LIB = $${NADIR_THIRDPARTY_PKG_MAKE_BLD}/lib
 #NADIR_LIB = $${NADIR_THIRDPARTY_PRJ_MAKE_BLD}/lib
 #NADIR_LIB = $${NADIR_THIRDPARTY_PKG_BLD}/lib

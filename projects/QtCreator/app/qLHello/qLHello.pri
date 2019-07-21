@@ -119,10 +119,12 @@ $${LAMNA_SRC}/lamna/console/main_main.cpp \
 #
 qLHello_FRAMEWORKS += \
 $${lamna_qt_FRAMEWORKS} \
+$${lamna_FRAMEWORKS} \
 
 # qLHello LIBS
 #
 qLHello_LIBS += \
+$${lamna_qt_LIBS} \
 $${lamna_LIBS} \
 
 
