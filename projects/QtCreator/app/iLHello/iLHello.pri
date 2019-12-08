@@ -60,6 +60,7 @@ $${LAMNA_SRC}/lamna/app/gui/cocoa/iHelloMain.hh \
 $${LAMNA_SRC}/lamna/gui/cocoa/apple/osx/main.hh \
 $${LAMNA_SRC}/lamna/gui/cocoa/apple/osx/main_main.hh \
 
+contains(UNAME,Darwin) {
 # iLHello OBJECTIVE_SOURCES
 #
 iLHello_OBJECTIVE_SOURCES += \
@@ -81,6 +82,9 @@ $${LAMNA_SRC}/lamna/app/gui/cocoa/iHelloMain.mm \
 $${LAMNA_SRC}/lamna/gui/cocoa/apple/osx/main.mm \
 $${LAMNA_SRC}/lamna/gui/cocoa/apple/osx/main_main.mm \
 
+} else {
+} # contains(UNAME,Darwin)
+
 ########################################################################
 # iLHello HEADERS
 #
@@ -90,10 +94,23 @@ $${LAMNA_SRC}/lamna/graphic/surface/object.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/image.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/context.hpp \
 $${LAMNA_SRC}/lamna/graphic/surface/pixel.hpp \
+\
+$${LAMNA_SRC}/lamna/gui/main.hpp \
+\
+$${LAMNA_SRC}/lamna/app/gui/hello/main.hpp \
+\
+$${LAMNA_SRC}/lamna/app/gui/lamna/hello/main.hpp \
 
+contains(UNAME,Darwin) {
+} else {
 # iLHello SOURCES
 #
 iLHello_SOURCES += \
+$${LAMNA_SRC}/lamna/app/gui/lamna/hello/main.cpp \
+\
+$${LAMNA_SRC}/lamna/console/main_main.cpp \
+
+} # contains(UNAME,Darwin)
 
 ########################################################################
 # iLHello FRAMEWORKS
@@ -110,4 +127,6 @@ $${lamna_LIBS} \
 # NO Qt
 QT -= gui core
 
-
+contains(UNAME,Darwin) {
+} else {
+} # contains(UNAME,Darwin)

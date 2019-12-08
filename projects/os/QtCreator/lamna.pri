@@ -32,10 +32,10 @@ LAMNA_OS = linux
 }
 }
 
-contains(LAMNA_OS,linux) {
-LAMNA_BUILD = os
-} else {
+contains(LAMNA_BUILD,LAMNA_OS) {
 LAMNA_BUILD = $${LAMNA_OS}
+} else {
+LAMNA_BUILD = os
 }
 
 #CONFIG += c++11
