@@ -44,7 +44,7 @@ namespace cocoa {
 @implementation iMainWindow
     - (iMainWindow*)initWithRect:(iRect)contentRect argc:(int)argc argv:(char**)argv env:(char**)env {
         iWindowStyleMask style = LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_STYLE;
-        iBackingStoreType backing = LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_BACKING;
+        iBackingStoreType backing = (iBackingStoreType)LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_BACKING;
         BOOL defer = LAMNA_GUI_COCOA_IWINDOWMAIN_WINDOW_DEFER;
         mainView_ = 0;
         app_ = 0;

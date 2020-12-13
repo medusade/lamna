@@ -16,13 +16,14 @@
 ///   File: os.hh
 ///
 /// Author: $author$
-///   Date: 10/15/2015
+///   Date: 10/15/2015, 11/27/2020
 ///////////////////////////////////////////////////////////////////////
 #ifndef _LAMNA_GUI_COCOA_OS_OS_HH
 #define _LAMNA_GUI_COCOA_OS_OS_HH
 
 #if defined(__APPLE__)
-#include "TargetConditionals.h"
+#include <TargetConditionals.h>
+#include <Availability.h>
 #if (TARGET_OS_IPHONE)
 #if !defined(APPLE_IOS)
 #define APPLE_IOS

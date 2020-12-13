@@ -23,6 +23,8 @@
 
 #include "lamna/base/base.hpp"
 #include "wx/wx.h"
+#include "wx/version.h"
+#include "wx/versioninfo.h"
 
 namespace lamna {
 namespace gui {

@@ -30,6 +30,7 @@
 #include "lamna/graphic/surface/wx/pixel.hpp"
 
 #define LAMNA_APP_GUI_WX_HELLO_NAME "wxlhello"
+#define LAMNA_APP_GUI_WX_HELLO_SEPARATOR " -- "
 
 namespace lamna {
 namespace app {
@@ -49,7 +50,20 @@ public:
     typedef main_extends Extends;
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
-    main(): name_(LAMNA_APP_GUI_WX_HELLO_NAME) {
+    main()
+    : name_(LAMNA_APP_GUI_WX_HELLO_NAME),
+      separator_(LAMNA_APP_GUI_WX_HELLO_SEPARATOR) {
+        wxVersionInfo versionInfo = wxGetLibraryVersionInfo();
+        wxString version = versionInfo.GetVersionString();
+
+        if ((0 < version.length())) {
+            const char* chars = 0;
+
+            if ((chars = version.c_str()) && (chars[0])) {
+                name_.append(separator());
+                name_.append(chars);
+            }
+        }
     }
     virtual ~main() {
     }
@@ -58,13 +72,16 @@ public:
     virtual const char* name() const {
         return name_.chars();
     }
+    virtual const char* separator() const {
+        return separator_.chars();
+    }
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     static main& the_instance();
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
 protected:
-    string name_;
+    string name_, separator_;
 };
 
 typedef implement_base frame_implements;
@@ -84,7 +101,7 @@ public:
      const wxPoint& pos, const wxSize& size, const wxColour& fg)
     : Extends(fg.Red(), fg.Green(), fg.Blue()),
       width_(size.GetWidth()), height_(size.GetHeight()) {
-        Create(0, wxID_ANY, title, pos, size, wxDEFAULT_FRAME_STYLE, wxFrameNameStr);
+        Create((wxWindow*)0, wxID_ANY, title, pos, size, wxDEFAULT_FRAME_STYLE, wxFrameNameStr);
     }
     virtual ~frame() {
     }
