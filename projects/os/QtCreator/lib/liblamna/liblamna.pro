@@ -16,10 +16,11 @@
 #   File: liblamna.pro
 #
 # Author: $author$
-#   Date: 11/19/2018
+#   Date: 11/19/2018, 11/29/2020
 #
 # QtCreator .pro file for lamna library liblamna
 ########################################################################
+include(../../../../../../build/QtCreator/lamna.pri)
 include(../../../../../build/QtCreator/lamna.pri)
 include(../../../../QtCreator/lamna.pri)
 include(../../lamna.pri)

@@ -16,11 +16,12 @@
 #   File: qLHello.pro
 #
 # Author: $author$
-#   Date: 11/19/2018
+#   Date: 11/19/2018, 11/29/2020
 #
 # QtCreator .pro file for lamna executable qLHello
 ########################################################################
 include(../../../../../../build/QtCreator/qt.pri)
+include(../../../../../../build/QtCreator/lamna.pri)
 include(../../../../../build/QtCreator/lamna.pri)
 include(../../../../QtCreator/lamna.pri)
 include(../../lamna.pri)

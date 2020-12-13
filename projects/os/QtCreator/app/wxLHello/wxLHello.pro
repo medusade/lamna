@@ -16,11 +16,12 @@
 #   File: wxLHello.pro
 #
 # Author: $author$
-#   Date: 11/20/2018
+#   Date: 11/20/2018, 11/29/2020
 #
 # QtCreator .pro file for lamna executable wxLHello
 ########################################################################
 include(../../../../../../build/QtCreator/wx.pri)
+include(../../../../../../build/QtCreator/lamna.pri)
 include(../../../../../build/QtCreator/lamna.pri)
 include(../../../../QtCreator/lamna.pri)
 include(../../lamna.pri)

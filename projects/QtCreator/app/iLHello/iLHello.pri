@@ -16,10 +16,15 @@
 #   File: iLHello.pri
 #
 # Author: $author$
-#   Date: 11/19/2018
+#   Date: 11/19/2018, 11/30/2020
 #
 # QtCreator .pri file for lamna executable iLHello
 ########################################################################
+UNAME = $$system(uname)
+
+contains(UNAME,Darwin) {
+} else {
+} # contains(UNAME,Darwin)
 
 ########################################################################
 # iLHello
@@ -126,7 +131,3 @@ $${lamna_LIBS} \
 ########################################################################
 # NO Qt
 QT -= gui core
-
-contains(UNAME,Darwin) {
-} else {
-} # contains(UNAME,Darwin)

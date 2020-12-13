@@ -16,7 +16,7 @@
 #   File: lamna.pri
 #
 # Author: $author$
-#   Date: 11/19/2018
+#   Date: 11/19/2018, 11/26/2020, 11/29/2020, 12/5/2020
 #
 # Os QtCreator .pri file for lamna
 ########################################################################
@@ -146,7 +146,7 @@ contains(UNAME,Darwin) {
 # lamna fl INCLUDEPATH
 #
 lamna_fl_INCLUDEPATH += \
-${HOME}/build/fltk/include \
+$${FL_BUILD_HOME}/build/fltk/include \
 
 # lamna fl DEFINES
 #
@@ -155,7 +155,7 @@ lamna_fl_DEFINES += \
 # lamna fl_LIBS
 #
 lamna_fl_LIBS += \
--L${HOME}/build/fltk/lib \
+-L$${FL_BUILD_HOME}/build/fltk/lib \
 -lfltk_forms \
 -lfltk_gl \
 -lfltk_images \
@@ -190,11 +190,21 @@ $${build_fl_FRAMEWORKS}
 
 ########################################################################
 contains(UNAME,Darwin) {
+DARWIN_VERSION = $$system(sw_vers -productVersion)
+
+WX_DARWIN_VERSION_MAJOR = 3
+contains(DARWIN_VERSION,10.12.6) {
+WX_DARWIN_VERSION_MINOR = 1
+} else {
+WX_DARWIN_VERSION_MINOR = 0
+} # contains(DARWIN_VERSION,10.12.6)
+WX_DARWIN_VERSION = $${WX_DARWIN_VERSION_MAJOR}.$${WX_DARWIN_VERSION_MINOR}
+
 # lamna wx INCLUDEPATH
 #
 lamna_wx_INCLUDEPATH += \
-${HOME}/build/wxwidgets/include/wx-3.0 \
-${HOME}/build/wxwidgets/lib/wx/include/osx_cocoa-unicode-3.0
+$${WX_BUILD_HOME}/build/wxwidgets/include/wx-$${WX_DARWIN_VERSION} \
+$${WX_BUILD_HOME}/build/wxwidgets/lib/wx/include/osx_cocoa-unicode-$${WX_DARWIN_VERSION}
 
 # lamna wx DEFINES
 #
@@ -204,9 +214,9 @@ __WXOSX_COCOA__
 # lamna wx_LIBS
 #
 lamna_wx_LIBS += \
--L${HOME}/build/wxwidgets/lib \
--lwx_osx_cocoau_core-3.0 \
--lwx_baseu-3.0
+-L$${WX_BUILD_HOME}/build/wxwidgets/lib \
+-lwx_osx_cocoau_core-$${WX_DARWIN_VERSION}\
+-lwx_baseu-$${WX_DARWIN_VERSION} \
 
 # lamna wx FRAMEWORKS
 #
