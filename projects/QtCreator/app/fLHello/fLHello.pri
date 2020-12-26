@@ -16,7 +16,7 @@
 #   File: fLHello.pri
 #
 # Author: $author$
-#   Date: 11/19/2018
+#   Date: 11/19/2018, 12/14/2020
 #
 # QtCreator .pri file for lamna executable fLHello
 ########################################################################
@@ -39,6 +39,9 @@ $${lamna_fl_INCLUDEPATH} \
 fLHello_DEFINES += \
 $${lamna_DEFINES} \
 $${lamna_fl_DEFINES} \
+XOS_NO_ERR_LOG_DEBUG \
+XOS_NO_ERR_LOG_TRACE \
+XOS_LOGGING_LEVELS_DEFAULT=XOS_LOGGING_LEVELS_ERROR \
 
 ########################################################################
 # fLHello OBJECTIVE_HEADERS

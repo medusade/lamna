@@ -16,7 +16,7 @@
 #   File: qLHello.pri
 #
 # Author: $author$
-#   Date: 11/19/2018
+#   Date: 11/19/2018, 12/14/2020
 #
 # QtCreator .pri file for lamna executable qLHello
 ########################################################################
@@ -37,6 +37,9 @@ $${lamna_INCLUDEPATH} \
 #
 qLHello_DEFINES += \
 $${lamna_DEFINES} \
+XOS_NO_ERR_LOG_DEBUG \
+XOS_NO_ERR_LOG_TRACE \
+XOS_LOGGING_LEVELS_DEFAULT=XOS_LOGGING_LEVELS_ERROR \
 
 ########################################################################
 # qLHello OBJECTIVE_HEADERS

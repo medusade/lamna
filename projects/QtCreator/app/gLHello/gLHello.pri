@@ -16,7 +16,7 @@
 #   File: gLHello.pri
 #
 # Author: $author$
-#   Date: 11/24/2018
+#   Date: 11/24/2018, 12/14/2020
 #
 # QtCreator .pri file for lamna executable gLHello
 ########################################################################
@@ -39,6 +39,9 @@ $${lamna_gtk_INCLUDEPATH} \
 gLHello_DEFINES += \
 $${lamna_gtk_DEFINES} \
 $${lamna_DEFINES} \
+XOS_NO_ERR_LOG_DEBUG \
+XOS_NO_ERR_LOG_TRACE \
+XOS_LOGGING_LEVELS_DEFAULT=XOS_LOGGING_LEVELS_ERROR \
 
 ########################################################################
 # gLHello OBJECTIVE_HEADERS
@@ -84,6 +87,8 @@ $${LAMNA_SRC}/lamna/app/gui/hello/main.hpp \
 
 # gLHello SOURCES
 #
+contains(UNAME,Linux) {
+
 gLHello_SOURCES += \
 $${LAMNA_SRC}/lamna/gui/gtk/application/window_main.cpp \
 $${LAMNA_SRC}/lamna/gui/gtk/application/main_signals.cpp \
@@ -101,10 +106,14 @@ $${LAMNA_SRC}/lamna/graphic/surface/cairo/pixel.cpp \
 $${LAMNA_SRC}/lamna/gui/cairo/pattern.cpp \
 $${LAMNA_SRC}/lamna/gui/cairo/cairo.cpp \
 \
+$${LAMNA_SRC}/lamna/app/gui/gtk/hello/main.cpp \
+
+} else {
+} # contains(UNAME,Linux)
+
+gLHello_SOURCES += \
 $${LAMNA_SRC}/lamna/console/main_opt.cpp \
 $${LAMNA_SRC}/lamna/console/main_main.cpp \
-\
-$${LAMNA_SRC}/lamna/app/gui/gtk/hello/main.cpp \
 
 ########################################################################
 # gLHello FRAMEWORKS

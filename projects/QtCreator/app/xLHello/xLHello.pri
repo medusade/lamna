@@ -16,7 +16,7 @@
 #   File: xLHello.pri
 #
 # Author: $author$
-#   Date: 11/24/2018
+#   Date: 11/24/2018, 12/14/2020
 #
 # QtCreator .pri file for lamna executable xLHello
 ########################################################################
@@ -39,6 +39,9 @@ $${lamna_x11_INCLUDEPATH} \
 xLHello_DEFINES += \
 $${lamna_x11_DEFINES} \
 $${lamna_DEFINES} \
+XOS_NO_ERR_LOG_DEBUG \
+XOS_NO_ERR_LOG_TRACE \
+XOS_LOGGING_LEVELS_DEFAULT=XOS_LOGGING_LEVELS_ERROR \
 
 ########################################################################
 # xLHello OBJECTIVE_HEADERS
@@ -94,6 +97,8 @@ $${LAMNA_SRC}/lamna/app/gui/hello/main.hpp \
 
 # xLHello SOURCES
 #
+contains(UNAME,Linux) {
+
 xLHello_SOURCES += \
 $${LAMNA_SRC}/lamna/graphic/surface/x11/color.cpp \
 $${LAMNA_SRC}/lamna/graphic/surface/x11/object.cpp \
@@ -119,11 +124,15 @@ $${LAMNA_SRC}/lamna/gui/x11/attacher.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/x11.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/gl.cpp \
 \
-$${LAMNA_SRC}/lamna/console/main_opt.cpp \
-$${LAMNA_SRC}/lamna/console/main_main.cpp \
-\
 $${LAMNA_SRC}/lamna/app/gui/x11/hello/main.cpp \
 $${LAMNA_SRC}/lamna/gui/x11/window_main.cpp \
+
+} else {
+} # contains(UNAME,Linux)
+
+xLHello_SOURCES += \
+$${LAMNA_SRC}/lamna/console/main_opt.cpp \
+$${LAMNA_SRC}/lamna/console/main_main.cpp \
 
 ########################################################################
 # xLHello FRAMEWORKS

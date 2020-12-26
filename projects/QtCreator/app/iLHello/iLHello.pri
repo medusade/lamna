@@ -16,7 +16,7 @@
 #   File: iLHello.pri
 #
 # Author: $author$
-#   Date: 11/19/2018, 11/30/2020
+#   Date: 11/19/2018, 11/30/2020, 12/14/2020
 #
 # QtCreator .pri file for lamna executable iLHello
 ########################################################################
@@ -42,6 +42,9 @@ $${lamna_INCLUDEPATH} \
 #
 iLHello_DEFINES += \
 $${lamna_DEFINES} \
+XOS_NO_ERR_LOG_DEBUG \
+XOS_NO_ERR_LOG_TRACE \
+XOS_LOGGING_LEVELS_DEFAULT=XOS_LOGGING_LEVELS_ERROR \
 
 ########################################################################
 # iLHello OBJECTIVE_HEADERS
@@ -65,9 +68,10 @@ $${LAMNA_SRC}/lamna/app/gui/cocoa/iHelloMain.hh \
 $${LAMNA_SRC}/lamna/gui/cocoa/apple/osx/main.hh \
 $${LAMNA_SRC}/lamna/gui/cocoa/apple/osx/main_main.hh \
 
-contains(UNAME,Darwin) {
 # iLHello OBJECTIVE_SOURCES
 #
+contains(UNAME,Darwin) {
+
 iLHello_OBJECTIVE_SOURCES += \
 $${LAMNA_SRC}/lamna/graphic/surface/cocoa/color.mm \
 $${LAMNA_SRC}/lamna/graphic/surface/cocoa/object.mm \
@@ -106,10 +110,11 @@ $${LAMNA_SRC}/lamna/app/gui/hello/main.hpp \
 \
 $${LAMNA_SRC}/lamna/app/gui/lamna/hello/main.hpp \
 
-contains(UNAME,Darwin) {
-} else {
 # iLHello SOURCES
 #
+contains(UNAME,Darwin) {
+} else {
+
 iLHello_SOURCES += \
 $${LAMNA_SRC}/lamna/app/gui/lamna/hello/main.cpp \
 \
