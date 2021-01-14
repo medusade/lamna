@@ -37,9 +37,7 @@ $${lamna_INCLUDEPATH} \
 #
 lamna_exe_DEFINES += \
 $${lamna_DEFINES} \
-XOS_NO_ERR_LOG_DEBUG \
-XOS_NO_ERR_LOG_TRACE \
-XOS_LOGGING_LEVELS_DEFAULT=XOS_LOGGING_LEVELS_ERROR \
+XOS_DEFAULT_LOG_ERROR \
 
 ########################################################################
 # lamna_exe OBJECTIVE_HEADERS

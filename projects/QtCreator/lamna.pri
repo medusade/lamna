@@ -16,7 +16,7 @@
 #   File: lamna.pri
 #
 # Author: $author$
-#   Date: 11/19/2018
+#   Date: 11/19/2018, 1/12/2021
 #
 # QtCreator .pri file for lamna
 ########################################################################
@@ -38,7 +38,10 @@ NADIR_VERSION_RELEASE = 0
 NADIR_VERSION = $${NADIR_VERSION_MAJOR}.$${NADIR_VERSION_MINOR}.$${NADIR_VERSION_RELEASE}
 NADIR_NAME = nadir
 NADIR_GROUP = $${NADIR_NAME}
-NADIR_SOURCE = src
+NADIR_SRC_NAME = src
+NADIR_SOURCE_NAME = source
+NADIR_LIBRARY_NAME = nadir
+NADIR_SOURCE_LIBRARY_NAME = base
 NADIR_DIR = $${NADIR_GROUP}/$${NADIR_NAME}-$${NADIR_VERSION}
 NADIR_PKG_DIR = $${NADIR_NAME}
 NADIR_HOME_BUILD = $${HOME}/build/$${NADIR_NAME}
@@ -53,16 +56,14 @@ NADIR_THIRDPARTY_SRC_DIR = $${THIRDPARTY_SRC}/$${NADIR_THIRDPARTY_SRC_GROUP}/$${
 NADIR_PKG = $${OTHER_PKG}/$${NADIR_PKG_DIR}
 NADIR_PRJ = $${OTHER_PRJ}/$${NADIR_PKG_DIR}
 #NADIR_SRC = $${NADIR_THIRDPARTY_SRC_DIR}
-#NADIR_SRC = $${NADIR_THIRDPARTY_PKG}/$${NADIR_SOURCE}
-#NADIR_SRC = $${NADIR_THIRDPARTY_PRJ}/$${NADIR_SOURCE}
-#NADIR_SRC = $${NADIR_PKG}/$${NADIR_SOURCE}
-NADIR_SRC = $${NADIR_PRJ}/$${NADIR_SOURCE}
+#NADIR_SRC = $${NADIR_THIRDPARTY_PKG}/$${NADIR_SRC_NAME}
+#NADIR_SRC = $${NADIR_THIRDPARTY_PRJ}/$${NADIR_SRC_NAME}
+#NADIR_SRC = $${NADIR_PKG}/$${NADIR_SRC_NAME}
+NADIR_SRC = $${NADIR_PRJ}/$${NADIR_SRC_NAME}
+NADIR_SOURCE = $${NADIR_PRJ}/$${NADIR_SOURCE_NAME}
 
 # nadir INCLUDEPATH
 #
-#nadir_INCLUDEPATH += \
-#$${NADIR_HOME_BUILD_INCLUDE} \
-
 nadir_INCLUDEPATH += \
 $${NADIR_SRC} \
 
@@ -70,6 +71,19 @@ $${NADIR_SRC} \
 #
 nadir_DEFINES += \
 
+########################################################################
+# nadir SOURCE_INCLUDEPATH
+#
+nadir_SOURCE_INCLUDEPATH += \
+$${NADIR_SOURCE} \
+$${nadir_INCLUDEPATH} \
+
+# nadir SOURCE_DEFINES
+#
+nadir_SOURCE_DEFINES += \
+$${nadir_DEFINES} \
+
+########################################################################
 # xosnadir INCLUDEPATH
 #
 xosnadir_INCLUDEPATH += \
@@ -79,6 +93,19 @@ $${nadir_INCLUDEPATH} \
 #
 xosnadir_DEFINES += \
 $${nadir_DEFINES} \
+NO_USE_NADIR_BASE \
+NO_USE_XOS_LOGGER_INTERFACE \
+
+########################################################################
+# xosnadir SOURCE_INCLUDEPATH
+#
+xosnadir_SOURCE_INCLUDEPATH += \
+$${nadir_SOURCE_INCLUDEPATH} \
+
+# xosnadir SOURCE_DEFINES
+#
+xosnadir_SOURCE_DEFINES += \
+$${nadir_SOURCE_DEFINES} \
 NO_USE_NADIR_BASE \
 NO_USE_XOS_LOGGER_INTERFACE \
 
@@ -123,4 +150,3 @@ $${build_lamna_DEFINES} \
 lamna_LIBS += \
 -L$${LAMNA_LIB}/lib$${LAMNA_NAME} \
 -l$${LAMNA_NAME} \
-

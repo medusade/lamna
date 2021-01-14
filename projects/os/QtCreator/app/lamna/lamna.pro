@@ -16,16 +16,10 @@
 #   File: lamna.pro
 #
 # Author: $author$
-#   Date: 7/18/2019, 11/29/2020,11/30/2020
+#   Date: 7/18/2019, 1/12/2021
 #
 # QtCreator .pro file for lamna executable lamna
 ########################################################################
-include(../../../../../../build/QtCreator/fl.pri)
-include(../../../../../../build/QtCreator/gtk.pri)
-include(../../../../../../build/QtCreator/cocoa.pri)
-include(../../../../../../build/QtCreator/qt.pri)
-include(../../../../../../build/QtCreator/wx.pri)
-include(../../../../../../build/QtCreator/x11.pri)
 include(../../../../../../build/QtCreator/lamna.pri)
 include(../../../../../build/QtCreator/lamna.pri)
 include(../../../../QtCreator/lamna.pri)
